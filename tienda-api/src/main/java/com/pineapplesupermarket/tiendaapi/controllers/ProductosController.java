@@ -7,4 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/productos")
 public class ProductosController {
 
+	public String crear() {
+		return "listar";
+	}
 }
