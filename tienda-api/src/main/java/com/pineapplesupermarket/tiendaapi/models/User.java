@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -20,29 +21,35 @@ import javax.persistence.TemporalType;
 public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id_user;
-	private String username;
-	private String password;
-	private String email;
-	private String name;
-	private String lastName;
+	@Column(name = "id_user")
+	private Long idUser;
 	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_role")
 	private Role role;
-	@Column(name="creation_date")
+	@Column(length = 30, nullable = false, unique = true)
+	private String username;
+	@Column(length = 40, nullable = false)
+	private String password;
+	@Column(length = 45, nullable = false)
+	private String email;
+	@Column(length = 45, nullable = false)
+	private String name;
+	@Column(length = 45, nullable = false)
+	private String lastName;
+	@Column(name="creation_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
-	
 	@PrePersist
 	public void prePersist() {
 		createAt= new Date();
 	}
 	
 	public Long getId_user() {
-		return id_user;
+		return idUser;
 	}
 
 	public void setId_user(Long id_user) {
-		this.id_user = id_user;
+		this.idUser = id_user;
 	}
 	
 	public String getUsername() {
