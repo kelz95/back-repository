@@ -13,10 +13,9 @@ import com.pineapplesupermarket.tiendaapi.services.UserService;
 @RestController
 @RequestMapping("/api")
 public class UserController {
-
 	@Autowired
 	private UserService userService;
-	@GetMapping("/users")
+	@GetMapping("/user")
 	public List<User> index(){
 		return userService.findAll();
 		
