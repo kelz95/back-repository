@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,8 +19,11 @@ import javax.persistence.Table;
 public class Role implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id_role;
+	@Column(name = "id_role")
+	private Long idRole;
+	@Column(length = 20, nullable = false)
 	private String code;
+	@Column(length = 45, nullable = false, unique = true)
 	private String description;
 	@OneToMany(mappedBy="role",fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<User> users;
@@ -30,11 +34,11 @@ public class Role implements Serializable{
 	}
 
 	public Long getId() {
-		return id_role;
+		return idRole;
 	}
 
 	public void setId(Long id_role) {
-		this.id_role = id_role;
+		this.idRole = id_role;
 	}
 
 	public String getCode() {
