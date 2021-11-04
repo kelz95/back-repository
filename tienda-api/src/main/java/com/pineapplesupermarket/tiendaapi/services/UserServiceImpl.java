@@ -18,5 +18,20 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAll() {
 		return (List<User>) userRepository.findAll();
 	}
+	@Transactional
+	@Override
+	public User save(User user) {
+		return userRepository.save(user);
+	}
+	@Transactional
+	@Override
+	public void delete(Long id) {
+		userRepository.deleteById(id);
+	}
+	@Transactional(readOnly=true)
+	@Override
+	public User findById(Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
 
 }
