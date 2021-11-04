@@ -16,14 +16,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="ps_user")
+
 public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
 	private Long idUser;
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
 	private Role role;
 	@Column(length = 30, nullable = false, unique = true)
@@ -95,9 +98,6 @@ public class User implements Serializable{
 		this.createAt = createAt;
 	}
 	private static final long serialVersionUID = 1L;
-	public void add(User users) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }
