@@ -1,4 +1,4 @@
-package com.pineapplesupermarket.tiendaapi.models.entity;
+package com.pineapplesupermarket.tiendaapi.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
