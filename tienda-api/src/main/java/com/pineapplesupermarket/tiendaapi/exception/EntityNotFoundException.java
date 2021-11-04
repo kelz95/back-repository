@@ -1,0 +1,23 @@
+package com.pineapplesupermarket.tiendaapi.exception;
+
+import org.springframework.util.StringUtils;
+
+public class EntityNotFoundException extends Exception {
+
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1902358159062609135L;
+
+
+	public EntityNotFoundException(String entity, String atributte, String value) {
+		super(EntityNotFoundException.generateMessage(entity, atributte, value));
+	}
+
+
+	private static String generateMessage(String entity, String atributte, String value) {
+		return StringUtils.capitalize(entity).concat(" was not found for atributte: ")
+				.concat(atributte).concat(" = ").concat(value);
+	}
+}

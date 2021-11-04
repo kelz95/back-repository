@@ -39,7 +39,6 @@ public class Product{
 	@Column(nullable = false)
 	private double unitPrice;
 	
-	@Column(nullable = false)
 	private byte[] picture;
 	
 	@Temporal(TemporalType.TIMESTAMP)

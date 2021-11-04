@@ -1,9 +1,12 @@
 package com.pineapplesupermarket.tiendaapi.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.pineapplesupermarket.tiendaapi.models.Product;
 
-public interface ProductRepository extends JpaRepository<Product, Long>{
+public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
+	Optional<Product> findByName(String name);
 }
