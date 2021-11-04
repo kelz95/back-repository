@@ -35,7 +35,7 @@ public class User implements Serializable{
 	@Column(length = 45, nullable = false)
 	private String name;
 	@Column(length = 45, nullable = false)
-	private String lastName;
+	private String lastname;
 	@Column(name="creation_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
@@ -77,10 +77,10 @@ public class User implements Serializable{
 		this.name = name;
 	}
 	public String getLastName() {
-		return lastName;
+		return lastname;
 	}
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastName;
 	}
 	public Role getRole() {
 		return role;
