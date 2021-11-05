@@ -43,10 +43,11 @@ public class UserController {
 	public User update(@RequestBody User user, @PathVariable Long id) {
 		User userActual = userService.findById(id);
 		userActual.setEmail(user.getEmail());
-		userActual.setLastName(user.getLastName());
+		userActual.setLastName(user.getLastname());
 		userActual.setName(user.getName());
 		userActual.setPassword(user.getPassword());
 		userActual.setRole(user.getRole());
+		userActual.setActivo(user.getActivo());
 		return userService.save(userActual);
 	}
 	@DeleteMapping("/user/{id}")
