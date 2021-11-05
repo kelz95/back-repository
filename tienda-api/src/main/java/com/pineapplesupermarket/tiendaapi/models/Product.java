@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 public class Product{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_product")
 	private long idProduct;
 	

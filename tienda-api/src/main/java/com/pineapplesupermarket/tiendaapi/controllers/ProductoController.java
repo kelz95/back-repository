@@ -2,6 +2,8 @@ package com.pineapplesupermarket.tiendaapi.controllers;
 
 import java.security.Principal;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +44,14 @@ public class ProductoController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO> findProduct(@PathVariable(value="id") long id, Principal principal){
-		String user = principal.getName(); //crear servicio de usuario
+	public ResponseEntity<ResponseDTO> findProduct(@PathVariable(value="id") long id){ //Principal principal
+		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Find product] by " + user);
 		try {
 			Product producto = productoService.findOne(id);
 			
 			logger.info(HttpStatus.OK.toString());
-		        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
+		     return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
 		        		ResponseCodeEnum.PROCESADO.getMensaje(), producto), HttpStatus.OK);
 		}catch(EntityNotFoundException en) {
 			 logger.info(HttpStatus.NOT_FOUND.toString().concat(": ").concat(en.getMessage()));
@@ -66,8 +68,8 @@ public class ProductoController {
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Product> listAllProduct(@RequestParam(defaultValue="0") int page,
-				@RequestParam(defaultValue = "10") int size, Principal principal){
-		String user = principal.getName(); //crear servicio de usuario
+				@RequestParam(defaultValue = "10") int size){
+		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[List products] by " + user);
 		
 		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Direction.DESC, "idProduct"));
@@ -78,14 +80,13 @@ public class ProductoController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<ResponseDTO> create(@RequestBody Product producto, 
-			@RequestParam("picture") MultipartFile picture,
-			Principal principal) {
-		
-		String user = principal.getName(); //crear servicio de usuario
+	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody Product producto) { //@RequestParam("picture") MultipartFile picture
+		logger.info(producto.getName());
+		logger.info("cantidad: " + producto.getQuantity());
+		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Create product] by " + user);
 		try {
-			producto.setPicture(picture.getBytes());
+			//producto.setPicture(picture.getBytes());
 	        Product _product = productoService.save(producto);
 	        logger.info(HttpStatus.CREATED.toString());
 	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
@@ -103,13 +104,12 @@ public class ProductoController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<ResponseDTO> update(@RequestBody Product productoUpdate,
-			@RequestParam("picture") MultipartFile picture, 
-			@PathVariable Long id, Principal principal){
-		String user = principal.getName(); //crear servicio de usuario
+			@PathVariable Long id){ //@RequestParam("picture") MultipartFile picture
+		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Update product] by " + user);
 		
 		try {
-			productoUpdate.setPicture(picture.getBytes());
+			//productoUpdate.setPicture(picture.getBytes());
 			Product productoSaved = this.productoService.update(id, productoUpdate);
 			 logger.info(HttpStatus.CREATED.toString());
 		        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
@@ -131,8 +131,8 @@ public class ProductoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id, Principal principal){
-		String user = principal.getName(); //crear servicio de usuario
+	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id){
+		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Delete product] by " + user);
 		try {
 			this.productoService.delete(id);
