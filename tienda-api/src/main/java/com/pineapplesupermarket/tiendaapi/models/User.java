@@ -33,20 +33,48 @@ public class User implements Serializable{
 	private String username;
 	@Column(length = 40, nullable = false)
 	private String password;
-	@Column(length = 45, nullable = false)
+	@Column(length = 60, nullable = false)
 	private String email;
-	@Column(length = 45, nullable = false)
+	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 	@Column(length = 45, nullable = false)
 	private String lastname;
+	
+	
 	@Column(name="creation_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
+	@Column (nullable = false)
+	private Boolean activo;
 	@PrePersist
 	public void prePersist() {
 		createAt= new Date();
 	}
 	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
+	}
 	public Long getId_user() {
 		return idUser;
 	}
