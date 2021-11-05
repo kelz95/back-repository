@@ -80,13 +80,14 @@ public class ProductoController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody Product producto) { //@RequestParam("picture") MultipartFile picture
+	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody Product producto,
+			@RequestParam("picture") MultipartFile picture) { //
 		logger.info(producto.getName());
 		logger.info("cantidad: " + producto.getQuantity());
 		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Create product] by " + user);
 		try {
-			//producto.setPicture(picture.getBytes());
+			producto.setPicture(picture.isEmpty() ? picture.getBytes() : null);
 	        Product _product = productoService.save(producto);
 	        logger.info(HttpStatus.CREATED.toString());
 	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
@@ -103,13 +104,14 @@ public class ProductoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseDTO> update(@RequestBody Product productoUpdate,
+	public ResponseEntity<ResponseDTO> update(@Valid @RequestBody Product productoUpdate,
+			@RequestParam("picture") MultipartFile picture,
 			@PathVariable Long id){ //@RequestParam("picture") MultipartFile picture
 		String user = "usuario"; //crear servicio de usuario
 		logger.info("Req:[Update product] by " + user);
 		
 		try {
-			//productoUpdate.setPicture(picture.getBytes());
+			productoUpdate.setPicture(picture.isEmpty() ? picture.getBytes() : null);
 			Product productoSaved = this.productoService.update(id, productoUpdate);
 			 logger.info(HttpStatus.CREATED.toString());
 		        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 

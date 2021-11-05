@@ -13,9 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="ps_product")
+@Table(name="ps_product", uniqueConstraints = @UniqueConstraint(columnNames= {"name", "id_product_category"}))
 public class Product{
 
 	@Id
@@ -27,7 +28,7 @@ public class Product{
 	@JoinColumn(name="id_product_category")
 	private ProductCategory productCategory;
 	
-	@Column(length = 45, nullable = false, unique = true)
+	@Column(length = 45, nullable = false)
 	private String name;
 	
 	@Column(length = 100)

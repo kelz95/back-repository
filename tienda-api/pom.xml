@@ -29,12 +29,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<!--Se excluye para deploy en jboss  -->
-			 <!-- <exclusions> 
+			 <exclusions> 
 	           <exclusion>
 	               <groupId> org.springframework.boot</groupId>
 	               <artifactId> spring-boot-starter-tomcat</artifactId>
 	           </exclusion>
-	       </exclusions> -->
+	       </exclusions>
 		</dependency>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
@@ -72,5 +72,5 @@
 		</plugins>
 	</build>
 
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 </project>

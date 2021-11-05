@@ -29,11 +29,14 @@ public class ProductoServiceImpl implements IProductoService{
 	@Override
 	@Transactional
 	public Product save(Product producto) throws DuplicateEntryException { 
-		Optional<Product> productoExistente = this.productRepository.findByName(producto.getName());
+		ProductCategory categoria = this.productCategoryRepository
+				.findByCode(producto.getProductCategory().getCode()).orElse(new ProductCategory());
+		Optional<Product> productoExistente = this.productRepository.findByNameAndProductCategory(producto.getName(), categoria);
 		if(productoExistente.isEmpty()) {
 			producto.setCreationDate(new Date());
 		} else {
-			throw new DuplicateEntryException("Product", "name", producto.getName());
+			throw new DuplicateEntryException("Product", "name, category", 
+					producto.getName().concat(", ").concat(producto.getProductCategory().getCode()));
 		}
 		
 		return productRepository.save(producto);
@@ -47,33 +50,31 @@ public class ProductoServiceImpl implements IProductoService{
 
 	@Override
 	public Product update(long id, Product productoUpdate) throws DuplicateEntryException, EntityNotFoundException {
-		Optional<Product> productoNameExistente = this.productRepository.findByName(productoUpdate.getName());
-		if(productoNameExistente.isEmpty()) {
+		ProductCategory categoria = this.productCategoryRepository
+				.findByCode(productoUpdate.getProductCategory().getCode()).orElse(new ProductCategory());
+		Optional<Product> productoExistente = this.productRepository.findByNameAndProductCategory(productoUpdate.getName(), categoria);
+		if(productoExistente.isEmpty()) {
 			Optional<Product> productoOptional = this.productRepository.findById(id);
-			Optional<ProductCategory> categoriaOptional = this.productCategoryRepository
-					.findByCode(productoUpdate.getProductCategory().getCode());
-			if(categoriaOptional.isPresent()) {
-				if(productoOptional.isPresent()) {
-					Product productoSaved = productoOptional.get();
-					ProductCategory productCategory = categoriaOptional.get();
-					
-					productoSaved.setName(productoUpdate.getName());
-					productoSaved.setDescription(productoUpdate.getDescription());
-					productoSaved.setProductCategory(productCategory);
-					productoSaved.setPicture(productoUpdate.getPicture());
-					productoSaved.setQuantity(productoUpdate.getQuantity());
-					productoSaved.setUnitPrice(productoUpdate.getUnitPrice());
-					productoSaved.setModificationDate(new Date());
-					
-					return productRepository.save(productoSaved);
-				}else {
-					throw new EntityNotFoundException("Product", "id", String.valueOf(id));
-				}
-			} else {
-				throw new EntityNotFoundException("Product Category", "code", productoUpdate.getProductCategory().getCode());
+
+			if(productoOptional.isPresent()) {
+				Product productoSaved = productoOptional.get();
+				
+				productoSaved.setName(productoUpdate.getName());
+				productoSaved.setDescription(productoUpdate.getDescription());
+				productoSaved.setProductCategory(categoria);
+				productoSaved.setPicture(productoUpdate.getPicture());
+				productoSaved.setQuantity(productoUpdate.getQuantity());
+				productoSaved.setUnitPrice(productoUpdate.getUnitPrice());
+				productoSaved.setModificationDate(new Date());
+				
+				return productRepository.save(productoSaved);
+			}else {
+				throw new EntityNotFoundException("Product", "id", String.valueOf(id));
 			}
+			
 		}else{
-			throw new DuplicateEntryException("Product", "name", productoUpdate.getName());
+			throw new DuplicateEntryException("Product", "name, category", 
+					productoUpdate.getName().concat(", ").concat(productoUpdate.getProductCategory().getCode()));
 		}
 
 	}
