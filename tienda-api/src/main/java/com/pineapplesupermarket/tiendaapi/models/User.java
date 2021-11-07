@@ -16,34 +16,65 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="ps_user")
+
 public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
 	private Long idUser;
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
 	private Role role;
 	@Column(length = 30, nullable = false, unique = true)
 	private String username;
 	@Column(length = 40, nullable = false)
 	private String password;
-	@Column(length = 45, nullable = false)
+	@Column(length = 60, nullable = false)
 	private String email;
-	@Column(length = 45, nullable = false)
+	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 	@Column(length = 45, nullable = false)
-	private String lastName;
+	private String lastname;
+	
+	
 	@Column(name="creation_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
+	@Column (nullable = false)
+	private Boolean activo;
 	@PrePersist
 	public void prePersist() {
 		createAt= new Date();
 	}
 	
+	public Long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
+	}
 	public Long getId_user() {
 		return idUser;
 	}
@@ -77,10 +108,10 @@ public class User implements Serializable{
 		this.name = name;
 	}
 	public String getLastName() {
-		return lastName;
+		return lastname;
 	}
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastname = lastName;
 	}
 	public Role getRole() {
 		return role;
@@ -95,9 +126,6 @@ public class User implements Serializable{
 		this.createAt = createAt;
 	}
 	private static final long serialVersionUID = 1L;
-	public void add(User users) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }
