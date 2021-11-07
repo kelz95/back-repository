@@ -26,17 +26,27 @@ public class ProductoServiceImpl implements IProductoService{
 	@Autowired
 	private ProductCategoryRepository productCategoryRepository;
 	
+	private static final String ENTITY_NAME = "Product";
+	
 	@Override
 	@Transactional
 	public Product save(Product producto) throws DuplicateEntryException { 
 		ProductCategory categoria = this.productCategoryRepository
 				.findByCode(producto.getProductCategory().getCode()).orElse(new ProductCategory());
-		Optional<Product> productoExistente = this.productRepository.findByNameAndProductCategory(producto.getName(), categoria);
-		if(productoExistente.isEmpty()) {
-			producto.setCreationDate(new Date());
+		Optional<Product> productoExistenteByCode = this.productRepository.findByCode(producto.getCode());
+		Optional<Product> productoExistenteByNameAndCategory = this.productRepository.findByNameAndProductCategory(producto.getName(), categoria);
+
+		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
+			
+				producto.setCreationDate(new Date());
+			
 		} else {
-			throw new DuplicateEntryException("Product", "name, category", 
-					producto.getName().concat(", ").concat(producto.getProductCategory().getCode()));
+			StringBuilder duplicateParameters = new StringBuilder();
+			duplicateParameters.append(productoExistenteByCode.isPresent() ? "code" : "name, category");
+			throw new DuplicateEntryException(ENTITY_NAME, duplicateParameters.toString(), 
+					(productoExistenteByCode.isPresent() ? producto.getCode() : 
+						producto.getName().concat(", ").concat(producto.getProductCategory().getCode())));
+		
 		}
 		
 		return productRepository.save(producto);
@@ -52,10 +62,11 @@ public class ProductoServiceImpl implements IProductoService{
 	public Product update(long id, Product productoUpdate) throws DuplicateEntryException, EntityNotFoundException {
 		ProductCategory categoria = this.productCategoryRepository
 				.findByCode(productoUpdate.getProductCategory().getCode()).orElse(new ProductCategory());
-		Optional<Product> productoExistente = this.productRepository.findByNameAndProductCategory(productoUpdate.getName(), categoria);
-		if(productoExistente.isEmpty()) {
-			Optional<Product> productoOptional = this.productRepository.findById(id);
+		Optional<Product> productoExistenteByCode = this.productRepository.findByCode(productoUpdate.getCode());
+		Optional<Product> productoExistenteByNameAndCategory = this.productRepository.findByNameAndProductCategory(productoUpdate.getName(), categoria);
 
+		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
+			Optional<Product> productoOptional = this.productRepository.findById(id);
 			if(productoOptional.isPresent()) {
 				Product productoSaved = productoOptional.get();
 				
@@ -69,14 +80,15 @@ public class ProductoServiceImpl implements IProductoService{
 				
 				return productRepository.save(productoSaved);
 			}else {
-				throw new EntityNotFoundException("Product", "id", String.valueOf(id));
-			}
-			
-		}else{
-			throw new DuplicateEntryException("Product", "name, category", 
-					productoUpdate.getName().concat(", ").concat(productoUpdate.getProductCategory().getCode()));
+				throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
+			}			
+		} else {
+			StringBuilder duplicateParameters = new StringBuilder();
+			duplicateParameters.append(productoExistenteByCode.isPresent() ? "code" : "name, category");
+			throw new DuplicateEntryException(ENTITY_NAME, duplicateParameters.toString(), 
+					(productoExistenteByCode.isPresent() ? productoUpdate.getCode() : 
+						productoUpdate.getName().concat(", ").concat(productoUpdate.getProductCategory().getCode())));
 		}
-
 	}
 
 	@Override
@@ -85,7 +97,7 @@ public class ProductoServiceImpl implements IProductoService{
 		if(productoEncontrado.isPresent()) {
 			return productoEncontrado.get();
 		}else {
-			throw new EntityNotFoundException("Product", "id", String.valueOf(id));
+			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
 
@@ -95,7 +107,7 @@ public class ProductoServiceImpl implements IProductoService{
 		if(productoEncontrado.isPresent()) {
 			this.productRepository.deleteById(id);
 		}else {
-			throw new EntityNotFoundException("Product", "id", String.valueOf(id));
+			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
 	

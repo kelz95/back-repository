@@ -1,6 +1,6 @@
 package com.pineapplesupermarket.tiendaapi.controllers;
 
-import java.security.Principal;
+//import java.security.Principal;
 
 import javax.validation.Valid;
 
@@ -32,6 +32,7 @@ import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.models.Product;
 import com.pineapplesupermarket.tiendaapi.services.IProductoService;
+import com.pineapplesupermarket.tiendaapi.util.ExportarInventario;
 
 @RestController
 @RequestMapping("/api/v1/producto")
@@ -42,6 +43,8 @@ public class ProductoController {
 	@Autowired
 	private IProductoService productoService;
 	
+	@Autowired
+	private ExportarInventario exportarInventario;
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<ResponseDTO> findProduct(@PathVariable(value="id") long id){ //Principal principal
@@ -152,9 +155,13 @@ public class ProductoController {
 	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
 	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}	
+	
+	@GetMapping("/exportar")
+	public ExportarInventario exportar(){
+		String user = "usuario"; //crear servicio de usuario
+		logger.info("Req:[Export products] by " + user);
+		return exportarInventario;
 	}
-	
-	
-	
 	
 }

@@ -28,6 +28,9 @@ public class Product{
 	@JoinColumn(name="id_product_category")
 	private ProductCategory productCategory;
 	
+	@Column(length = 20, nullable = false, unique = true)
+	private String code;
+	
 	@Column(length = 45, nullable = false)
 	private String name;
 	
@@ -64,6 +67,14 @@ public class Product{
 
 	public void setProductCategory(ProductCategory productCategory) {
 		this.productCategory = productCategory;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getName() {

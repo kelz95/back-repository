@@ -18,4 +18,5 @@ public interface IProductoService {
 	public Product findOne(long id) throws EntityNotFoundException;
 	
 	public void delete(long id) throws EntityNotFoundException;
+	
 }

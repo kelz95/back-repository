@@ -10,4 +10,7 @@ import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 public interface ProductRepository extends PagingAndSortingRepository<Product, Long>{
 
 	Optional<Product> findByNameAndProductCategory(String name, ProductCategory productCategory);
+
+	Optional<Product> findByCode(String code);
+
 }
