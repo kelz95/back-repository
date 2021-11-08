@@ -1,5 +1,7 @@
 package com.pineapplesupermarket.tiendaapi.controllers;
 
+import java.util.Date;
+
 //import java.security.Principal;
 
 import javax.validation.Valid;
@@ -8,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.pineapplesupermarket.tiendaapi.dto.FilterProductoDTO;
 import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
 import com.pineapplesupermarket.tiendaapi.enums.ResponseCodeEnum;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
@@ -47,9 +47,9 @@ public class ProductoController {
 	private ExportarInventario exportarInventario;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO> findProduct(@PathVariable(value="id") long id){ //Principal principal
+	public ResponseEntity<ResponseDTO> getProduct(@PathVariable(value="id") long id){ //Principal principal
 		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Find product] by " + user);
+		logger.info("Req:[Consult product] by " + user);
 		try {
 			Product producto = productoService.findOne(id);
 			
@@ -68,15 +68,26 @@ public class ProductoController {
 		}
 	}
 	
+	
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Product> listAllProduct(@RequestParam(defaultValue="0") int page,
-				@RequestParam(defaultValue = "10") int size){
+				@RequestParam(defaultValue = "10") int size,
+				@RequestParam(required = false) String name, 
+				@RequestParam(required = false) String categoria,
+				@RequestParam(required = false) 
+				@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaCreacion){
 		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[List products] by " + user);
+		logger.info("Req:[Search products] by " + user);
 		
-		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Direction.DESC, "idProduct"));
-		Page<Product> productos = productoService.findAll(pageRequest);
+		FilterProductoDTO filters = new FilterProductoDTO();
+		filters.setName(name);
+		filters.setCategoria(categoria);
+		filters.setFechaCreacion(fechaCreacion);
+		filters.setPage(page);
+		filters.setSize(size);
+
+		Page<Product> productos = productoService.getProductos(filters);
 		
 		logger.info(HttpStatus.OK.toString());
 		return productos;
