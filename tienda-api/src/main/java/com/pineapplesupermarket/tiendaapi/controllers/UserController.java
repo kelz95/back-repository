@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pineapplesupermarket.tiendaapi.models.User;
-import com.pineapplesupermarket.tiendaapi.services.UserService;
+import com.pineapplesupermarket.tiendaapi.services.IUserService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 public class UserController {
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 	@GetMapping("/user")
 	public List<User> index(){
 		return userService.findAll();

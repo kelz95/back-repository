@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pineapplesupermarket.tiendaapi.models.Role;
-import com.pineapplesupermarket.tiendaapi.services.RoleService;
+import com.pineapplesupermarket.tiendaapi.services.IRoleService;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
 public class RoleController {
 	@Autowired
-	private RoleService roleService;
+	private IRoleService roleService;
 	@GetMapping("/role")
 	public List<Role> index(){
 		return roleService.findAll();

@@ -1,4 +1,4 @@
-package com.pineapplesupermarket.tiendaapi.services;
+package com.pineapplesupermarket.tiendaapi.servicesImpl;
 
 import java.util.List;
 
@@ -8,8 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pineapplesupermarket.tiendaapi.models.Role;
 import com.pineapplesupermarket.tiendaapi.repositories.RoleRepository;
+import com.pineapplesupermarket.tiendaapi.services.IRoleService;
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements IRoleService{
 	@Autowired
 	private RoleRepository roleRepository;
 	@Override

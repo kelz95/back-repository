@@ -1,4 +1,4 @@
-package com.pineapplesupermarket.tiendaapi.services;
+package com.pineapplesupermarket.tiendaapi.servicesImpl;
 
 import java.util.List;
 
@@ -8,9 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pineapplesupermarket.tiendaapi.models.User;
 import com.pineapplesupermarket.tiendaapi.repositories.UserRepository;
+import com.pineapplesupermarket.tiendaapi.services.IUserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 	@Autowired
 	private UserRepository userRepository;
 	@Override
