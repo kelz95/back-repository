@@ -5,14 +5,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pineapplesupermarket.tiendaapi.dto.FilterProductoDTO;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.models.Product;
 import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
+import com.pineapplesupermarket.tiendaapi.repositories.CustomProductosRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.ProductCategoryRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.ProductRepository;
 import com.pineapplesupermarket.tiendaapi.services.IProductoService;
@@ -25,6 +30,9 @@ public class ProductoServiceImpl implements IProductoService{
 	
 	@Autowired
 	private ProductCategoryRepository productCategoryRepository;
+	
+	@Autowired
+	private CustomProductosRepository customProductosRepository;
 	
 	private static final String ENTITY_NAME = "Product";
 	
@@ -54,11 +62,20 @@ public class ProductoServiceImpl implements IProductoService{
 
 	@Override
 	@Transactional(readOnly=true)
-	public Page<Product> findAll(Pageable pageable) {
-		return productRepository.findAll(pageable);
+	public Page<Product> getProductos(FilterProductoDTO filters) {
+		Pageable pageRequest = PageRequest.of(filters.getPage(), 
+				filters.getSize(), 
+				Sort.by(Direction.ASC, "idProduct"));
+
+		Page<Product> productosPage = null;
+		
+		productosPage = this.customProductosRepository.findAll(filters.getName(),
+				filters.getCategoria(), filters.getFechaCreacion(), pageRequest);
+		return productosPage;
 	}
 
 	@Override
+	@Transactional()
 	public Product update(long id, Product productoUpdate) throws DuplicateEntryException, EntityNotFoundException {
 		ProductCategory categoria = this.productCategoryRepository
 				.findByCode(productoUpdate.getProductCategory().getCode()).orElse(new ProductCategory());
@@ -92,6 +109,7 @@ public class ProductoServiceImpl implements IProductoService{
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public Product findOne(long id) throws EntityNotFoundException {
 		Optional<Product> productoEncontrado = this.productRepository.findById(id);
 		if(productoEncontrado.isPresent()) {
@@ -100,8 +118,10 @@ public class ProductoServiceImpl implements IProductoService{
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
+	
 
 	@Override
+	@Transactional()
 	public void delete(long id) throws EntityNotFoundException {
 		Optional<Product> productoEncontrado = this.productRepository.findById(id);
 		if(productoEncontrado.isPresent()) {
@@ -110,5 +130,5 @@ public class ProductoServiceImpl implements IProductoService{
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
-	
+
 }
