@@ -38,6 +38,24 @@ heroku login
 # Crear aplicación (solo si aun no existe)
 heroku create pineapple-back
 
+# Crear base de datos para el proyecto (solo funciona si la cuenta tiene una tarjeta asociada)
+heroku addons:create cleardb:ignite --app pineapple-back
+
+# # Añadir paquete de java ?
+# heroku buildpacks:add -a pineapple-back ...
+
+# Añadir paquete de soporte a monorepo
+heroku buildpacks:add -a pineapple-back https://github.com/lstoll/heroku-buildpack-monorepo -i 1
+
+# Setear la ruta con la variable APP_BASE
+heroku config:set -a pineapple-back APP_BASE=tienda-api
+
+# Configurar remoto de heroku
+git remote add heroku-back https://git.heroku.com/pineapple-back.git
+
+# Enviar código de la rama master a heroku
+git push heroku-back master
+
 ```
 
 Se puede acceder a la aplicación en https://pineapple-back.herokuapp.com/
