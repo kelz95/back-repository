@@ -9,7 +9,7 @@ import com.pineapplesupermarket.tiendaapi.models.Product;
 
 public interface IProductoService {
 
-	public Product save(Product producto) throws DuplicateEntryException;
+	public Product save(Product producto) throws DuplicateEntryException, EntityNotFoundException;
 	
 	public Page<Product> getProductos(FilterProductoDTO filters);
 	

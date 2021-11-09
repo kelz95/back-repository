@@ -12,5 +12,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 	Optional<Product> findByNameAndProductCategory(String name, ProductCategory productCategory);
 
 	Optional<Product> findByCode(String code);
+	
+	Optional<Product> findByCodeAndIdProductNot(String code, long id);	
 
 }

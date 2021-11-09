@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 import com.pineapplesupermarket.tiendaapi.services.IProductoCategoriaService;
+import com.pineapplesupermarket.tiendaapi.services.IUserService;
 
 @RestController
 @RequestMapping("/api/v1/categoria")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ProductoCategoriaController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductoCategoriaController.class);
@@ -26,11 +29,14 @@ public class ProductoCategoriaController {
 	@Autowired
 	private IProductoCategoriaService categoriaService;
 	
+	@Autowired
+	private IUserService userService;
+	
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<ProductCategory>> listAllProduct(){//Principal principal){
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[List categories] by " + user);
+	public ResponseEntity<List<ProductCategory>> listAllProduct(Principal principal){
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[List categories] by " + username);
 		
 		List<ProductCategory> listCategorias = this.categoriaService.listAll();
 

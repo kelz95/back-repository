@@ -5,7 +5,8 @@ public enum ResponseCodeEnum {
 	PROCESADO("00", "Procesado correctamente"),
 	NO_ENCONTRADO("01", "No registrado en el catalogo"),
 	DUPLICADO("02", "Ya registrado previamente"),
-	NO_PROCESADO("03", "Error al procesar");
+	NO_PROCESADO("03", "Error al procesar"),
+	NO_AUTORIZADO("04", "No autorizado para el recurso solicitado");
 	
 	private String codigo;
 	private String mensaje;

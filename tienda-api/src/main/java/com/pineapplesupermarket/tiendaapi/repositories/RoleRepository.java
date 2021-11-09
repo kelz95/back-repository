@@ -6,4 +6,5 @@ import com.pineapplesupermarket.tiendaapi.models.Role;
 
 public interface RoleRepository extends CrudRepository<Role, Long>  {
 
+	Role findByCode(String code);
 }

@@ -16,8 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 @Table(name="ps_user")
 
@@ -42,7 +40,7 @@ public class User implements Serializable{
 	
 	
 	@Column(name="creation_date", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 	
 	@Column (nullable = false)
@@ -74,13 +72,6 @@ public class User implements Serializable{
 
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
-	}
-	public Long getId_user() {
-		return idUser;
-	}
-
-	public void setId_user(Long id_user) {
-		this.idUser = id_user;
 	}
 	
 	public String getUsername() {

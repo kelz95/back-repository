@@ -1,5 +1,6 @@
 package com.pineapplesupermarket.tiendaapi.controllers;
 
+import java.security.Principal;
 import java.util.Date;
 
 //import java.security.Principal;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +34,7 @@ import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.models.Product;
 import com.pineapplesupermarket.tiendaapi.services.IProductoService;
+import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.ExportarInventario;
 
 @RestController
@@ -44,12 +47,15 @@ public class ProductoController {
 	private IProductoService productoService;
 	
 	@Autowired
+	private IUserService userService;
+	
+	@Autowired
 	private ExportarInventario exportarInventario;
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ResponseDTO> getProduct(@PathVariable(value="id") long id){ //Principal principal
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Consult product] by " + user);
+	public ResponseEntity<ResponseDTO> getProduct(@PathVariable(value="id") long id, Principal principal){
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[Consult product] by " + username);
 		try {
 			Product producto = productoService.findOne(id);
 			
@@ -68,7 +74,6 @@ public class ProductoController {
 		}
 	}
 	
-	
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Product> listAllProduct(@RequestParam(defaultValue="0") int page,
@@ -76,9 +81,9 @@ public class ProductoController {
 				@RequestParam(required = false) String name, 
 				@RequestParam(required = false) String categoria,
 				@RequestParam(required = false) 
-				@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaCreacion){
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Search products] by " + user);
+				@DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaCreacion, Principal principal){
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[Search products] by " + username);
 		
 		FilterProductoDTO filters = new FilterProductoDTO();
 		filters.setName(name);
@@ -94,12 +99,11 @@ public class ProductoController {
 	}
 	
 	@PostMapping("")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody Product producto,
-			@RequestParam("picture") MultipartFile picture) { //
-		logger.info(producto.getName());
-		logger.info("cantidad: " + producto.getQuantity());
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Create product] by " + user);
+			@RequestParam("picture") MultipartFile picture, Principal principal) { //
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[Create product] by " + username);
 		try {
 			producto.setPicture(picture.isEmpty() ? picture.getBytes() : null);
 	        Product _product = productoService.save(producto);
@@ -110,6 +114,11 @@ public class ProductoController {
 			 logger.info(HttpStatus.BAD_REQUEST.toString().concat(": ").concat(dee.getMessage()));
 			 return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.DUPLICADO.getCodigo(), 
 		        		ResponseCodeEnum.DUPLICADO.getMensaje(), dee.getMessage()), HttpStatus.BAD_REQUEST);
+		}catch(EntityNotFoundException en) {
+			 logger.info(HttpStatus.NOT_FOUND.toString().concat(": ").concat(en.getMessage()));
+			 return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 
+		        		ResponseCodeEnum.NO_ENCONTRADO.getMensaje(), en.getMessage()), HttpStatus.NOT_FOUND);
+			
 		} catch(Exception e) {
 			logger.info(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
@@ -118,11 +127,12 @@ public class ProductoController {
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ResponseDTO> update(@Valid @RequestBody Product productoUpdate,
 			@RequestParam("picture") MultipartFile picture,
-			@PathVariable Long id){ //@RequestParam("picture") MultipartFile picture
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Update product] by " + user);
+			@PathVariable Long id, Principal principal){ //@RequestParam("picture") MultipartFile picture
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[Update product] by " + username);
 		
 		try {
 			productoUpdate.setPicture(picture.isEmpty() ? picture.getBytes() : null);
@@ -147,9 +157,10 @@ public class ProductoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id){
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Delete product] by " + user);
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id, Principal principal){
+		String username = userService.getPrincipalUsername(principal);
+		logger.info("Req:[Delete product] by " + username);
 		try {
 			this.productoService.delete(id);
 			
@@ -169,9 +180,10 @@ public class ProductoController {
 	}	
 	
 	@GetMapping("/exportar")
-	public ExportarInventario exportar(){
-		String user = "usuario"; //crear servicio de usuario
-		logger.info("Req:[Export products] by " + user);
+	public ExportarInventario exportar(Principal principal){
+		String username = userService.getPrincipalUsername(principal);
+
+		logger.info("Req:[Export products] by " + username);
 		return exportarInventario;
 	}
 	

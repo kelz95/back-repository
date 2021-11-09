@@ -3,6 +3,8 @@ package com.pineapplesupermarket.tiendaapi.servicesImpl;
 import java.util.Date;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,8 @@ import com.pineapplesupermarket.tiendaapi.services.IProductoService;
 @Service
 public class ProductoServiceImpl implements IProductoService{
 
+	private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImpl.class);
+
 	@Autowired
 	private ProductRepository productRepository;
 	
@@ -38,16 +42,19 @@ public class ProductoServiceImpl implements IProductoService{
 	
 	@Override
 	@Transactional
-	public Product save(Product producto) throws DuplicateEntryException { 
+	public Product save(Product producto) throws DuplicateEntryException, EntityNotFoundException { 
 		ProductCategory categoria = this.productCategoryRepository
-				.findByCode(producto.getProductCategory().getCode()).orElse(new ProductCategory());
+				.findByCode(producto.getProductCategory().getCode()).orElse(null);
 		Optional<Product> productoExistenteByCode = this.productRepository.findByCode(producto.getCode());
 		Optional<Product> productoExistenteByNameAndCategory = this.productRepository.findByNameAndProductCategory(producto.getName(), categoria);
 
 		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
-			
+			if(categoria != null) {
+				producto.setProductCategory(categoria);
 				producto.setCreationDate(new Date());
-			
+			}else {
+				throw new EntityNotFoundException(ENTITY_NAME + " Category", "code", producto.getProductCategory().getCode());
+			}
 		} else {
 			StringBuilder duplicateParameters = new StringBuilder();
 			duplicateParameters.append(productoExistenteByCode.isPresent() ? "code" : "name, category");
@@ -76,36 +83,48 @@ public class ProductoServiceImpl implements IProductoService{
 
 	@Override
 	@Transactional()
-	public Product update(long id, Product productoUpdate) throws DuplicateEntryException, EntityNotFoundException {
-		ProductCategory categoria = this.productCategoryRepository
-				.findByCode(productoUpdate.getProductCategory().getCode()).orElse(new ProductCategory());
-		Optional<Product> productoExistenteByCode = this.productRepository.findByCode(productoUpdate.getCode());
-		Optional<Product> productoExistenteByNameAndCategory = this.productRepository.findByNameAndProductCategory(productoUpdate.getName(), categoria);
+	public Product update(long id, Product productoEditado) throws DuplicateEntryException, EntityNotFoundException {
+		Optional<Product> productoOptional = this.productRepository.findById(id);
+		if(productoOptional.isPresent()) {
+			Product productoSinEditar = productoOptional.get();
+			
+			if(!productoSinEditar.getCode().equals(productoEditado.getCode())) {
+				Optional<Product> productoExistenteByCode = this.productRepository.findByCode(productoEditado.getCode());
+				if(productoExistenteByCode.isEmpty()) {
+					productoSinEditar.setCode(productoEditado.getCode());
+				} else {
+					throw new DuplicateEntryException(ENTITY_NAME, "code", productoEditado.getCode());
+				}
+			}
+			
+			if(!productoSinEditar.getName().equals(productoEditado.getName()) || 
+					!productoSinEditar.getProductCategory().getCode().equals(productoEditado.getProductCategory().getCode()) ) {
+				ProductCategory categoria = this.productCategoryRepository
+						.findByCode(productoEditado.getProductCategory().getCode()).orElse(null);
+				Optional<Product> productoExistenteByNameAndCategory = 
+						this.productRepository.findByNameAndProductCategory(productoEditado.getName(), categoria);
+				if(productoExistenteByNameAndCategory.isEmpty()) {
+					productoSinEditar.setName(productoEditado.getName());
+					productoSinEditar.setProductCategory(categoria);
+				} else {
+					throw new DuplicateEntryException(ENTITY_NAME, "name, category", 
+								productoEditado.getName().concat(", ").concat(productoEditado.getProductCategory().getCode()));
+				}
+			}
 
-		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
-			Optional<Product> productoOptional = this.productRepository.findById(id);
-			if(productoOptional.isPresent()) {
-				Product productoSaved = productoOptional.get();
-				
-				productoSaved.setName(productoUpdate.getName());
-				productoSaved.setDescription(productoUpdate.getDescription());
-				productoSaved.setProductCategory(categoria);
-				productoSaved.setPicture(productoUpdate.getPicture());
-				productoSaved.setQuantity(productoUpdate.getQuantity());
-				productoSaved.setUnitPrice(productoUpdate.getUnitPrice());
-				productoSaved.setModificationDate(new Date());
-				
-				return productRepository.save(productoSaved);
-			}else {
-				throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
-			}			
-		} else {
-			StringBuilder duplicateParameters = new StringBuilder();
-			duplicateParameters.append(productoExistenteByCode.isPresent() ? "code" : "name, category");
-			throw new DuplicateEntryException(ENTITY_NAME, duplicateParameters.toString(), 
-					(productoExistenteByCode.isPresent() ? productoUpdate.getCode() : 
-						productoUpdate.getName().concat(", ").concat(productoUpdate.getProductCategory().getCode())));
-		}
+			productoSinEditar.setDescription(productoEditado.getDescription());
+			productoSinEditar.setPicture(productoEditado.getPicture());
+			productoSinEditar.setQuantity(productoEditado.getQuantity());
+			productoSinEditar.setUnitPrice(productoEditado.getUnitPrice());
+			productoSinEditar.setModificationDate(new Date());
+			
+			logger.info("Update product id:" + id);
+			
+			return productRepository.save(productoSinEditar);
+			
+		}else {
+			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
+		}			
 	}
 
 	@Override
@@ -126,6 +145,7 @@ public class ProductoServiceImpl implements IProductoService{
 		Optional<Product> productoEncontrado = this.productRepository.findById(id);
 		if(productoEncontrado.isPresent()) {
 			this.productRepository.deleteById(id);
+			logger.info("Deleted product id:" + id);
 		}else {
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
