@@ -41,8 +41,8 @@ heroku create pineapple-back
 # Crear base de datos para el proyecto (solo funciona si la cuenta tiene una tarjeta asociada)
 heroku addons:create cleardb:ignite --app pineapple-back
 
-# # Añadir paquete de java ?
-# heroku buildpacks:add -a pineapple-back ...
+# Añadir paquete de java
+heroku buildpacks:add -a pineapple-back heroku/java
 
 # Añadir paquete de soporte a monorepo
 heroku buildpacks:add -a pineapple-back https://github.com/lstoll/heroku-buildpack-monorepo -i 1
