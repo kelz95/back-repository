@@ -14,7 +14,7 @@ const HomePage = () => {
   ];
 
   return (
-    <Box>
+    <Box component="main">
       <Box
         component="section"
         sx={{
@@ -85,7 +85,10 @@ const HomePage = () => {
 
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={4}>
           {users.map(user => (
-            <Paper sx={{ paddingX: "1rem", paddingY: "1rem" }}>
+            <Paper
+              key={user.imageSrc}
+              sx={{ paddingX: "1rem", paddingY: "1rem", maxWidth: "10rem" }}
+            >
               <img alt={user.name} src={user.imageSrc} />
               <Typography component="h3" variant="subtitle1" sx={{ marginTop: "2rem" }}>
                 {user.name}
