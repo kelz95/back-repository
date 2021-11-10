@@ -15,6 +15,8 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="ps_user")
@@ -24,20 +26,31 @@ public class User implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
 	private Long idUser;
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
+	@NotNull
 	private Role role;
+	
+	@NotEmpty
 	@Column(length = 30, nullable = false, unique = true)
 	private String username;
+	
+	@NotEmpty
 	@Column(length = 200, nullable = false)
 	private String password;
+	
+	@NotEmpty
 	@Column(length = 60, nullable = false)
 	private String email;
+	
+	@NotEmpty
 	@Column(length = 45, nullable = false, unique = true)
 	private String name;
+	
+	@NotEmpty
 	@Column(length = 45, nullable = false)
 	private String lastname;
-	
 	
 	@Column(name="creation_date", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,6 +58,7 @@ public class User implements Serializable{
 	
 	@Column (nullable = false)
 	private Boolean activo;
+	
 	@PrePersist
 	public void prePersist() {
 		createAt= new Date();
@@ -66,7 +80,7 @@ public class User implements Serializable{
 		this.lastname = lastname;
 	}
 
-	public Boolean getActivo() {
+	public Boolean isActivo() {
 		return activo;
 	}
 
