@@ -38,12 +38,13 @@ public class Product{
 	private String description;
 	
 	@Column(nullable = false)
-	private int quantity;
+	private Integer quantity;
 	
 	@Column(nullable = false)
-	private double unitPrice;
+	private Double unitPrice;
 	
-	private byte[] picture;
+	@Column(length = 300)
+	private String picture;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="creation_date", nullable = false)
@@ -93,27 +94,27 @@ public class Product{
 		this.description = description;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
-	public double getUnitPrice() {
+	public Double getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(double unitPrice) {
+	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
 

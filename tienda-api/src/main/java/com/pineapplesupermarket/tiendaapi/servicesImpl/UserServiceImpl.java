@@ -1,23 +1,30 @@
 package com.pineapplesupermarket.tiendaapi.servicesImpl;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
+import com.pineapplesupermarket.tiendaapi.enums.ResponseCodeEnum;
+import com.pineapplesupermarket.tiendaapi.events.OnRestorePasswordEvent;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
+import com.pineapplesupermarket.tiendaapi.models.RestoreCode;
 import com.pineapplesupermarket.tiendaapi.models.Role;
 import com.pineapplesupermarket.tiendaapi.models.User;
 import com.pineapplesupermarket.tiendaapi.repositories.RoleRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.UserRepository;
 import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
+import com.pineapplesupermarket.tiendaapi.services.IRestoreCodeService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
 
 @Service
@@ -34,12 +41,18 @@ public class UserServiceImpl implements IUserService {
 	private RoleRepository roleRepository;
 	
 	@Autowired
+	private IRestoreCodeService restoreCodeService;
+	
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private ApplicationEventPublisher eventPubliser;
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<User> findAll() {
-		return (List<User>) userRepository.findAll();
+	public Page<User> findAll(Pageable pageable) {
+		return this.userRepository.findAll(pageable);
 	}
 	
 	@Transactional
@@ -116,11 +129,17 @@ public class UserServiceImpl implements IUserService {
 	
 	@Transactional(readOnly=true)
 	@Override
-	public User findById(Long id) {
-		return userRepository.findByIdUserAndActivo(id, true).orElse(null);
+	public User findById(Long id) throws EntityNotFoundException {
+		User usuario = userRepository.findByIdUserAndActivo(id, true).orElse(null);;
+		if(usuario != null) {
+			return usuario;
+		}else {
+			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
+		}
 	}
 	
 	@Override
+	@Transactional(readOnly=true)
 	public String getPrincipalUsername(Principal principal) {
 		String username = null;
 		if(principal instanceof UsernamePasswordAuthenticationToken) {
@@ -132,6 +151,49 @@ public class UserServiceImpl implements IUserService {
 		}
 		logger.info("Username: " + username);
 		return username;
+	}
+
+	@Override
+	@Transactional
+	public ResponseDTO sendRestoreCode(String parametro) throws EntityNotFoundException {
+		User usuario = this.userRepository.findByUsernameOrEmail(parametro, parametro).orElseGet(null);
+		if(usuario == null || !usuario.isActivo()) {
+			throw new EntityNotFoundException(ENTITY_NAME, "param", parametro);
+		}
+		
+		RestoreCode restoreCode = this.restoreCodeService.create(usuario);
+		try {
+			this.eventPubliser.publishEvent(new OnRestorePasswordEvent(restoreCode));
+			return new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(),
+					ResponseCodeEnum.PROCESADO.getMensaje());
+		}catch(Exception e) {
+			logger.info("Error al enviar restore password email", e.getMessage());
+			return new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(),
+					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Error al enviar email"));
+		}
+	}
+
+	@Override
+	@Transactional
+	public ResponseDTO restorePasswordUser(String username, String password, String code) throws EntityNotFoundException {
+		User user= this.userRepository.findByUsername(username).orElseGet(null);
+		if(user == null || !user.isActivo()) {
+			throw new EntityNotFoundException(ENTITY_NAME, "username", username);
+		}
+		
+		RestoreCode restoreCode = this.restoreCodeService.validate(code, user);
+		
+		if(restoreCode == null) {
+			return new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(),
+					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Código no válido"));
+		}
+		
+		String newPasswordEncripted = this.bCryptPasswordEncoder.encode(password);
+		user.setPassword(newPasswordEncripted);
+		this.userRepository.save(user);
+		this.restoreCodeService.deleteCode(restoreCode);
+		return new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(),
+				ResponseCodeEnum.PROCESADO.getMensaje());
 	}
 
 }

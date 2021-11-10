@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pineapplesupermarket.tiendaapi.models.Role;
 import com.pineapplesupermarket.tiendaapi.services.IRoleService;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+//@CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/roles")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RoleController {
 	@Autowired
@@ -32,17 +32,17 @@ public class RoleController {
 		
 	}
 	
-	@GetMapping("/role/{id}")
+	@GetMapping("/{id}")
 	public Role show(@PathVariable Long id) {
 		return roleService.findById(id);
 	}
-	@PostMapping("/role")
+	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Role create(@RequestBody Role role) {
 		return roleService.save(role);
 	}
 	
-	@PutMapping("/role/{id}")
+	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Role update (@RequestBody Role role, @PathVariable Long id) {
 	Role roleActual = roleService.findById(id);
@@ -51,7 +51,7 @@ public class RoleController {
 	return roleService.save(roleActual);
 	}
 	
-	@DeleteMapping("/role/{id}")
+	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		roleService.delete(id);

@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 import com.pineapplesupermarket.tiendaapi.services.IProductoCategoriaService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
+import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 
 @RestController
-@RequestMapping("/api/v1/categoria")
+@RequestMapping("/api/v1/categories")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 public class ProductoCategoriaController {
 	
@@ -36,11 +37,10 @@ public class ProductoCategoriaController {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<ProductCategory>> listAllProduct(Principal principal){
 		String username = userService.getPrincipalUsername(principal);
-		logger.info("Req:[List categories] by " + username);
-		
+		LoggerUtils.logRequest(logger, "List categories", username);
 		List<ProductCategory> listCategorias = this.categoriaService.listAll();
 
-		logger.info(HttpStatus.OK.toString());
+		LoggerUtils.logResponse(logger, HttpStatus.OK.toString());
 		return new ResponseEntity<>(listCategorias, HttpStatus.OK);
 	}
 }

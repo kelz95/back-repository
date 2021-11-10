@@ -17,7 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,34 +27,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pineapplesupermarket.tiendaapi.dto.JwtResponseDTO;
 import com.pineapplesupermarket.tiendaapi.dto.LoginRequestDTO;
 import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
+import com.pineapplesupermarket.tiendaapi.dto.RestorePasswordDTO;
 import com.pineapplesupermarket.tiendaapi.enums.ResponseCodeEnum;
+import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.security.JwtProvider;
 import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
+import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
+import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 	
 	@Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	IUserService userService;
-	
+	private IUserService userService;
+
 	@Autowired
-    JwtProvider jwtProvider;
+	private JwtProvider jwtProvider;
 	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequest,
 			BindingResult bindingResult){
-		logger.info("Req:[Login] by " + loginRequest.getUsername());
-		
+		LoggerUtils.logRequest(logger, "Login", loginRequest.getUsername());
+
 		if(bindingResult.hasErrors()) {
-			logger.info("Campos vacios");
+			LoggerUtils.logResponse(logger, HttpStatus.BAD_REQUEST.toString(), "Campos vacios");
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
-	        		ResponseCodeEnum.NO_PROCESADO.getMensaje(), "Campos vacios"), HttpStatus.BAD_REQUEST);
+	        		ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Campos vacios")), HttpStatus.BAD_REQUEST);
 		}
 		try {
 			Authentication authentication = authenticationManager.authenticate(
@@ -70,36 +76,75 @@ public class AuthController {
 	        
 	        JwtResponseDTO jwtResponse = new JwtResponseDTO(jwt, userDetails.getId(), userDetails.getUsername(),
 	                roles); 
-	
+			LoggerUtils.logResponse(logger, HttpStatus.OK.toString());
 	        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
-		}catch(BadCredentialsException bce) {
-			logger.info("BAD CREDENTIALS: " + bce.getMessage());
+		}catch(BadCredentialsException e) {
+			LoggerUtils.logException(logger, HttpStatus.UNAUTHORIZED.toString(), e.getMessage());
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_AUTORIZADO.getCodigo(), 
-					bce.getMessage()), HttpStatus.UNAUTHORIZED);
+					e.getMessage()), HttpStatus.UNAUTHORIZED);
+		}catch(Exception e) {
+			LoggerUtils.logException(logger, HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage());
+	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 	
 	@PostMapping("/restore-password")
-	public  ResponseEntity<?> restorePassword(@RequestBody String user) {
+	public  ResponseEntity<?> restorePassword(@RequestBody String parametro) {
 		
-		logger.info("Req:[Restore password] by " + user);
-//		try {
+		if(parametro == null) {
+			LoggerUtils.logRequest(logger, "Create code restore password", "null");
+
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Usuario vacio")), 
+					HttpStatus.BAD_REQUEST);			
+		}
+		LoggerUtils.logRequest(logger, "Create code restore password", "null");
+
+		try {
+			ResponseDTO response = this.userService.sendRestoreCode(parametro);
+			LoggerUtils.logResponse(logger, HttpStatus.CREATED.toString(), "Created code");
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
 			
-			if(user != null) {
-				
+		} catch (EntityNotFoundException e) {
+			LoggerUtils.logException(logger, HttpStatus.NOT_FOUND.toString(), e.getMessage());
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 
+		        		ResponseCodeEnum.NO_ENCONTRADO.getMensaje()), 
+					 HttpStatus.NOT_FOUND);
+		}catch(Exception e) {
+			LoggerUtils.logException(logger, HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage());
+	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@PutMapping("/restore-password/{code}")
+	public  ResponseEntity<?> restorePassword(
+			@Valid @RequestBody RestorePasswordDTO userDTO,
+			@PathVariable String code) {
+		LoggerUtils.logRequest(logger, "Use code restore password", userDTO.getUsername());
+
+		try {
+			//Password policies
+			if(!PasswordUtils.isValid(userDTO.getPassword())) {
+				String message = "El password no cumple con los requisitos de seguridad";
+				LoggerUtils.logException(logger, HttpStatus.BAD_REQUEST.toString(), message);
+				return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+						message), HttpStatus.BAD_REQUEST);
 			}
-			return null;
-//			User userCreated = this.userService.save(user);
-//			return new ResponseEntity<>(userCreated, HttpStatus.CREATED);
-//		} catch (DuplicateEntryException e) {
-//			 logger.info(HttpStatus.BAD_REQUEST.toString().concat(": ").concat(e.getMessage()));
-//			 return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.DUPLICADO.getCodigo(), 
-//		        		ResponseCodeEnum.DUPLICADO.getMensaje(), e.getMessage()), HttpStatus.BAD_REQUEST);
-//		}catch(Exception e) {
-//			logger.info(HttpStatus.INTERNAL_SERVER_ERROR.toString());
-//	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
-//	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
+			
+			ResponseDTO response = this.userService.restorePasswordUser(userDTO.getUsername(), userDTO.getPassword(), code);
+			LoggerUtils.logResponse(logger, HttpStatus.CREATED.toString());
+			return new ResponseEntity<>(response, HttpStatus.CREATED);
+		} catch(EntityNotFoundException e) {
+			LoggerUtils.logException(logger, HttpStatus.NOT_FOUND.toString(), e.getMessage());
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 
+		        		ResponseCodeEnum.NO_ENCONTRADO.getMensaje()), HttpStatus.NOT_FOUND);
+		} catch(Exception e) {
+			LoggerUtils.logException(logger, HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage());
+	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

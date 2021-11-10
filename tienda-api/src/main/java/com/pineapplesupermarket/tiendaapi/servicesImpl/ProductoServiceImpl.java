@@ -3,8 +3,6 @@ package com.pineapplesupermarket.tiendaapi.servicesImpl;
 import java.util.Date;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,21 +11,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pineapplesupermarket.tiendaapi.dto.FilterProductoDTO;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
+import com.pineapplesupermarket.tiendaapi.exception.FailUploadedException;
 import com.pineapplesupermarket.tiendaapi.models.Product;
 import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 import com.pineapplesupermarket.tiendaapi.repositories.CustomProductosRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.ProductCategoryRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.ProductRepository;
+import com.pineapplesupermarket.tiendaapi.services.ICloudinaryService;
 import com.pineapplesupermarket.tiendaapi.services.IProductoService;
 
 @Service
 public class ProductoServiceImpl implements IProductoService{
-
-	private static final Logger logger = LoggerFactory.getLogger(ProductoServiceImpl.class);
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -38,11 +37,14 @@ public class ProductoServiceImpl implements IProductoService{
 	@Autowired
 	private CustomProductosRepository customProductosRepository;
 	
+	@Autowired
+	private ICloudinaryService cloudinaryService;
+	
 	private static final String ENTITY_NAME = "Product";
 	
 	@Override
 	@Transactional
-	public Product save(Product producto) throws DuplicateEntryException, EntityNotFoundException { 
+	public Product create(Product producto, MultipartFile picture) throws DuplicateEntryException, EntityNotFoundException, FailUploadedException { 
 		ProductCategory categoria = this.productCategoryRepository
 				.findByCode(producto.getProductCategory().getCode()).orElse(null);
 		Optional<Product> productoExistenteByCode = this.productRepository.findByCode(producto.getCode());
@@ -50,8 +52,11 @@ public class ProductoServiceImpl implements IProductoService{
 
 		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
 			if(categoria != null) {
+				String urlPicture = (picture != null) ? this.cloudinaryService.upload(picture) : null;
+
 				producto.setProductCategory(categoria);
 				producto.setCreationDate(new Date());
+				producto.setPicture(urlPicture);
 			}else {
 				throw new EntityNotFoundException(ENTITY_NAME + " Category", "code", producto.getProductCategory().getCode());
 			}
@@ -61,9 +66,7 @@ public class ProductoServiceImpl implements IProductoService{
 			throw new DuplicateEntryException(ENTITY_NAME, duplicateParameters.toString(), 
 					(productoExistenteByCode.isPresent() ? producto.getCode() : 
 						producto.getName().concat(", ").concat(producto.getProductCategory().getCode())));
-		
 		}
-		
 		return productRepository.save(producto);
 	}
 
@@ -87,7 +90,6 @@ public class ProductoServiceImpl implements IProductoService{
 		Optional<Product> productoOptional = this.productRepository.findById(id);
 		if(productoOptional.isPresent()) {
 			Product productoSinEditar = productoOptional.get();
-			
 			if(!productoSinEditar.getCode().equals(productoEditado.getCode())) {
 				Optional<Product> productoExistenteByCode = this.productRepository.findByCode(productoEditado.getCode());
 				if(productoExistenteByCode.isEmpty()) {
@@ -113,13 +115,10 @@ public class ProductoServiceImpl implements IProductoService{
 			}
 
 			productoSinEditar.setDescription(productoEditado.getDescription());
-			productoSinEditar.setPicture(productoEditado.getPicture());
 			productoSinEditar.setQuantity(productoEditado.getQuantity());
 			productoSinEditar.setUnitPrice(productoEditado.getUnitPrice());
 			productoSinEditar.setModificationDate(new Date());
-			
-			logger.info("Update product id:" + id);
-			
+						
 			return productRepository.save(productoSinEditar);
 			
 		}else {
@@ -145,10 +144,23 @@ public class ProductoServiceImpl implements IProductoService{
 		Optional<Product> productoEncontrado = this.productRepository.findById(id);
 		if(productoEncontrado.isPresent()) {
 			this.productRepository.deleteById(id);
-			logger.info("Deleted product id:" + id);
 		}else {
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
+	}
+
+	@Override
+	public void upload(long id, MultipartFile picture) throws FailUploadedException, EntityNotFoundException {
+		Product product = this.productRepository.findById(id).orElse(null);
+		if(product != null) {
+			String urlPicture = this.cloudinaryService.upload(picture);
+			product.setPicture(urlPicture);
+			product.setModificationDate(new Date());
+			this.productRepository.save(product);
+		}else {
+			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
+		}
+		
 	}
 
 }

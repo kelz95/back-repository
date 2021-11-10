@@ -4,7 +4,6 @@ public class ResponseDTO {
 
 	private String codigo;
 	private String mensaje;
-	private Object objeto;
 	
 	public ResponseDTO() {
 		super();
@@ -14,13 +13,6 @@ public class ResponseDTO {
 		super();
 		this.codigo = codigo;
 		this.mensaje = mensaje;
-	}
-
-	public ResponseDTO(String codigo, String mensaje, Object objeto) {
-		super();
-		this.codigo = codigo;
-		this.mensaje = mensaje;
-		this.objeto = objeto;
 	}
 	
 	public String getCodigo() {
@@ -34,12 +26,6 @@ public class ResponseDTO {
 	}
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
-	}
-	public Object getObjeto() {
-		return objeto;
-	}
-	public void setObjeto(Object objeto) {
-		this.objeto = objeto;
 	}
 	
 }
