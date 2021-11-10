@@ -35,7 +35,11 @@ import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
-
+/**
+ *Controlador de autenticación
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -50,6 +54,12 @@ public class AuthController {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
+	/**
+	 * @param loginRequest
+	 * @param bindingResult
+	 * @return ResponseEntity<?>
+	 * @exception BadCredentialsException, Exception
+	 */
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequest,
 			BindingResult bindingResult){
@@ -90,6 +100,11 @@ public class AuthController {
 
 	}
 	
+	/**
+	 * @param parametro
+	 * @return  ResponseEntity<?> 
+	 * @exception EntityNotFoundException, Exception
+	 */
 	@PostMapping("/restore-password")
 	public  ResponseEntity<?> restorePassword(@RequestBody String parametro) {
 		
@@ -119,6 +134,12 @@ public class AuthController {
 		}
 	}
 	
+	/**
+	 * @param userDTO
+	 * @param code
+	 * @return  ResponseEntity<?> 
+	 * @exception EntityNotFoundException, Exception
+	 */
 	@PutMapping("/restore-password/{code}")
 	public  ResponseEntity<?> restorePassword(
 			@Valid @RequestBody RestorePasswordDTO userDTO,

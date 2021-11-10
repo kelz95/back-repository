@@ -15,7 +15,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+/**
+ *Modelo del rol
+ *@author Laura saldaña 
+ *@version 1.0
+ */
 @Entity
 @Table(name="ps_role")
 public class Role implements Serializable{

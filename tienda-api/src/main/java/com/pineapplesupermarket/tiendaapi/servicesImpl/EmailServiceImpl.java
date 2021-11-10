@@ -15,7 +15,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import com.pineapplesupermarket.tiendaapi.services.IEmailService;
-
+/**
+ *Implementación del servicio de correo
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Service
 public class EmailServiceImpl implements IEmailService{
 	
@@ -30,6 +34,11 @@ public class EmailServiceImpl implements IEmailService{
 	@Autowired
 	private TemplateEngine templateEngine;
 
+	/**Método para mandar correo de restauración de contraseña
+	 *@param recipientName
+	 *@param recipientEmail
+	 *@param restoreCode
+	 */
 	@Override
 	public void sendRestorePasswordMail(String recipientName, String recipientEmail, String restoreCode) throws MessagingException {
 		SimpleDateFormat formatDate = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy 'a las' HH:mm:ss",

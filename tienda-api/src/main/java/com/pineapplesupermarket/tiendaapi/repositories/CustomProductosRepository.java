@@ -17,13 +17,24 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.pineapplesupermarket.tiendaapi.models.Product;
-
+/**
+ *Repositorio del producto
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Repository
 public class CustomProductosRepository {
 
 	@Autowired
 	private EntityManager entityManager;
 		
+	/** Metódo para buscar los productos con filtros
+	 * @param name
+	 * @param categoria
+	 * @param fechaCreacion
+	 * @param pageable
+	 * @return transaccionesPage
+	 */
 	public Page<Product> findAll(String name, String categoria, Date fechaCreacion, Pageable pageable){
 		
 		StringBuilder dataQuery = new StringBuilder();

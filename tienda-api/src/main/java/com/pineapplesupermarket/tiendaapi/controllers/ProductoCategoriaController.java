@@ -19,7 +19,11 @@ import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 import com.pineapplesupermarket.tiendaapi.services.IProductoCategoriaService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
-
+/**
+ *Controlador de la categoría del producto
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @RestController
 @RequestMapping("/api/v1/categories")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -33,6 +37,10 @@ public class ProductoCategoriaController {
 	@Autowired
 	private IUserService userService;
 	
+	/**End point que obtiene una lista de categorías
+	 * @param principal
+	 * @return ResponseEntity<List<ProductCategory>>
+	 */
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<ProductCategory>> listAllProduct(Principal principal){

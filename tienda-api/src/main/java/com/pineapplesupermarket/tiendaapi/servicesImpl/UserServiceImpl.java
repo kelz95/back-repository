@@ -26,7 +26,11 @@ import com.pineapplesupermarket.tiendaapi.repositories.UserRepository;
 import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
 import com.pineapplesupermarket.tiendaapi.services.IRestoreCodeService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
-
+/**
+ *Implementación del servicio del usuario
+ *@author Laura Saldaña 
+ *@version 1.0
+ */
 @Service
 public class UserServiceImpl implements IUserService {
 	
@@ -49,12 +53,21 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private ApplicationEventPublisher eventPubliser;
 	
+	/** Método para encontrar los usuarios
+	 *@param pageable
+	 *@return Page<User>
+	 */
 	@Override
 	@Transactional(readOnly=true)
 	public Page<User> findAll(Pageable pageable) {
 		return this.userRepository.findAll(pageable);
 	}
 	
+	/** Método para guardar los usuarios
+	 *@param User
+	 *@return User
+	 *@exception DuplicateEntryException
+	 */
 	@Transactional
 	@Override
 	public User save(User user) throws DuplicateEntryException {
@@ -76,7 +89,12 @@ public class UserServiceImpl implements IUserService {
 		}
 		return userRepository.save(user);
 	}
-	
+	/** Método para actualizar un usuario
+	 *@param id
+	 *@param user
+	 *@return User
+	 *@exception DuplicateEntryException, EntityNotFoundException
+	 */
 	@Transactional
 	@Override
 	public User update(Long id, User user) throws DuplicateEntryException, EntityNotFoundException {
@@ -112,7 +130,10 @@ public class UserServiceImpl implements IUserService {
 		logger.info("Updated user " + user.getUsername());
 		return userRepository.save(user);
 	}
-	
+	/** Método para eliminar un usuario
+	 *@param id
+	 *@exception EntityNotFoundException
+	 */
 	@Transactional
 	@Override
 	public void delete(Long id) throws EntityNotFoundException {
@@ -126,7 +147,10 @@ public class UserServiceImpl implements IUserService {
 		}
 //		userRepository.deleteById(id);
 	}
-	
+	/** Método para encontrar un usuario
+	 *@param id
+	 *@exception EntityNotFoundException
+	 */
 	@Transactional(readOnly=true)
 	@Override
 	public User findById(Long id) throws EntityNotFoundException {
@@ -137,7 +161,10 @@ public class UserServiceImpl implements IUserService {
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
-	
+	/** Método para obtener el usuario en la sesión
+	 *@param principal
+	 *@return String
+	 */
 	@Override
 	@Transactional(readOnly=true)
 	public String getPrincipalUsername(Principal principal) {
@@ -153,6 +180,11 @@ public class UserServiceImpl implements IUserService {
 		return username;
 	}
 
+	/** Método para mandar el código de restauración
+	 *@param parametro
+	 *@return ResponseDTO
+	 *@exception EntityNotFoundException
+	 */
 	@Override
 	@Transactional
 	public ResponseDTO sendRestoreCode(String parametro) throws EntityNotFoundException {
@@ -172,7 +204,13 @@ public class UserServiceImpl implements IUserService {
 					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Error al enviar email"));
 		}
 	}
-
+	/** Método para restaurar el password de un usuario
+	 *@param username
+	 *@param password
+	 *@param code
+	 *@return ResponseDTO
+	 *@exception EntityNotFoundException
+	 */
 	@Override
 	@Transactional
 	public ResponseDTO restorePasswordUser(String username, String password, String code) throws EntityNotFoundException {

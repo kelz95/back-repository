@@ -12,7 +12,11 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.pineapplesupermarket.tiendaapi.exception.FailUploadedException;
 import com.pineapplesupermarket.tiendaapi.services.ICloudinaryService;
-
+/**
+ *Implementación del servicio de Cloudinary
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Service
 public class CloudinaryServiceImpl implements ICloudinaryService {
 	
@@ -21,6 +25,11 @@ public class CloudinaryServiceImpl implements ICloudinaryService {
 	//pasar a properties
 	Cloudinary cloudinary = new Cloudinary();
 
+	/**Método para subir una imagen
+	 *@param MultipartFile
+	 *@return string
+	 *@exception IOException
+	 */
 	public String upload(MultipartFile picture) throws FailUploadedException {
 		try {
 			

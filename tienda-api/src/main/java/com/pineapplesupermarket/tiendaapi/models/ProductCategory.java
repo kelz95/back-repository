@@ -6,7 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ *Modelo de las categorías del producto
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Entity
 @Table(name="ps_product_category")
 public class ProductCategory {

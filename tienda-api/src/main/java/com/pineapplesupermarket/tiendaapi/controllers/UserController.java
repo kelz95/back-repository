@@ -35,6 +35,11 @@ import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
 
 //@CrossOrigin(origins= {"http://localhost:4200"})
+/**
+ * Controlador del Rol
+ * @author Laura Saldaña
+ * @version 1.0
+ */
 @RestController
 @RequestMapping("/api/v1/users")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -44,6 +49,12 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 	
+	/**End point para listar los usuarios
+	 * @param page
+	 * @param size
+	 * @param principal
+	 * @return Page<User>
+	 */
 	@GetMapping("")
 	public Page<User> findAll(@RequestParam(defaultValue="0") int page,
 			@RequestParam(defaultValue = "10") int size, Principal principal){
@@ -58,6 +69,12 @@ public class UserController {
 		return userService.findAll(pageRequest);
 	}
 	
+	/**End point para obtener un usuario
+	 * @param id
+	 * @param principal
+	 * @return ResponseEntity<?>
+	 * @exception EntityNotFoundException, Exception
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUser(@PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
@@ -78,6 +95,12 @@ public class UserController {
 		}
 	}
 	
+	/**End point para crear un usuario
+	 * @param user
+	 * @param principal
+	 * @return ResponseEntity<?>
+	 * @exception DuplicateEntryException, Exception
+	 */
 	@PostMapping("")
 	public  ResponseEntity<?> create(@Valid @RequestBody User user, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
@@ -106,6 +129,13 @@ public class UserController {
 		}
 	}
 	
+	/** Endpoint para actualizar un usuario
+	 * @param user
+	 * @param id
+	 * @param principal
+	 * @return ResponseEntity<?> 
+	 * @exception EntityNotFoundException, DuplicateEntryException, Exception 
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody User user, @PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
@@ -140,6 +170,12 @@ public class UserController {
 		}
 	}
 	
+	/**Endpont para eliminar un usuario
+	 * @param id
+	 * @param principal
+	 * @return ResponseEntity<?> 
+	 * @exception EntityNotFoundException, Exception
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);

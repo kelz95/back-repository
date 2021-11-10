@@ -9,7 +9,11 @@ import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.models.User;
-
+/**
+ *Servicio del usuario
+ *@author Laura Saldaña
+ *@version 1.0
+ */
 public interface IUserService {
 	
 	public Page<User> findAll(Pageable pageable);

@@ -14,7 +14,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-
+/**
+ *Modelo del producto
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Entity
 @Table(name="ps_product", uniqueConstraints = @UniqueConstraint(columnNames= {"name", "id_product_category"}))
 public class Product{

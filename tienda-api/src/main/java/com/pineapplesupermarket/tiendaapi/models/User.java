@@ -17,7 +17,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
+/**
+ *Modelo del usuario
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Entity
 @Table(name="ps_user")
 

@@ -24,7 +24,11 @@ import com.pineapplesupermarket.tiendaapi.repositories.ProductCategoryRepository
 import com.pineapplesupermarket.tiendaapi.repositories.ProductRepository;
 import com.pineapplesupermarket.tiendaapi.services.ICloudinaryService;
 import com.pineapplesupermarket.tiendaapi.services.IProductoService;
-
+/**
+ *Implementación del servicio de los productos
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Service
 public class ProductoServiceImpl implements IProductoService{
 
@@ -42,6 +46,12 @@ public class ProductoServiceImpl implements IProductoService{
 	
 	private static final String ENTITY_NAME = "Product";
 	
+	/** Método para crear productos
+	 *@param  Product
+	 *@param MultipartFile
+	 *@return Product
+	 *@exception EntityNotFoundException, DuplicateEntryException
+	 */
 	@Override
 	@Transactional
 	public Product create(Product producto, MultipartFile picture) throws DuplicateEntryException, EntityNotFoundException, FailUploadedException { 
@@ -70,6 +80,10 @@ public class ProductoServiceImpl implements IProductoService{
 		return productRepository.save(producto);
 	}
 
+	/**Método para listar productos
+	 *@param FilterProductoDTO
+	 *@return Page<Product>
+	 */
 	@Override
 	@Transactional(readOnly=true)
 	public Page<Product> getProductos(FilterProductoDTO filters) {
@@ -84,6 +98,12 @@ public class ProductoServiceImpl implements IProductoService{
 		return productosPage;
 	}
 
+	/**Método para actualizar productos
+	 *@param id
+	 *@param productoEditado
+	 *@return Product
+	 *@exception EntityNotFoundException, DuplicateEntryException
+	 */
 	@Override
 	@Transactional()
 	public Product update(long id, Product productoEditado) throws DuplicateEntryException, EntityNotFoundException {
@@ -126,6 +146,11 @@ public class ProductoServiceImpl implements IProductoService{
 		}			
 	}
 
+	/**Método para encontrar un producto
+	 *@param id
+	 *@return Product
+	 *@exception EntityNotFoundException
+	 */
 	@Override
 	@Transactional(readOnly=true)
 	public Product findOne(long id) throws EntityNotFoundException {
@@ -137,7 +162,10 @@ public class ProductoServiceImpl implements IProductoService{
 		}
 	}
 	
-
+	/**Método para eliminar un producto
+	 *@param id
+	 *@exception EntityNotFoundException
+	 */
 	@Override
 	@Transactional()
 	public void delete(long id) throws EntityNotFoundException {
@@ -148,7 +176,11 @@ public class ProductoServiceImpl implements IProductoService{
 			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
 		}
 	}
-
+	/**Método para subir una imagen
+	 *@param id
+	 *@param  MultipartFile
+	 *@exception FailUploadedException, EntityNotFoundException 
+	 */
 	@Override
 	public void upload(long id, MultipartFile picture) throws FailUploadedException, EntityNotFoundException {
 		Product product = this.productRepository.findById(id).orElse(null);

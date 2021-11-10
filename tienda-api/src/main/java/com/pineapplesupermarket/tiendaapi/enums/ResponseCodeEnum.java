@@ -1,5 +1,9 @@
 package com.pineapplesupermarket.tiendaapi.enums;
-
+/**
+ *Mensajes de respuesta
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 public enum ResponseCodeEnum {
 
 	PROCESADO("00", "Procesado correctamente"),
@@ -11,6 +15,7 @@ public enum ResponseCodeEnum {
 	private String codigo;
 	private String mensaje;
 	
+
 	private ResponseCodeEnum(String codigo, String mensaje) {
 		this.codigo = codigo;
 		this.mensaje = mensaje;

@@ -45,8 +45,9 @@ import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 
 
 /**
- * Controlador de Producto
- *
+ *Controlador del producto
+ *@author Raquel de la Rosa 
+ *@version 1.0
  */
 
 @RestController
@@ -69,6 +70,7 @@ public class ProductoController {
 	 * @param id
 	 * @param principal
 	 * @return ResponseEntity<ResponseDTO>
+	 * @exception EntityNotFoundException, Exception
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id, Principal principal){
@@ -91,6 +93,16 @@ public class ProductoController {
 		}
 	}
 	
+	/**End point que obtiene una lista de productos
+	 * @param page
+	 * @param size
+	 * @param name
+	 * @param categoria
+	 * @param fechaCreacion
+	 * @param principal
+	 * @return Page<Product> listAllProduct
+	 * @exception DuplicateEntryException, EntityNotFoundException, JsonProcessingException,Exception
+	 */
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<Product> listAllProduct(@RequestParam(defaultValue="0") int page,
@@ -114,6 +126,14 @@ public class ProductoController {
 		return productos;
 	}
 	
+
+	/**End point que crea un producto
+	 * @param producto
+	 * @param picture
+	 * @param principal
+	 * @return ResponseEntity<?> 
+	 * @exception DuplicateEntryException, EntityNotFoundException, JsonProcessingException, Exception
+	 */
 	@PostMapping(value="",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> create(@Valid @RequestPart String producto,
@@ -154,7 +174,13 @@ public class ProductoController {
 	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+	/**End point que sube una imagen
+	 * @param producto
+	 * @param picture
+	 * @param principal
+	 * @return ResponseEntity<?>
+	 * @exception FailUploadedException, EntityNotFoundException, Exception
+	 */
 	@PutMapping("/{id}/upload")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ResponseDTO> upload(@PathVariable(value="id") long id,
@@ -183,6 +209,12 @@ public class ProductoController {
 		}
 	}
 	
+	/**End point que actualiza un producto
+	 * @param productoUpdate
+	 * @param id
+	 * @param principal
+	 * @return ResponseEntity<?> 
+	 */
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<?> update(@Valid @RequestBody Product productoUpdate,
@@ -210,6 +242,12 @@ public class ProductoController {
 		}
 	}
 	
+	/**End point que elimina un producto
+	 * @param id
+	 * @param principal
+	 * @return ResponseEntity<ResponseDTO>
+	 * @exception EntityNotFoundException, Exception
+	 */
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id, Principal principal){
@@ -232,6 +270,10 @@ public class ProductoController {
 		}
 	}	
 	
+	/**End point que exporta el inventario
+	 * @param principal
+	 * @return ExportarInventario
+	 */
 	@GetMapping("/exportar")
 	@ResponseStatus(HttpStatus.OK)
 	public ExportarInventario exportar(Principal principal){

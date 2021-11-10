@@ -13,7 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+/**
+ *Modelo del código de restauración de pass
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Entity
 @Table(name="ps_restore_code")
 public class RestoreCode {
