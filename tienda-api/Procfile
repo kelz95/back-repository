@@ -1,1 +1,1 @@
-web: java -jar target/tienda-api-1.0.0.war
+web: java -jar target/tienda-api-1.0.0.war --server.servlet.context-path=/
