@@ -1,0 +1,41 @@
+{
+  "Quick Import": {
+    "prefix": "impp",
+    "body": ["import $1 from './$1';"]
+  },
+  "Quick Export": {
+    "prefix": "expp",
+    "body": ["export $1 from './$1';"]
+  },
+  "Page React Stateless Component Boilerplate": {
+    "prefix": "boilerstateless",
+    "body": [
+      "import { Box } from \"@mui/material\";",
+      "",
+      "type $1Props = {};",
+      "",
+      "const ${1:${TM_FILENAME/(.*)\\..+$/$1/}} = ({}: $1Props) => {",
+      "  return <Box>$1</Box>;",
+      "};",
+      "",
+      "export default $1;",
+      ""
+    ]
+  },
+  "Index Boilerplate": {
+    "prefix": "boilerindex",
+    "body": ["export * from './$1';", ""]
+  },
+  "React Stateless Index Boilerplate": {
+    "prefix": "indexdefaultnamed",
+    "body": ["export { default as $1} from './$1';"]
+  },
+  "React Index Default": {
+    "prefix": "indexdefault",
+    "body": ["export { default } from './$1';"]
+  },
+  "React Index Named": {
+    "prefix": "indexnamed",
+    "body": ["export * from './$1';"]
+  }
+}

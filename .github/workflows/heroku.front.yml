@@ -1,0 +1,24 @@
+name: Desplegar front a Heroku
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "tienda-front/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Clonar el código a la VM de github
+        uses: actions/checkout@v2
+
+      - name: Desplegar el proyecto del Front (React)
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "pineapple-front"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+        env:
+          HD_APP_BASE: "tienda-front"
