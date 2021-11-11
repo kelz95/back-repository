@@ -1,4 +1,5 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
   return (
@@ -88,6 +89,14 @@ const NotFoundPage = () => {
         >
           we are sorry, but the page you requested was not found
         </Typography>
+        <Button
+          component={Link}
+          to="/"
+          variant="contained"
+          sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
+        >
+          Return to Pineapple page
+        </Button>
       </Box>
     </Box>
   );
