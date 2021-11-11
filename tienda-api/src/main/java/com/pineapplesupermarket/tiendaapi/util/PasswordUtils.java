@@ -9,9 +9,17 @@ import org.passay.PasswordData;
 import org.passay.PasswordValidator;
 import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
-
+/**
+ *Clase para validar contraseñas
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 public class PasswordUtils {
 
+	/**Método para validar contraseñas
+	 * @param password
+	 * @return boolean
+	 */
 	public static boolean isValid(String password) {
 		PasswordValidator validator = new PasswordValidator(Arrays.asList(
 				new LengthRule(8,30),

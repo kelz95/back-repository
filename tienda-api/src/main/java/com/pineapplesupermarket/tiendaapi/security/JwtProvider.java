@@ -8,7 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
+/**
+ *Componente del JWT
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Component
 public class JwtProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
@@ -19,6 +23,10 @@ public class JwtProvider {
     @Value("${pineapple.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    /** Método para generar el JWT Token
+     * @param authentication
+     * @return String
+     */
     public String generateJwtToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -31,10 +39,19 @@ public class JwtProvider {
                 .compact();
     }
 
+    /** Método para obtener el nombre del usuario del JWT Token
+     * @param token
+     * @return String
+     */
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    /** Método para validar el JWT Token
+     * @param authToken
+     * @return boolean
+     * @exception SignatureException, MalformedJwtException, ExpiredJwtException, UnsupportedJwtException, IllegalArgumentException
+     */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

@@ -23,7 +23,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import com.pineapplesupermarket.tiendaapi.servicesImpl.UserDetailsServiceImpl;
-
+/**
+ *Clase para configurar la seguridad del sitio
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
@@ -35,28 +39,45 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
     private JwtAuthEntryPoint jwtAuthEntryPoint;
 
+    /** Método para obtener el JWT Token Filter
+     * @return JwtAuthTokenFilter
+     */
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
         return new JwtAuthTokenFilter();
     }
 	
+	/** Método para obtener el BCryptPasswordEncoder
+	 * @return BCryptPasswordEncoder
+	 */
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
+	/** Método para  codificar contraseña
+	 *@param auth
+	 */
 	@Override
 	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 	
+	/**Regresa el bean del authentication Manager
+	 *@return AuthenticationManager
+	 *@exceptio Exception
+	 */
 	@Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+	/** Método para configurar las restricciones de seguridad del sitio
+	 *@param http
+	 *@exception Exception
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -75,6 +96,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
+
+	/**Método para configurar el origen
+	 * @return CorsConfigurationSource
+	 */
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
@@ -87,6 +112,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		return source;
 	}
 	
+	/** Método para crear el bean del Filter Registration
+	 * @return FilterRegistrationBean<CorsFilter> 
+	 */
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter(){
 		FilterRegistrationBean<CorsFilter> bean = 

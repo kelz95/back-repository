@@ -1,4 +1,9 @@
 package com.pineapplesupermarket.tiendaapi.dto;
+/**
+ *Clase de respuesta
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 
 public class ResponseDTO {
 

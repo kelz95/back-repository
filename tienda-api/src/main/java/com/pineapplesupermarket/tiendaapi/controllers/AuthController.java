@@ -36,7 +36,7 @@ import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
 /**
- *Controlador de autenticación
+ *End Point de autenticación
  *@author Raquel de la Rosa 
  *@version 1.0
  */
@@ -54,7 +54,7 @@ public class AuthController {
 	@Autowired
 	private JwtProvider jwtProvider;
 	
-	/**
+	/** Método de loggueo
 	 * @param loginRequest
 	 * @param bindingResult
 	 * @return ResponseEntity<?>
@@ -100,7 +100,7 @@ public class AuthController {
 
 	}
 	
-	/**
+	/** Método para restaurar la contraseña
 	 * @param parametro
 	 * @return  ResponseEntity<?> 
 	 * @exception EntityNotFoundException, Exception
@@ -134,7 +134,7 @@ public class AuthController {
 		}
 	}
 	
-	/**
+	/** Método de restaura contaseña
 	 * @param userDTO
 	 * @param code
 	 * @return  ResponseEntity<?> 

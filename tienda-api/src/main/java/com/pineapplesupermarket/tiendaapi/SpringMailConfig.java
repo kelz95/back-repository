@@ -11,6 +11,11 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+/**
+ *Clase para la configuración del correo
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 
 @Configuration
 public class SpringMailConfig{
@@ -27,6 +32,9 @@ public class SpringMailConfig{
         return templateEngine;
     }
     
+    /**Método para  generar el template
+     * @return ITemplateResolver
+     */
     private ITemplateResolver htmlTemplateResolver() {
         final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setOrder(Integer.valueOf(2));

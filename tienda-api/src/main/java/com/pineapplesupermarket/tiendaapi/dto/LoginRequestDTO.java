@@ -1,6 +1,11 @@
 package com.pineapplesupermarket.tiendaapi.dto;
 
 import javax.validation.constraints.NotBlank;
+/**
+ *Clase del Login Request
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 
 public class LoginRequestDTO {
 	

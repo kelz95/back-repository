@@ -10,7 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ *Clase del usuario princial
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +34,10 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
+    /** Método para crear al usuario principal
+     * @param user
+     * @return UserPrincipal
+     */
     public static UserPrincipal build(User user) {
     	List<GrantedAuthority> authorities = new ArrayList<>();
     	authorities.add(new SimpleGrantedAuthority(user.getRole().getCode()));

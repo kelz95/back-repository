@@ -1,6 +1,11 @@
 package com.pineapplesupermarket.tiendaapi.dto;
 
 import java.util.List;
+/**
+ *Clase de la respuesta del JWT
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 
 public class JwtResponseDTO {
     private String token;

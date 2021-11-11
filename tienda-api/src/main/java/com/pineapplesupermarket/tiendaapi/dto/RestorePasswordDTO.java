@@ -2,6 +2,11 @@ package com.pineapplesupermarket.tiendaapi.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+/**
+ *Clase de restauración de contraseña
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 
 public class RestorePasswordDTO {
 	

@@ -17,7 +17,11 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.pineapplesupermarket.tiendaapi.servicesImpl.UserDetailsServiceImpl;
-
+/**
+ *Clase del filtro del JWT Token
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtProvider jwtProvider;
@@ -27,6 +31,12 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
 
+    /** Método para utenticar usuario
+     *@param request
+     *@param response
+     *@filterChain
+     *@exception ServletException, IOException
+     */ 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -49,6 +59,10 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**Método para ontener el JWT
+     * @param request
+     * @return String
+     */
     private String getJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 

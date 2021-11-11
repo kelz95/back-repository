@@ -18,7 +18,11 @@ import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import com.pineapplesupermarket.tiendaapi.models.Product;
 import com.pineapplesupermarket.tiendaapi.repositories.ProductRepository;
-
+/**
+ *Componente para exportar inventario
+ *@author Raquel de la Rosa 
+ *@version 1.0
+ */
 @Component("/api/v1/producto/exportar")
 public class ExportarInventario extends AbstractXlsxView{
 	
@@ -28,6 +32,12 @@ public class ExportarInventario extends AbstractXlsxView{
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 
+	/**Método para construir el documento en Excel
+	 *@param model
+	 *@param workbook
+	 *@param request
+	 *@param response
+	 */
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
