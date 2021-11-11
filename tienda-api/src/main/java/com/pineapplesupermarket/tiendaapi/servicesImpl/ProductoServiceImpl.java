@@ -63,7 +63,7 @@ public class ProductoServiceImpl implements IProductoService{
 		if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
 			if(categoria != null) {
 				String urlPicture = (picture != null) ? this.cloudinaryService.upload(picture) : null;
-
+				producto.setCode(producto.getCode());
 				producto.setProductCategory(categoria);
 				producto.setCreationDate(new Date());
 				producto.setPicture(urlPicture);
@@ -134,6 +134,7 @@ public class ProductoServiceImpl implements IProductoService{
 				}
 			}
 
+			productoSinEditar.setCode(productoEditado.getCode());
 			productoSinEditar.setDescription(productoEditado.getDescription());
 			productoSinEditar.setQuantity(productoEditado.getQuantity());
 			productoSinEditar.setUnitPrice(productoEditado.getUnitPrice());
