@@ -1,8 +1,8 @@
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router";
 
-import logo from "../../assets/pina.png";
-import Copyright from "../../components/Copyright";
+import logo from "#root/assets/pina.png";
+import Copyright from "#root/components/Copyright";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const HomePage = () => {
       >
         <Button
           color="primary"
-          onClick={() => navigate("login")}
+          onClick={() => navigate("/login")}
           size="large"
           sx={{
             alignSelf: "end",

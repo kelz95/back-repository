@@ -1,20 +1,37 @@
 import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router";
 
 import Copyright from "../../components/Copyright";
 import PineappleIcon from "../../assets/pina_sola.png";
+import AuthController from "./AuthController";
 
 type LoginPayload = {
-  email: string;
+  username: string;
   password: string;
 };
 
 const LoginPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { control, handleSubmit } = useForm<LoginPayload>();
 
-  const onSubmit = (data: LoginPayload) => {
-    alert(JSON.stringify(data, null, 2));
+  const from = location.state?.from?.pathname || "/products";
+
+  const onSubmit = async (data: LoginPayload) => {
+    console.log({ data });
+    const signInResult = await AuthController.signIn({
+      username: data.username,
+      password: data.password,
+    });
+    console.log({ signInResult });
+    navigate(from, { replace: true });
   };
+
+  const title = "Login";
+  const labelUsername = "Username";
+  const labelPassword = "Password";
+  const buttonText = "Login";
 
   return (
     <Container component="main" maxWidth="xs" sx={{ paddingTop: 8 }}>
@@ -33,22 +50,21 @@ const LoginPage = () => {
         />
 
         <Typography component="h1" variant="h5">
-          Login
+          {title}
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
           <Controller
             control={control}
             defaultValue=""
-            name="email"
+            name="username"
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 autoFocus
-                autoComplete="email"
                 fullWidth
-                id="email"
-                label="Email Address"
+                id="username"
+                label={labelUsername}
                 margin="normal"
                 required
                 {...field}
@@ -62,11 +78,10 @@ const LoginPage = () => {
             rules={{ required: true }}
             render={({ field }) => (
               <TextField
-                autoFocus
                 autoComplete="current-password"
                 fullWidth
                 id="password"
-                label="Password"
+                label={labelPassword}
                 margin="normal"
                 required
                 type="password"
@@ -76,7 +91,7 @@ const LoginPage = () => {
           />
 
           <Button fullWidth type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Login
+            {buttonText}
           </Button>
         </Box>
       </Paper>
