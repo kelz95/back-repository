@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
 import com.pineapplesupermarket.tiendaapi.enums.ResponseCodeEnum;
@@ -196,7 +197,8 @@ public class UserServiceImpl implements IUserService {
 		RestoreCode restoreCode = this.restoreCodeService.create(usuario);
 			
 		String code = restoreCode.getCode();
-		String username = restoreCode.getUser().getUsername();
+		String username = StringUtils.capitalize(restoreCode.getUser().getName()
+				.concat(" ").concat(restoreCode.getUser().getLastname()));
 		
 		logger.info("Restore Password: username: [" + username
 				+ "] code: [" + code + "]");

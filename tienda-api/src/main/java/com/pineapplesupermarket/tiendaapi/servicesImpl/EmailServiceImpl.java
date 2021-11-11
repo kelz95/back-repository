@@ -50,11 +50,11 @@ public class EmailServiceImpl implements IEmailService{
 		StringBuilder message = new StringBuilder();
 		message.append("Recibimos una solicitud para restablecer su contraseña en Pineapple Supermarket App el ");
 		message.append(formatDate.format(today));
-		message.append(". Para poder restablecer su contraseña ingrese al siguiente enlace:");
+		message.append(". Para poder restablecer su contraseña de clic en el botón o bien, ingrese al enlace:");
 		
 		ctx.setVariable("nameUser", recipientName);
 		ctx.setVariable("message", message);
-		ctx.setVariable("actionUrl", baseUrl.concat("restore-password/").concat(restoreCode));
+		ctx.setVariable("actionUrl", baseUrl.concat("api/v1/auth/restore-password/").concat(restoreCode));
 		
 		ctx.setVariable("action", "Restablecer");
 		ctx.setVariable("message2", "Si usted no realizó esta solicitud, favor de notificar al administrador.");

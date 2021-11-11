@@ -5,7 +5,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.0</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pineapple-supermarket</groupId>
 	<artifactId>tienda-api</artifactId>
@@ -28,12 +28,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 			<!--Se excluye para deploy en jboss  -->
-			<!-- <exclusions>
+			<exclusions>
 				<exclusion>
 					<groupId> org.springframework.boot</groupId>
 					<artifactId> spring-boot-starter-tomcat</artifactId>
 				</exclusion>
-			</exclusions> -->
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

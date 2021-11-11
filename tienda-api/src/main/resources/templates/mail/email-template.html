@@ -52,53 +52,59 @@ table, td, div, h1, p {
 </head>
 <body style="background: #ffffff;">
 	<div role="article"
-		style="margin:auto; max-width: 600px; text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #939297;">
+		style="margin:auto; max-width: 80%; text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #939297;">
 		<table role="presentation"
 			style="width: 100%; border: none; border-spacing: 0; text-align: center; font-family: Arial, sans-serif; font-size: 16px; line-height: 22px; color: #363636;">
 			<tr>
 				<td
-					style="padding: 10px 20px; text-align: center; font-size: 24px; font-weight: bold; background-color: #57B089;">
+					style="padding: 10px 20px; text-align: center; font-size: 24px; font-weight: bold;
+					 background-color: #57B089;">
 					<a href="https://pineapple-front.herokuapp.com/"
 					style="text-decoration: none;">
-					<img
-						src="../static/images/pineapple_logo.png" alt="Pineapple"
-						width="165"
-						style="width: 165px; max-width: 80%; height: auto; border: none; text-decoration: none; color: #ffffff;"></a>
+						<img  alt="Pineapple" src="https://res.cloudinary.com/db3fi2spx/image/upload/v1636611463/pina.cd4100f1_tkeoiv.png"						
+						width="200" style="width: 165px; max-width: 80%; height: auto; 
+						border: none; color: #ffffff;"/>
+					</a>
 
 				</td>
 			</tr>
 			<tr style="text-align:left;">
-				<td style="padding: 30px; background-color: #ffffff;">
-					<span
-						style="margin-top: 0; margin-bottom: 16px; line-height: 32px; font-weight: bold; letter-spacing: -0.02em;">Hola,
-					</span> 
-					<span
-						style="margin-top: 0; margin-bottom: 16px; line-height: 32px; font-weight: bold; letter-spacing: -0.02em;"
-						th:text="${nameUser}">...
-					</span>
-				<p th:text="message" style="margin: 0;"></p>
+				<td style="padding: 30px 30px 0 30px; background-color: #ffffff;">					
+					<h2
+						style="margin-top: 0; margin-bottom: 16px; line-height: 32px; font-weight: bold; 
+						letter-spacing: -0.02em;" th:text="${'¡Hola, ' + nameUser} + '!'">Saludo
+					</h2>
+									
+					<p th:text="${message}" style="margin: 5px, auto;">Mensaje 1</p>
 				</td>
 			</tr>
-
+				
 			<tr>
-				<td
-					style="padding: 35px 30px 11px 30px; font-size: 0; background-color: #ffffff; border-bottom: 1px solid #f0f0f5; border-color: rgba(201, 201, 207, .35);">
-
+				<td style="padding: 5px 30px; font-size: 0; background-color: #ffffff; 
+					border-bottom: 1px solid #f0f0f5; border-color: rgba(201, 201, 207, .35);">		
 					<div class="col-lge"
-						style="text-align: center; display: inline-block; width: 100%; max-width: 395px; vertical-align: top; padding-bottom: 20px; font-family: Arial, sans-serif; font-size: 16px; line-height: 22px; color: #363636;">
-						<p style="margin: 0;">
+						style="text-align: center; display: inline-block; width: 100%; max-width: 395px; 
+						vertical-align: top; padding-bottom: 20px; font-family: Arial, sans-serif; 
+						font-size: 16px; line-height: 22px; color: #363636;">
+						
+						<p style="margin:0 10px;">
 							<a th:href="${actionUrl}"
 								style="background: #F3C74F; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 4px; display: inline-block; mso-padding-alt: 0; text-underline-color: #ff3884">
 								<span th:text="${action}"
 								style="mso-text-raise: 10pt; font-weight: bold;"></span>
 							</a>
 						</p>
-					</div>
+						<br/>
+						<p style="color:black;margin:5px;" th:text="${actionUrl}">Enlace</p>
+						<br/>
+						<p th:text="${message2}" style="margin: 0;font-style: italic;color:#000000;">Mensaje2</p>
+					</div>	
 				</td>
+				
 			</tr>
 			<tr>
-				<td style="padding: 30px; background-color: #E6E6E6;">
-					<p th:text="${message2}" style="margin: 0;"></p>
+				<td style="padding: 15px 30px; background-color: #E6E6E6;">
+					<p style="margin: 0;font-style: italic;"> Copyright © Supermarket Pineapple 2021</p>
 				</td>
 			</tr>
 		</table>

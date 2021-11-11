@@ -1,0 +1,11 @@
+com.pineapplesupermarket.tiendaapi
+com.pineapplesupermarket.tiendaapi.controllers
+com.pineapplesupermarket.tiendaapi.dto
+com.pineapplesupermarket.tiendaapi.enums
+com.pineapplesupermarket.tiendaapi.exception
+com.pineapplesupermarket.tiendaapi.models
+com.pineapplesupermarket.tiendaapi.repositories
+com.pineapplesupermarket.tiendaapi.security
+com.pineapplesupermarket.tiendaapi.services
+com.pineapplesupermarket.tiendaapi.servicesImpl
+com.pineapplesupermarket.tiendaapi.util

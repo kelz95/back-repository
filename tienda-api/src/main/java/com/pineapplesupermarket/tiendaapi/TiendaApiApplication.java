@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class TiendaApiApplication extends SpringBootServletInitializer{
 	
+	//Para servlet externo
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(TiendaApiApplication.class);
