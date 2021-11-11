@@ -11,11 +11,11 @@ import javax.validation.constraints.Size;
 public class RestorePasswordDTO {
 	
 	@NotBlank
-	@Size(min=8, max=200)
+	@Size(min=8, max=30)
 	private String username;
 	
 	@NotBlank
-	@Size(min=8, max=200)
+	@Size(min=8, max=30)
 	private String password;
 
 	public RestorePasswordDTO() {

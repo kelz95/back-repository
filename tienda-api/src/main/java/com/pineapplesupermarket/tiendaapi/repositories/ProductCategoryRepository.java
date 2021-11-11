@@ -10,7 +10,9 @@ import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
  *@author Raquel de la Rosa 
  *@version 1.0
  */
-public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Integer>{
+public interface ProductCategoryRepository extends JpaRepository<ProductCategory, Long>{
 
 	Optional<ProductCategory> findByCode(String code);
+	
+	Optional<ProductCategory> findByCodeAndIdProductCategoryNot(String code, long id);
 }

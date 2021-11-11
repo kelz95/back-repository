@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 /**
  *Modelo de las categorías del producto
  *@author Raquel de la Rosa 
@@ -18,19 +19,21 @@ public class ProductCategory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_product_category")
-	private Integer idProductCategory;
+	private Long idProductCategory;
 	
+	@NotEmpty
 	@Column(name = "code", length = 30, unique = true, nullable = false)
 	private String code;
 	
+	@NotEmpty
 	@Column(name = "description", length = 50, nullable = false)
 	private String description;
 	
 	
-	public long getIdProductCategory() {
+	public Long getIdProductCategory() {
 		return idProductCategory;
 	}
-	public void setIdProductCategory(Integer idProductCategory) {
+	public void setIdProductCategory(Long idProductCategory) {
 		this.idProductCategory = idProductCategory;
 	}
 	public String getCode() {
