@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:v="urn:schemas-microsoft-com:vml"
+	xmlns:o="urn:schemas-microsoft-com:office:office"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<title></title>
+<style>
+#outlook a {
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+}
+
+table, td, div, h1, p {
+	border-collapse: collapse;
+	font-family: Arial, sans-serif;
+}
+
+@media screen and (max-width: 530px) {
+	.unsub {
+		display: block;
+		padding: 8px;
+		margin-top: 14px;
+		border-radius: 6px;
+		background-color: #555555;
+		text-decoration: none !important;
+		font-weight: bold;
+	}
+	.col-lge {
+		max-width: 100% !important;
+	}
+}
+
+@media screen and (min-width: 531px) {
+	.col-sml {
+		max-width: 27% !important;
+	}
+	.col-lge {
+		max-width: 73% !important;
+	}
+}
+</style>
+</head>
+<body style="background: #ffffff;">
+	<div role="article"
+		style="margin:auto; max-width: 600px; text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; background-color: #939297;">
+		<table role="presentation"
+			style="width: 100%; border: none; border-spacing: 0; text-align: center; font-family: Arial, sans-serif; font-size: 16px; line-height: 22px; color: #363636;">
+			<tr>
+				<td
+					style="padding: 10px 20px; text-align: center; font-size: 24px; font-weight: bold; background-color: #57B089;">
+					<a href="https://pineapple-front.herokuapp.com/"
+					style="text-decoration: none;">
+					<img
+						src="../static/images/pineapple_logo.png" alt="Pineapple"
+						width="165"
+						style="width: 165px; max-width: 80%; height: auto; border: none; text-decoration: none; color: #ffffff;"></a>
+
+				</td>
+			</tr>
+			<tr style="text-align:left;">
+				<td style="padding: 30px; background-color: #ffffff;">
+					<span
+						style="margin-top: 0; margin-bottom: 16px; line-height: 32px; font-weight: bold; letter-spacing: -0.02em;">Hola,
+					</span> 
+					<span
+						style="margin-top: 0; margin-bottom: 16px; line-height: 32px; font-weight: bold; letter-spacing: -0.02em;"
+						th:text="${nameUser}">...
+					</span>
+				<p th:text="message" style="margin: 0;"></p>
+				</td>
+			</tr>
+
+			<tr>
+				<td
+					style="padding: 35px 30px 11px 30px; font-size: 0; background-color: #ffffff; border-bottom: 1px solid #f0f0f5; border-color: rgba(201, 201, 207, .35);">
+
+					<div class="col-lge"
+						style="text-align: center; display: inline-block; width: 100%; max-width: 395px; vertical-align: top; padding-bottom: 20px; font-family: Arial, sans-serif; font-size: 16px; line-height: 22px; color: #363636;">
+						<p style="margin: 0;">
+							<a th:href="${actionUrl}"
+								style="background: #F3C74F; text-decoration: none; padding: 10px 25px; color: #ffffff; border-radius: 4px; display: inline-block; mso-padding-alt: 0; text-underline-color: #ff3884">
+								<span th:text="${action}"
+								style="mso-text-raise: 10pt; font-weight: bold;"></span>
+							</a>
+						</p>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="padding: 30px; background-color: #E6E6E6;">
+					<p th:text="${message2}" style="margin: 0;"></p>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

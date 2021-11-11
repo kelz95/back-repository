@@ -5,7 +5,6 @@ import java.security.Principal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pineapplesupermarket.tiendaapi.dto.ResponseDTO;
 import com.pineapplesupermarket.tiendaapi.enums.ResponseCodeEnum;
-import com.pineapplesupermarket.tiendaapi.events.OnRestorePasswordEvent;
 import com.pineapplesupermarket.tiendaapi.exception.DuplicateEntryException;
 import com.pineapplesupermarket.tiendaapi.exception.EntityNotFoundException;
 import com.pineapplesupermarket.tiendaapi.models.RestoreCode;
@@ -24,8 +22,10 @@ import com.pineapplesupermarket.tiendaapi.models.User;
 import com.pineapplesupermarket.tiendaapi.repositories.RoleRepository;
 import com.pineapplesupermarket.tiendaapi.repositories.UserRepository;
 import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
+import com.pineapplesupermarket.tiendaapi.services.IEmailService;
 import com.pineapplesupermarket.tiendaapi.services.IRestoreCodeService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
+import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 /**
  *Implementación del servicio del usuario
  *@author Laura Saldaña 
@@ -51,7 +51,7 @@ public class UserServiceImpl implements IUserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	private ApplicationEventPublisher eventPubliser;
+	private IEmailService emailService;
 	
 	/** Método para encontrar los usuarios
 	 *@param pageable
@@ -194,15 +194,26 @@ public class UserServiceImpl implements IUserService {
 		}
 		
 		RestoreCode restoreCode = this.restoreCodeService.create(usuario);
+			
+		String code = restoreCode.getCode();
+		String username = restoreCode.getUser().getUsername();
+		
+		logger.info("Restore Password: username: [" + username
+				+ "] code: [" + code + "]");
 		try {
-			this.eventPubliser.publishEvent(new OnRestorePasswordEvent(restoreCode));
-			return new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(),
-					ResponseCodeEnum.PROCESADO.getMensaje());
+			this.emailService.sendRestorePasswordMail(
+					username, 				
+					restoreCode.getUser().getEmail(),
+					code);
 		}catch(Exception e) {
-			logger.info("Error al enviar restore password email", e.getMessage());
+			LoggerUtils.logException(logger, "Fail to send restore password email ", 
+					e.getMessage());
+			e.printStackTrace();
 			return new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(),
-					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Error al enviar email"));
+					"Error al enviar correo con codigo");
 		}
+		return new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(),
+				ResponseCodeEnum.PROCESADO.getMensaje());
 	}
 	/** Método para restaurar el password de un usuario
 	 *@param username

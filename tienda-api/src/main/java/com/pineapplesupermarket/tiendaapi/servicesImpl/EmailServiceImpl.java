@@ -5,11 +5,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -58,14 +59,15 @@ public class EmailServiceImpl implements IEmailService{
 		ctx.setVariable("action", "Restablecer");
 		ctx.setVariable("message2", "Si usted no realizó esta solicitud, favor de notificar al administrador.");
 		
-		SimpleMailMessage email = new SimpleMailMessage();
-		
-		email.setTo(recipientEmail);
-		email.setSubject("Restaurar contraseña");
 		final String htmlContent = this.templateEngine.process(EMAIL_TEMPLATE_NAME, ctx);
-		email.setText(htmlContent);
-
-	    this.javaMailSender.send(email);
+        MimeMessage mimeMessage = this.javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+      
+        helper.setSubject("Restablecer contraseña");
+        helper.setText(htmlContent, true);
+        helper.setTo(recipientEmail);
+        
+        this.javaMailSender.send(mimeMessage);
 
 	}
 

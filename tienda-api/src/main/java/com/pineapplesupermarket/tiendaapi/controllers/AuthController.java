@@ -115,7 +115,7 @@ public class AuthController {
 					ResponseCodeEnum.NO_PROCESADO.getMensaje().concat(". Usuario vacio")), 
 					HttpStatus.BAD_REQUEST);			
 		}
-		LoggerUtils.logRequest(logger, "Create code restore password", "null");
+		LoggerUtils.logRequest(logger, "Create code restore password", parametro);
 
 		try {
 			ResponseDTO response = this.userService.sendRestoreCode(parametro);
