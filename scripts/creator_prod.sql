@@ -55,7 +55,7 @@ ENGINE = InnoDB;
 -- Table `heroku_5e5a99a3d3d237e`.`ps_product_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `heroku_5e5a99a3d3d237e`.`ps_product_category` (
-  `id_product_category` INT NOT NULL,
+  `id_product_category` INT NOT NULL AUTO_INCREMENT,
   `code` VARCHAR(30) NOT NULL,
   `description` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_product_category`),
