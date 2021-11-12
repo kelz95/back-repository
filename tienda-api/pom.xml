@@ -40,12 +40,12 @@
 			<artifactId>javax.servlet-api</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -107,13 +107,7 @@
 		    <artifactId>junit</artifactId>
 		    <scope>test</scope>
 		</dependency>
-		
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-	   
+	
 	</dependencies>
 
 	<build>
@@ -125,5 +119,5 @@
 		</plugins>
 	</build>
 
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 </project>
