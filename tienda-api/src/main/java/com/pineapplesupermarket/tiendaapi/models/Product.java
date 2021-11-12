@@ -47,7 +47,7 @@ public class Product{
 	@Column(nullable = false)
 	private Double unitPrice;
 	
-	@Column(length = 300)
+	@Column(length = 180)
 	private String picture;
 	
 	@Temporal(TemporalType.TIMESTAMP)
