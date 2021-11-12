@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 /**
  *Modelo del producto
  *@author Raquel de la Rosa 
@@ -28,22 +30,27 @@ public class Product{
 	@Column(name = "id_product")
 	private long idProduct;
 	
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="id_product_category")
 	private ProductCategory productCategory;
 	
+	@NotBlank
 	@Column(length = 20, nullable = false, unique = true)
 	private String code;
 	
+	@NotBlank
 	@Column(length = 45, nullable = false)
 	private String name;
 	
 	@Column(length = 100)
 	private String description;
 	
+	@NotNull
 	@Column(nullable = false)
 	private Integer quantity;
 	
+	@NotNull
 	@Column(nullable = false)
 	private Double unitPrice;
 	

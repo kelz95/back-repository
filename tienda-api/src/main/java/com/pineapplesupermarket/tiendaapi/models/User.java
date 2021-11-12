@@ -15,7 +15,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 /**
  *Modelo del usuario
@@ -36,23 +36,23 @@ public class User implements Serializable{
 	@NotNull
 	private Role role;
 	
-	@NotEmpty
+	@NotBlank
 	@Column(length = 30, nullable = false, unique = true)
 	private String username;
 	
-	@NotEmpty
+	@NotBlank
 	@Column(length = 200, nullable = false)
 	private String password;
 	
-	@NotEmpty
+	@NotBlank
 	@Column(length = 60, nullable = false)
 	private String email;
 	
-	@NotEmpty
+	@NotBlank
 	@Column(length = 45, nullable = false, unique = true)
 	private String name;
 	
-	@NotEmpty
+	@NotBlank
 	@Column(length = 45, nullable = false)
 	private String lastname;
 	

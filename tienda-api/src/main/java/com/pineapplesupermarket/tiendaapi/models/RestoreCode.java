@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 /**
  *Modelo del código de restauración de pass
  *@author Raquel de la Rosa 
@@ -34,7 +36,7 @@ public class RestoreCode {
 	private String code;
 	
 	@Column(length = 1, nullable = false)
-	private boolean activated;
+	private Boolean activated;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="expiration_date", nullable = false)

@@ -210,7 +210,6 @@ public class UserServiceImpl implements IUserService {
 		}catch(Exception e) {
 			LoggerUtils.logException(logger, "Fail to send restore password email ", 
 					e.getMessage());
-			e.printStackTrace();
 			return new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(),
 					"Error al enviar correo con codigo");
 		}

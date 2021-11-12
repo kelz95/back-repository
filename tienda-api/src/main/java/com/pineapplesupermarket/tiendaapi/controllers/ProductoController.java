@@ -144,14 +144,16 @@ public class ProductoController {
 		try {
 			Product productObject = JsonUtils.convertFromJsonToObject(producto, Product.class);
 			
-			if(productObject.getCode().isBlank() && 
-					productObject.getName().isBlank() && 
-					productObject.getProductCategory().getCode().isBlank() &&
-					productObject.getQuantity() == null && productObject.getUnitPrice() == null) {
+			if(productObject.getCode().isBlank() ||
+				productObject.getName().isBlank() || 
+				productObject.getProductCategory().getCode().isBlank() ||
+				productObject.getQuantity() == null ||
+				productObject.getUnitPrice() == null) { 
 				LoggerUtils.logResponse(logger, HttpStatus.BAD_REQUEST.toString(), "Parametros vacios");
 				return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
-			        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.BAD_REQUEST);
+			        		"Parametros vacios"), HttpStatus.BAD_REQUEST);
 			}
+			
 	        Product productCreated = productoService.create(productObject, picture);
 			LoggerUtils.logResponse(logger, HttpStatus.CREATED.toString(), "Product id: " + productCreated.getIdProduct());
 	        return new ResponseEntity<>(productCreated, HttpStatus.CREATED);
@@ -168,10 +170,15 @@ public class ProductoController {
 			LoggerUtils.logException(logger, HttpStatus.BAD_REQUEST.toString(), e.getMessage());
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
 		        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.BAD_REQUEST);	
+		} catch(NullPointerException e) {
+			LoggerUtils.logResponse(logger, HttpStatus.BAD_REQUEST.toString(), "Parametros vacios");
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+		        		"Parametros vacios"), HttpStatus.BAD_REQUEST);
 		} catch(Exception e) {
 			LoggerUtils.logException(logger, HttpStatus.INTERNAL_SERVER_ERROR.toString(), e.getMessage());
-	        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
 	        		ResponseCodeEnum.NO_PROCESADO.getMensaje()), HttpStatus.INTERNAL_SERVER_ERROR);
+		
 		}
 	}
 	/**End point que sube una imagen
@@ -188,7 +195,7 @@ public class ProductoController {
 			Principal principal) { 
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Upload product picture", username);
-
+		
 		try {
 			this.productoService.upload(id,picture);
 			
