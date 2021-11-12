@@ -102,12 +102,12 @@
 	       <version>1.29.0</version>
 	   </dependency>
 	   
-	   <!-- https://mvnrepository.com/artifact/junit/junit -->
+	   <!-- https://mvnrepository.com/artifact/junit/junit
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <scope>test</scope>
-		</dependency>
+		</dependency>-->
 	
 	</dependencies>
 
