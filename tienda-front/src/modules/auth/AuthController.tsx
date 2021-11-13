@@ -16,7 +16,7 @@ type SignInRequest = {
 
 type SignInResponse = {
   id: number;
-  token: string;
+  accessToken: string;
   type: string; // "Bearer"
   username: string;
   roles: Role[];
@@ -35,12 +35,12 @@ class AuthController {
     if (err || !res) {
       return { data: null, error: err?.response?.data.mensaje || err?.message };
     }
-    useAuthStore.getState().setAccessToken(res.data.token);
     useAuthStore.getState().setUser({
       id: res.data.id,
       roles: res.data.roles,
       username: res.data.username,
     });
+    useAuthStore.getState().setAccessToken(res.data.accessToken);
 
     return { data: res.data, error: null };
   }

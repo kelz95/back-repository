@@ -9,9 +9,10 @@ import Toolbar from "#root/components/Toolbar";
 import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
 
+import CreateProductModal from "./CreateProductModal";
+import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
-import CreateProductModal from "./CreateProductModal";
 
 const defaultProducts: Product[] = [
   {
@@ -60,6 +61,13 @@ const ProductsPage = () => {
       dataTableOptions.pageSize
     }&name=${encodeURI(debouncedSearchString)}`;
     console.log(url);
+
+    const [res, err] = await ProductController.getAll({
+      page: dataTableOptions.pageIndex,
+      size: dataTableOptions.pageSize,
+      name: encodeURI(debouncedSearchString),
+    });
+    console.log({ res, err });
 
     // const [resOperators, errOperators] = await OperatorController.fetchAll({
     //   limit: String(dataTableOptions.limit),

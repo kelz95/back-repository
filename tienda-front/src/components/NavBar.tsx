@@ -10,9 +10,9 @@ const NavBar = () => {
   const { user } = useAuthStore();
   const theme = useTheme();
 
-  if (!user) {
-    useAuthStore.getState().setUser({ id: 1, username: "demito", roles: [] });
-  }
+  const handleLogout = () => {
+    useAuthStore.getState().nullify();
+  };
 
   return (
     <Stack
@@ -28,7 +28,7 @@ const NavBar = () => {
       {user && (
         <Stack direction="row" spacing={4} alignItems="center">
           <Typography color="white" fontSize="1.125rem">{`Welcome, ${user?.username}!`}</Typography>
-          <IconButton tip="Logout">
+          <IconButton onClick={handleLogout} tip="Logout">
             <Logout htmlColor="white" fontSize="large" />
           </IconButton>
         </Stack>

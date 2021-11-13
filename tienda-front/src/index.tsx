@@ -20,7 +20,11 @@ const globalStyles = (
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     {globalStyles}
-    <SnackbarProvider anchorOrigin={{ vertical: "bottom", horizontal: "center" }} maxSnack={3}>
+    <SnackbarProvider
+      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      autoHideDuration={5000}
+      maxSnack={3}
+    >
       <BrowserRouter>
         <React.StrictMode>
           <App />
