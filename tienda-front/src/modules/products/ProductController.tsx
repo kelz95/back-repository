@@ -12,7 +12,6 @@ const productRequest = axios.create({
 productRequest.interceptors.request.use(
   async config => {
     const accessToken = useAuthStore.getState().accessToken;
-    console.log({ accessToken });
     if (accessToken) {
       config.headers = { Authorization: `Bearer ${accessToken}` };
     }
@@ -20,6 +19,18 @@ productRequest.interceptors.request.use(
   },
   error => {
     Promise.reject(error);
+  }
+);
+
+productRequest.interceptors.response.use(
+  response => response,
+  async error => {
+    const accessToken = useAuthStore.getState().accessToken;
+    if (accessToken && error.response.status === 401) {
+      useAuthStore.getState().nullify();
+      return Promise.reject(error);
+    }
+    return Promise.reject(error);
   }
 );
 
