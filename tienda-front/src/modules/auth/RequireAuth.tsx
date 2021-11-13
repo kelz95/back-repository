@@ -9,14 +9,14 @@ type RequireAuthProps = {
 };
 
 const RequireAuth = ({ allowedRoles, children }: RequireAuthProps) => {
-  const { user } = useAuthStore();
+  const { user, accessToken } = useAuthStore();
   const location = useLocation();
 
   if (allowedRoles && allowedRoles.length > 0) {
     if (user && user.roles) return <Navigate to="/login" state={{ from: location }} />;
   }
 
-  if (!user) {
+  if (!user || !accessToken) {
     return <Navigate to="/login" state={{ from: location }} />;
   }
 

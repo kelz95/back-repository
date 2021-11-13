@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import LoginPage from "./modules/auth/LoginPage";
-// import RequireAuth from "./modules/auth/RequireAuth";
+import RequireAuth from "./modules/auth/RequireAuth";
 import NotFoundPage from "./modules/errors/NotFoundPage";
 import HomePage from "./modules/home/HomePage";
 import ProductsPage from "./modules/products/ProductsPage";
@@ -18,9 +18,9 @@ const App = () => {
       <Route
         path="/products"
         element={
-          // <RequireAuth>
-          <ProductsPage />
-          // </RequireAuth>
+          <RequireAuth>
+            <ProductsPage />
+          </RequireAuth>
         }
       />
       <Route
