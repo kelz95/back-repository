@@ -12,12 +12,13 @@ const RequireAuth = ({ allowedRoles, children }: RequireAuthProps) => {
   const { user, accessToken } = useAuthStore();
   const location = useLocation();
 
-  if (allowedRoles && allowedRoles.length > 0) {
-    if (user && user.roles) return <Navigate to="/login" state={{ from: location }} />;
-  }
+  const isAuthenticated = user && accessToken;
 
-  if (!user || !accessToken) {
-    return <Navigate to="/login" state={{ from: location }} />;
+  if (!isAuthenticated) return <Navigate to="/login" state={{ from: location }} />;
+
+  if (allowedRoles && allowedRoles.length > 0) {
+    const isUserRoleAllowed = user.roles.some(role => allowedRoles.includes(role));
+    if (!isUserRoleAllowed) return <Navigate to="/login" state={{ from: location }} />;
   }
 
   return <>{children}</>;
