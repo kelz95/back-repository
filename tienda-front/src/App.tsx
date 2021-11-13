@@ -7,6 +7,8 @@ import HomePage from "./modules/home/HomePage";
 import ProductsPage from "./modules/products/ProductsPage";
 import UsersPage from "./modules/users/UsersPage";
 
+//const [language, setLanguage] = useState("en");
+
 const App = () => {
   return (
     <Routes>

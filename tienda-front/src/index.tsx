@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import theme from "./config/theme";
+import "./translations/i18n";
 
 const globalStyles = (
   <GlobalStyles

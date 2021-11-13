@@ -1,12 +1,19 @@
-import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography, ButtonGroup } from "@mui/material";
 import { useNavigate } from "react-router";
 
 import logo from "#root/assets/pina.png";
 import Copyright from "#root/components/Copyright";
 
+import { useTranslation } from "react-i18next";
+import { languages, namespaces } from "../../translations/i18n.constants";
+
 const HomePage = () => {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation(namespaces.pages.home);
 
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
   const users = [
     { name: "Nombre1", imageSrc: "https://avatars.dicebear.com/api/avataaars/i1.svg" },
     { name: "Nombre2", imageSrc: "https://avatars.dicebear.com/api/avataaars/i2.svg" },
@@ -26,19 +33,31 @@ const HomePage = () => {
           width: "100%",
         }}
       >
-        <Button
-          color="primary"
-          onClick={() => navigate("/login")}
-          size="large"
-          sx={{
-            alignSelf: "end",
-            marginRight: "2rem",
-            marginTop: "1.5rem",
-          }}
-          variant="contained"
+        <Stack
+          alignItems="center"
+          direction="row"
+          justifyContent="space-between"
+          marginTop="2rem"
+          width="100%"
         >
-          Login
-        </Button>
+          <ButtonGroup
+            variant="outlined"
+            aria-label="outlined button group"
+            sx={{ marginLeft: "2rem" }}
+          >
+            <Button onClick={changeLanguage("en")}>English</Button>
+            <Button onClick={changeLanguage("es")}>Español</Button>
+          </ButtonGroup>
+          <Button
+            color="primary"
+            onClick={() => navigate("/login")}
+            size="large"
+            sx={{ marginRight: "2rem" }}
+            variant="contained"
+          >
+            {t("login")}
+          </Button>
+        </Stack>
         <Box sx={{ marginTop: "8rem", width: "50rem" }}>
           <img src={logo} alt="logo" loading="lazy" style={{ width: "100%" }} />
         </Box>
@@ -53,7 +72,7 @@ const HomePage = () => {
             borderRadius: "10px",
           }}
         >
-          Inventory Management System
+          {t("title")}
         </Typography>
       </Box>
 
@@ -80,7 +99,7 @@ const HomePage = () => {
             borderRadius: "10px",
           }}
         >
-          Desarrollado por el grupo 3
+          {t("group")}
         </Typography>
 
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={4}>
