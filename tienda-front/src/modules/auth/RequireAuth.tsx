@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
-import { useAuthStore } from "./stores/useAuthStore";
+
+import { useAuthStore } from "./useAuthStore";
 
 type RequireAuthProps = {
   allowedRoles?: string[];
