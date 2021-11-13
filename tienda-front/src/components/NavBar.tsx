@@ -4,7 +4,7 @@ import { Logout } from "@mui/icons-material";
 
 import SrcLogo from "#root/assets/pina.png";
 import IconButton from "#root/components/IconButton";
-import { useAuthStore } from "#root/modules/auth/stores/useAuthStore";
+import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
 const NavBar = () => {
   const { user } = useAuthStore();

@@ -2,10 +2,11 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 
 import asyncWrapper from "../../lib/asyncWrapper";
 import { BASE_URL_API } from "../../lib/constants";
-import { useTokenStore } from "./stores/useTokenStore";
+import { Role } from "./types";
+import { useAuthStore } from "./useAuthStore";
 
 const authRequest = axios.create({
-  baseURL: `${BASE_URL_API}/api/auth`,
+  baseURL: `${BASE_URL_API}/api/v1/auth`,
 });
 
 type SignInRequest = {
@@ -18,20 +19,34 @@ type SignInResponse = {
   token: string;
   type: string; // "Bearer"
   username: string;
-  roles: string[];
+  roles: Role[];
+};
+
+type SignInError = {
+  codigo: number;
+  mensaje: string;
 };
 
 class AuthController {
   static async signIn(payload: SignInRequest) {
-    const [res, err] = await asyncWrapper<AxiosResponse<SignInResponse>, AxiosError>(
+    const [res, err] = await asyncWrapper<AxiosResponse<SignInResponse>, AxiosError<SignInError>>(
       authRequest.post("/signin", payload)
     );
     if (err || !res) {
-      return { data: null, error: err?.message };
+      return { data: null, error: err?.response?.data.mensaje || err?.message };
     }
-    useTokenStore.getState().setAccessToken(res.data.token);
+    useAuthStore.getState().setAccessToken(res.data.token);
+    useAuthStore.getState().setUser({
+      id: res.data.id,
+      roles: res.data.roles,
+      username: res.data.username,
+    });
 
     return { data: res.data, error: null };
+  }
+
+  static async signOut() {
+    useAuthStore.getState().nullify();
   }
 }
 

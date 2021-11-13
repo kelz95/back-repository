@@ -1,4 +1,5 @@
 import { GlobalStyles, ThemeProvider } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -19,11 +20,13 @@ const globalStyles = (
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     {globalStyles}
-    <BrowserRouter>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </BrowserRouter>
+    <SnackbarProvider anchorOrigin={{ vertical: "bottom", horizontal: "center" }} maxSnack={3}>
+      <BrowserRouter>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </BrowserRouter>
+    </SnackbarProvider>
   </ThemeProvider>,
   document.getElementById("root")
 );

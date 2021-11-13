@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { Controller, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 
@@ -14,17 +15,22 @@ type LoginPayload = {
 const LoginPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const { control, handleSubmit } = useForm<LoginPayload>();
 
   const from = location.state?.from?.pathname || "/products";
 
   const onSubmit = async (data: LoginPayload) => {
-    console.log({ data });
     const signInResult = await AuthController.signIn({
       username: data.username,
       password: data.password,
     });
-    console.log({ signInResult });
+
+    if (signInResult.error || !signInResult.data) {
+      enqueueSnackbar(signInResult.error, { variant: "error" });
+      return;
+    }
+    enqueueSnackbar("Logueado exitosamente", { variant: "success" });
     navigate(from, { replace: true });
   };
 
