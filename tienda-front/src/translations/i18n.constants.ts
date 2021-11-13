@@ -15,3 +15,8 @@ export const languages = {
   es: "es",
   en: "en",
 };
+
+export const languagesMap = [
+  { value: "es", label: "Español" },
+  { value: "en", label: "English" },
+];
