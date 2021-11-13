@@ -54,7 +54,7 @@ public class EmailServiceImpl implements IEmailService{
 		
 		ctx.setVariable("nameUser", recipientName);
 		ctx.setVariable("message", message);
-		ctx.setVariable("actionUrl", baseUrl.concat("api/v1/auth/restore-password/").concat(restoreCode));
+		ctx.setVariable("actionUrl", baseUrl.concat("/restore-password/").concat(restoreCode));
 		
 		ctx.setVariable("action", "Restablecer");
 		ctx.setVariable("message2", "Si usted no realizó esta solicitud, favor de notificar al administrador.");
