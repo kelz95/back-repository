@@ -1,7 +1,15 @@
-import { Box, Button, Typography, Grid } from "@mui/material";
+import { Box, Button, Typography, Grid, ButtonGroup } from "@mui/material";
 import { Link } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+import { languages, namespaces } from "../../translations/i18n.constants";
+
 const NotFoundPage = () => {
+  const { t, i18n } = useTranslation(namespaces.pages.errors);
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
+
   return (
     <Box
       id="notfound"
@@ -10,6 +18,14 @@ const NotFoundPage = () => {
         height: "100vh",
       }}
     >
+      <ButtonGroup
+        variant="outlined"
+        aria-label="outlined button group"
+        sx={{ marginLeft: "2rem" }}
+      >
+        <Button onClick={changeLanguage("en")}>English</Button>
+        <Button onClick={changeLanguage("es")}>Español</Button>
+      </ButtonGroup>
       <Box
         className="notfound"
         sx={{
@@ -44,7 +60,7 @@ const NotFoundPage = () => {
               paddingLeft: "6px",
             }}
           >
-            Oops! Page not found
+            {t("notFound")}
           </Typography>
           <Typography
             component="h1"
@@ -87,7 +103,8 @@ const NotFoundPage = () => {
             marginBottom: "25px",
           }}
         >
-          we are sorry, but the page you requested was not found
+          {" "}
+          {t("message")}
         </Typography>
         <Button
           component={Link}
@@ -95,7 +112,8 @@ const NotFoundPage = () => {
           variant="contained"
           sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
         >
-          Return to Pineapple page
+          {" "}
+          {t("return")}
         </Button>
       </Box>
     </Box>
