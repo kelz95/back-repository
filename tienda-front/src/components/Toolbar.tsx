@@ -1,16 +1,25 @@
 import { Add, Search } from "@mui/icons-material";
-import { InputAdornment, Stack, TextField } from "@mui/material";
+import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
-
-import IconButton from "#root/components/IconButton";
 
 type ToolbarProps = {
   onCreate?: () => void;
   searchValue?: string;
   setSearchValue?: Dispatch<SetStateAction<string>>;
+
+  withSearchBar?: boolean;
+  createButtonText?: string;
 };
 
-const Toolbar = ({ onCreate, searchValue, setSearchValue }: ToolbarProps) => {
+const Toolbar = ({
+  onCreate,
+  searchValue,
+  setSearchValue,
+
+  withSearchBar,
+
+  createButtonText = "Create product",
+}: ToolbarProps) => {
   return (
     <Stack
       direction="row"
@@ -19,22 +28,25 @@ const Toolbar = ({ onCreate, searchValue, setSearchValue }: ToolbarProps) => {
       marginBottom="1.5rem"
       paddingX="0rem"
     >
-      <TextField
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        label="Search"
-        variant="outlined"
-        value={searchValue}
-        onChange={evt => setSearchValue?.(evt.target.value)}
-      />
-      <IconButton aria-label="create product" tip="Create new product" onClick={onCreate}>
-        <Add color="primary" fontSize="large" />
-      </IconButton>
+      {withSearchBar && (
+        <TextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+          }}
+          label="Search"
+          variant="outlined"
+          value={searchValue}
+          onChange={evt => setSearchValue?.(evt.target.value)}
+        />
+      )}
+      {!withSearchBar && <div />}
+      <Button onClick={onCreate} startIcon={<Add fontSize="large" />} variant="outlined">
+        {createButtonText}
+      </Button>
     </Stack>
   );
 };
