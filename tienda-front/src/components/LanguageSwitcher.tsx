@@ -6,7 +6,11 @@ import { useTranslation } from "react-i18next";
 import IconButton from "#root/components/IconButton";
 import { languagesMap, namespaces } from "#root/translations/i18n.constants";
 
-const LanguageSwitcher = () => {
+type LanguageSwitcherProps = {
+  logoColor?: string;
+};
+
+const LanguageSwitcher = ({ logoColor = "white" }: LanguageSwitcherProps) => {
   const { i18n } = useTranslation(namespaces.common);
 
   const [languagesAnchorEl, setLanguagesAnchorEl] = useState<HTMLElement | null>(null);
@@ -22,7 +26,7 @@ const LanguageSwitcher = () => {
   return (
     <>
       <IconButton onClick={handleLanguagesMenu} tip="Change language">
-        <Translate htmlColor="white" fontSize="large" />
+        <Translate htmlColor={logoColor} fontSize="large" />
       </IconButton>
       <Menu
         anchorEl={languagesAnchorEl}
