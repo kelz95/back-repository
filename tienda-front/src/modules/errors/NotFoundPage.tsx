@@ -1,14 +1,12 @@
-import { Box, Button, Typography, Grid, ButtonGroup } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useTranslation } from "react-i18next";
-import { languages, namespaces } from "../../translations/i18n.constants";
+import LanguageSwitcher from "#root/components/LanguageSwitcher";
+import { namespaces } from "#root/translations/i18n.constants";
 
 const NotFoundPage = () => {
-  const { t, i18n } = useTranslation(namespaces.pages.errors);
-  const changeLanguage = (language: string) => () => {
-    i18n.changeLanguage(language);
-  };
+  const { t } = useTranslation(namespaces.pages.errors);
 
   return (
     <Box
@@ -18,14 +16,16 @@ const NotFoundPage = () => {
         height: "100vh",
       }}
     >
-      <ButtonGroup
-        variant="outlined"
-        aria-label="outlined button group"
-        sx={{ marginLeft: "2rem" }}
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        paddingTop="2rem"
+        paddingRight="2rem"
       >
-        <Button onClick={changeLanguage("en")}>English</Button>
-        <Button onClick={changeLanguage("es")}>Español</Button>
-      </ButtonGroup>
+        <div />
+        <LanguageSwitcher logoColor="inherit" />
+      </Stack>
       <Box
         className="notfound"
         sx={{
