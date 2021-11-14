@@ -1,4 +1,14 @@
-import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+  ButtonGroup,
+  Stack,
+} from "@mui/material";
 import { useSnackbar } from "notistack";
 import { Controller, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
@@ -7,12 +17,20 @@ import Copyright from "../../components/Copyright";
 import PineappleIcon from "../../assets/pina_sola.png";
 import AuthController from "./AuthController";
 
+import { useTranslation } from "react-i18next";
+import { languages, namespaces } from "../../translations/i18n.constants";
+
 type LoginPayload = {
   username: string;
   password: string;
 };
 
 const LoginPage = () => {
+  const { t, i18n } = useTranslation(namespaces.pages.login);
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
+
   const location = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -34,13 +52,29 @@ const LoginPage = () => {
     navigate(from, { replace: true });
   };
 
-  const title = "Login";
-  const labelUsername = "Username";
-  const labelPassword = "Password";
-  const buttonText = "Login";
+  // const title = "Login";
+  // const labelUsername = "Username";
+  // const labelPassword = "Password";
+  // const buttonText = "Login";
 
   return (
     <Container component="main" maxWidth="xs" sx={{ paddingTop: 8 }}>
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        marginTop="2rem"
+        width="100%"
+      >
+        <ButtonGroup
+          variant="outlined"
+          aria-label="outlined button group"
+          sx={{ marginLeft: "2rem" }}
+        >
+          <Button onClick={changeLanguage("en")}>English</Button>
+          <Button onClick={changeLanguage("es")}>Español</Button>
+        </ButtonGroup>
+      </Stack>
       <Paper
         sx={{
           paddingX: 8,
@@ -56,7 +90,7 @@ const LoginPage = () => {
         />
 
         <Typography component="h1" variant="h5">
-          {title}
+          {t("title")}
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -70,7 +104,7 @@ const LoginPage = () => {
                 autoFocus
                 fullWidth
                 id="username"
-                label={labelUsername}
+                label={t("labelUsername")}
                 margin="normal"
                 required
                 {...field}
@@ -87,7 +121,7 @@ const LoginPage = () => {
                 autoComplete="current-password"
                 fullWidth
                 id="password"
-                label={labelPassword}
+                label={t("labelPassword")}
                 margin="normal"
                 required
                 type="password"
@@ -97,7 +131,7 @@ const LoginPage = () => {
           />
 
           <Button fullWidth type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-            {buttonText}
+            {t("buttonText")}
           </Button>
         </Box>
       </Paper>
