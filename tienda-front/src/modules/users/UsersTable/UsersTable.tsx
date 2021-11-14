@@ -13,6 +13,9 @@ import {
 import { User } from "../types";
 import UserRow from "./UserRow";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 type UsersTableProps = {
   data: User[];
   onDelete?: (id: number) => void;
@@ -33,16 +36,18 @@ const UsersTable = ({
   setPage,
   setRowsPerPage,
 }: UsersTableProps) => {
+  const { t } = useTranslation(namespaces.pages.uTable);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="products table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Username</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Role</TableCell>
-            <TableCell align="right">Is active</TableCell>
+            <TableCell>{t("username")}</TableCell>
+            <TableCell align="right">{t("name")}</TableCell>
+            <TableCell align="right">{t("role")}</TableCell>
+            <TableCell align="right">{t("active")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

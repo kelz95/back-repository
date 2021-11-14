@@ -14,6 +14,9 @@ import { Product } from "#root/modules/products/types";
 
 import ProductRow from "./ProductRow";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 type ProductsTableProps = {
   data: Product[];
   onDelete?: (id: number) => void;
@@ -34,16 +37,18 @@ const ProductsTable = ({
   setPage,
   setRowsPerPage,
 }: ProductsTableProps) => {
+  const { t } = useTranslation(namespaces.pages.productsTable);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="products table">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Code</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Quantity</TableCell>
-            <TableCell align="right">Unit price (S/.)</TableCell>
+            <TableCell>{t("code")}</TableCell>
+            <TableCell>{t("name")}</TableCell>
+            <TableCell align="right">{t("quantity")}</TableCell>
+            <TableCell align="right">{t("uPrice")} (USD)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -54,7 +59,7 @@ const ProductsTable = ({
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25, { label: `${t("all")}`, value: -1 }]}
               colSpan={3}
               count={data.length}
               rowsPerPage={rowsPerPage}

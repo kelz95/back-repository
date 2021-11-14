@@ -8,6 +8,12 @@ export const namespaces = {
     productsTable: "pages.productsTable",
     cProductForm: "pages.cProductForm",
     cProductModal: "pages.cProductModal",
+    users: "pages.users",
+    uRow: "pages.uRow",
+    uTable: "pages.uTable",
+    cUserForm: "pages.cUserForm",
+    cUserModal: "pages.cUserModal",
+    toolbar: "pages.toolbar",
   },
   common: "common",
 };

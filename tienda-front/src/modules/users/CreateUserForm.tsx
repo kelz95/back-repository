@@ -1,6 +1,9 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 export type CreateUserFormPayload = {
   name: string;
   description: string;
@@ -15,6 +18,8 @@ type CreateUserFormProps = {
 };
 
 const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
+  const { t } = useTranslation(namespaces.pages.cUserForm);
+
   const { control, handleSubmit } = useForm<CreateUserFormPayload>();
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -24,7 +29,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
         name="name"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField autoFocus fullWidth label="Name" margin="normal" required {...field} />
+          <TextField autoFocus fullWidth label={t("name")} margin="normal" required {...field} />
         )}
       />
       <Controller
@@ -33,7 +38,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
         name="description"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField fullWidth label="Description" margin="normal" required {...field} />
+          <TextField fullWidth label={t("description")} margin="normal" required {...field} />
         )}
       />
       <Controller
@@ -42,7 +47,14 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
         name="quantity"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField fullWidth label="Quantity" margin="normal" required type="number" {...field} />
+          <TextField
+            fullWidth
+            label={t("quantity")}
+            margin="normal"
+            required
+            type="number"
+            {...field}
+          />
         )}
       />
       <Controller
@@ -53,7 +65,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
         render={({ field }) => (
           <TextField
             fullWidth
-            label="Unit Price (S/.)"
+            label={t("uPrice")}
             margin="normal"
             required
             type="number"
@@ -63,7 +75,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
       />
 
       <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-        Create
+        {t("create")}
       </Button>
     </Box>
   );

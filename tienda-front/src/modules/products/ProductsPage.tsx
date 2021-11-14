@@ -3,6 +3,7 @@ import { Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
 
 import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
@@ -10,7 +11,6 @@ import NavBar from "#root/components/NavBar";
 import Toolbar from "#root/components/Toolbar";
 import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
-import { namespaces } from "#root/translations/i18n.constants";
 
 import CategoryController from "../categories/CategoryController";
 import CategoriesTable from "../categories/CategoriesTable";
@@ -45,7 +45,7 @@ const defaultProducts: Product[] = [
 ];
 
 const ProductsPage = () => {
-  // const { t, i18n } = useTranslation(namespaces.pages.products);
+  const { t } = useTranslation(namespaces.pages.products);
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -148,15 +148,15 @@ const ProductsPage = () => {
           {t("title")}
         </Typography> */}
         <Typography component="h1" variant="h3" marginBottom="2rem" marginTop="1rem">
-          Inventory
+          {t("inventory")}
         </Typography>
 
         <Typography component="h2" variant="h4" marginBottom="2rem" marginTop="1rem">
-          Products
+          {t("products")}
         </Typography>
 
         <Toolbar
-          createButtonText="Create product"
+          createButtonText={t("cProduct")}
           onCreate={handleCreate}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
@@ -174,10 +174,10 @@ const ProductsPage = () => {
         />
 
         <Typography component="h2" variant="h4" marginBottom="2rem" marginTop="1rem">
-          Categories
+          {t("categories")}
         </Typography>
 
-        <Toolbar createButtonText="Create category" onCreate={handleCreateCategory} />
+        <Toolbar createButtonText={t("cCategory")} onCreate={handleCreateCategory} />
         <CategoriesTable
           data={categories}
           onEdit={handleEditCategory}

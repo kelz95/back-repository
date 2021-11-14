@@ -7,7 +7,7 @@ import { IMAGE_FALLBACK_URL } from "#root/lib/constants";
 import { Product } from "#root/modules/products/types";
 
 import { useTranslation } from "react-i18next";
-import { languages, namespaces } from "../../../translations/i18n.constants";
+import { namespaces } from "../../../translations/i18n.constants";
 
 type ProductRowProps = {
   onDelete?: (id: number) => void;
@@ -18,10 +18,7 @@ type ProductRowProps = {
 const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { t, i18n } = useTranslation(namespaces.pages.productRow);
-  const changeLanguage = (language: string) => () => {
-    i18n.changeLanguage(language);
-  };
+  const { t } = useTranslation(namespaces.pages.productRow);
 
   return (
     <Fragment>
@@ -50,12 +47,12 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
             <Box sx={{ marginY: 2, marginX: 1 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography component="h5" variant="h6" gutterBottom>
-                  {`Product: ${row.code}-${row.name}`}
+                  {`${t("product")}: ${row.code}-${row.name}`}
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <IconButton
                     aria-label="update"
-                    tip="Update"
+                    tip={t("bUpdate")}
                     iconButtonProps={{ color: "info" }}
                     onClick={() => onEdit?.(row)}
                   >
@@ -63,7 +60,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                   </IconButton>
                   <IconButton
                     aria-label="delete"
-                    tip="Delete"
+                    tip={t("bDelete")}
                     iconButtonProps={{ color: "error" }}
                     onClick={() => onDelete?.(row.idProduct)}
                   >
@@ -78,8 +75,12 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                     {row.description}
                   </Typography>
 
-                  <Typography component="p">Quantity: {row.quantity}</Typography>
-                  <Typography component="p">Unit Price: {row.unitPrice}</Typography>
+                  <Typography component="p">
+                    {t("quantity")}: {row.quantity}
+                  </Typography>
+                  <Typography component="p">
+                    {t("uPrice")}: {row.unitPrice}
+                  </Typography>
                 </Box>
                 <Box height="10rem">
                   <img src={row.pictures || IMAGE_FALLBACK_URL} alt="product" height="100%" />

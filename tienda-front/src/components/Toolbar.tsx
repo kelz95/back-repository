@@ -2,6 +2,9 @@ import { Add, Search } from "@mui/icons-material";
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 type ToolbarProps = {
   onCreate?: () => void;
   searchValue?: string;
@@ -20,6 +23,7 @@ const Toolbar = ({
 
   createButtonText = "Create product",
 }: ToolbarProps) => {
+  const { t } = useTranslation(namespaces.pages.toolbar);
   return (
     <Stack
       direction="row"
@@ -37,7 +41,7 @@ const Toolbar = ({
               </InputAdornment>
             ),
           }}
-          label="Search"
+          label={t("search")}
           variant="outlined"
           value={searchValue}
           onChange={evt => setSearchValue?.(evt.target.value)}

@@ -14,9 +14,14 @@ import UserController from "./UserController";
 import UsersTable from "./UsersTable";
 import { User } from "./types";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 const defaultUsers: User[] = [];
 
 const UsersPage = () => {
+  const { t } = useTranslation(namespaces.pages.users);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
   const [users, setUsers] = useState<User[]>(defaultUsers);
@@ -73,10 +78,11 @@ const UsersPage = () => {
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
-          Users List
+          {t("list")}
         </Typography>
 
         <Toolbar
+          createButtonText={t("cUser")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           onCreate={handleCreate}
