@@ -3,8 +3,8 @@ SELECT *
 FROM ps_user;
 --
 INSERT INTO `ps_role` (`id_role`, `code`, `description`)
-VALUES (1, 'ROL_ADMIN', 'Administrador'),
-  (2, 'ROL_VIEWER', 'Usuario Regular');
+VALUES (1, 'ROLE_ADMIN', 'Administrador'),
+  (2, 'ROLE_VIEWER', 'Usuario Regular');
 --
 INSERT INTO `ps_user` (
     `id_user`,
