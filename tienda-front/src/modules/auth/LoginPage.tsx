@@ -1,15 +1,15 @@
 import { Avatar, Box, Button, Container, Paper, TextField, Typography, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { Controller, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 
-import Copyright from "../../components/Copyright";
-import PineappleIcon from "../../assets/pina_sola.png";
-import AuthController from "./AuthController";
-
-import { useTranslation } from "react-i18next";
-import { namespaces } from "../../translations/i18n.constants";
+import PineappleIcon from "#root/assets/pina_sola.png";
+import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
+import { namespaces } from "#root/translations/i18n.constants";
+
+import AuthController from "./AuthController";
 
 type LoginPayload = {
   username: string;

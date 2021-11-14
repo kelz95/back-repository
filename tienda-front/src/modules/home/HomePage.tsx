@@ -1,19 +1,16 @@
-import { Box, Button, Divider, Paper, Stack, Typography, ButtonGroup } from "@mui/material";
+import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import logo from "#root/assets/pina.png";
 import Copyright from "#root/components/Copyright";
-
-import { useTranslation } from "react-i18next";
-import { languages, namespaces } from "../../translations/i18n.constants";
+import LanguageSwitcher from "#root/components/LanguageSwitcher";
+import { namespaces } from "#root/translations/i18n.constants";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(namespaces.pages.home);
+  const { t } = useTranslation(namespaces.pages.home);
 
-  const changeLanguage = (language: string) => () => {
-    i18n.changeLanguage(language);
-  };
   const users = [
     { name: "Nombre1", imageSrc: "https://avatars.dicebear.com/api/avataaars/i1.svg" },
     { name: "Nombre2", imageSrc: "https://avatars.dicebear.com/api/avataaars/i2.svg" },
@@ -40,14 +37,9 @@ const HomePage = () => {
           marginTop="2rem"
           width="100%"
         >
-          <ButtonGroup
-            variant="outlined"
-            aria-label="outlined button group"
-            sx={{ marginLeft: "2rem" }}
-          >
-            <Button onClick={changeLanguage("en")}>English</Button>
-            <Button onClick={changeLanguage("es")}>Español</Button>
-          </ButtonGroup>
+          <Box marginLeft="2rem">
+            <LanguageSwitcher logoColor="inherit" />
+          </Box>
           <Button
             color="primary"
             onClick={() => navigate("/login")}
