@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, ButtonGroup, Button } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 
 import Copyright from "#root/components/Copyright";
@@ -13,6 +13,9 @@ import CreateProductModal from "./CreateProductModal";
 import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
+
+import { useTranslation } from "react-i18next";
+import { languages, namespaces } from "../../translations/i18n.constants";
 
 const defaultProducts: Product[] = [
   {
@@ -36,6 +39,11 @@ const defaultProducts: Product[] = [
 ];
 
 const ProductsPage = () => {
+  const { t, i18n } = useTranslation(namespaces.pages.products);
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>(defaultProducts);
@@ -94,9 +102,17 @@ const ProductsPage = () => {
   return (
     <>
       <NavBar />
+      <ButtonGroup
+        variant="outlined"
+        aria-label="outlined button group"
+        sx={{ marginLeft: "2rem" }}
+      >
+        <Button onClick={changeLanguage("en")}>English</Button>
+        <Button onClick={changeLanguage("es")}>Español</Button>
+      </ButtonGroup>
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
-          Products Inventory
+          {t("title")}
         </Typography>
 
         <Toolbar

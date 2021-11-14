@@ -6,6 +6,9 @@ import IconButton from "#root/components/IconButton";
 import { IMAGE_FALLBACK_URL } from "#root/lib/constants";
 import { Product } from "#root/modules/products/types";
 
+import { useTranslation } from "react-i18next";
+import { languages, namespaces } from "../../../translations/i18n.constants";
+
 type ProductRowProps = {
   onDelete?: (id: number) => void;
   onEdit?: (product: Product) => void;
@@ -14,6 +17,11 @@ type ProductRowProps = {
 
 const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const { t, i18n } = useTranslation(namespaces.pages.productRow);
+  const changeLanguage = (language: string) => () => {
+    i18n.changeLanguage(language);
+  };
 
   return (
     <Fragment>

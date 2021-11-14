@@ -3,6 +3,7 @@ export const namespaces = {
     home: "pages.home",
     errors: "pages.notFound",
     login: "pages.login",
+    products: "pages.products",
     productRow: "pages.productRow",
     productsTable: "pages.productsTable",
     cProductForm: "pages.cProductForm",
