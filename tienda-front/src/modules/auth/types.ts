@@ -1,4 +1,4 @@
-export type Role = "ROL_ADMIN" | "ROL_USER";
+export type Role = "ROLE_ADMIN" | "ROLE_USER";
 
 export type User = {
   id: number;

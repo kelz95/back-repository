@@ -5,13 +5,13 @@ import { BASE_URL_API } from "#root/lib/constants";
 import { PaginatedResponse } from "#root/lib/types";
 import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
-import { Product } from "./types";
+import { User } from "./types";
 
-const productRequest = axios.create({
-  baseURL: `${BASE_URL_API}/api/v1/products`,
+const userRequest = axios.create({
+  baseURL: `${BASE_URL_API}/api/v1/users`,
 });
 
-productRequest.interceptors.request.use(
+userRequest.interceptors.request.use(
   async config => {
     const accessToken = useAuthStore.getState().accessToken;
     if (accessToken) {
@@ -24,7 +24,7 @@ productRequest.interceptors.request.use(
   }
 );
 
-productRequest.interceptors.response.use(
+userRequest.interceptors.response.use(
   response => response,
   async error => {
     const accessToken = useAuthStore.getState().accessToken;
@@ -37,7 +37,7 @@ productRequest.interceptors.response.use(
 );
 
 type CreatePayload = FormData;
-type UpdateDataPayload = Partial<Product>;
+type UpdateDataPayload = Partial<User>;
 type UpdateImagePayload = FormData;
 
 type PaginationParams = {
@@ -48,56 +48,55 @@ type PaginationParams = {
   fechaCreacion?: string;
 };
 
-class ProductController {
+class UserController {
   static async getAll(params: PaginationParams) {
-    const [apiRes, error] = await asyncWrapper<
-      AxiosResponse<PaginatedResponse<Product>>,
-      AxiosError
-    >(productRequest.get("/", { params }));
+    const [apiRes, error] = await asyncWrapper<AxiosResponse<PaginatedResponse<User>>, AxiosError>(
+      userRequest.get("/", { params })
+    );
     return [apiRes, error] as const;
   }
 
   static async getOne(id: number) {
-    const [apiRes, error] = await asyncWrapper<AxiosResponse<Product>, AxiosError>(
-      productRequest.get(`/${id}`)
+    const [apiRes, error] = await asyncWrapper<AxiosResponse<User>, AxiosError>(
+      userRequest.get(`/${id}`)
     );
     return [apiRes, error] as const;
   }
 
   static async create(payload: CreatePayload) {
-    const [apiRes, error] = await asyncWrapper<AxiosResponse<Product>, AxiosError>(
-      productRequest.post("/", payload, { headers: { "content-type": "multipart/form-data" } })
+    const [apiRes, error] = await asyncWrapper<AxiosResponse<User>, AxiosError>(
+      userRequest.post("/", payload, { headers: { "content-type": "multipart/form-data" } })
     );
     return [apiRes, error] as const;
   }
 
   static async updateData(id: number, payload: UpdateDataPayload) {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      productRequest.put(`/${id}`, payload)
+      userRequest.put(`/${id}`, payload)
     );
     return [apiRes, error] as const;
   }
 
   static async updateImage(id: number, payload: UpdateImagePayload) {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      productRequest.put(`/${id}/upload`, payload)
+      userRequest.put(`/${id}/upload`, payload)
     );
     return [apiRes, error] as const;
   }
 
   static async deleteOne(id: number) {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      productRequest.delete(`/${id}`)
+      userRequest.delete(`/${id}`)
     );
     return [apiRes, error] as const;
   }
 
   static async export() {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      productRequest.get("/exportar")
+      userRequest.get("/exportar")
     );
     return [apiRes, error] as const;
   }
 }
 
-export default ProductController;
+export default UserController;

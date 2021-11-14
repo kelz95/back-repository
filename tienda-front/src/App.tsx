@@ -26,9 +26,9 @@ const App = () => {
       <Route
         path="/users"
         element={
-          // <RequireAuth>
-          <UsersPage />
-          // </RequireAuth>
+          <RequireAuth>
+            <UsersPage />
+          </RequireAuth>
         }
       />
 
