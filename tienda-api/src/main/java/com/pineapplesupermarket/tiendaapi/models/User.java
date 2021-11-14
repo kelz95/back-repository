@@ -135,7 +135,7 @@ public class User implements Serializable{
 		this.createAt = createAt;
 	}
 
-	public Boolean getActivo() {
+	public Boolean isActivo() {
 		return activo;
 	}
 
