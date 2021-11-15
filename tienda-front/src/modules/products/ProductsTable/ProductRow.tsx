@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { namespaces } from "../../../translations/i18n.constants";
 
 type ProductRowProps = {
-  onDelete?: (id: number) => void;
+  onDelete?: (product: Product) => void;
   onEdit?: (product: Product) => void;
   row: Product;
 };
@@ -62,7 +62,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                     aria-label="delete"
                     tip={t("bDelete")}
                     iconButtonProps={{ color: "error" }}
-                    onClick={() => onDelete?.(row.idProduct)}
+                    onClick={() => onDelete?.(row)}
                   >
                     <Delete />
                   </IconButton>
@@ -70,7 +70,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
               </Stack>
 
               <Stack direction="row" alignItems="center" justifyContent="space-between">
-                <Box>
+                <Box sx={{ border: 1, borderRadius: 2, padding: 2, width: "45%" }}>
                   <Typography component="p" marginY="1rem">
                     {row.description}
                   </Typography>
@@ -80,6 +80,16 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                   </Typography>
                   <Typography component="p">
                     {t("uPrice")}: {row.unitPrice}
+                  </Typography>
+                </Box>
+                <Box sx={{ border: 1, borderRadius: 2, padding: 2 }}>
+                  <Typography component="h6" marginBottom="1rem" variant="h6">
+                    Categoría
+                  </Typography>
+
+                  <Typography component="p">Código: {row.productCategory.code}</Typography>
+                  <Typography component="p">
+                    Descripción: {row.productCategory.description}
                   </Typography>
                 </Box>
                 <Box height="10rem">

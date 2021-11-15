@@ -19,7 +19,7 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 type ProductsTableProps = {
   data: Product[];
-  onDelete?: (id: number) => void;
+  onDelete?: (product: Product) => void;
   onEdit?: (product: Product) => void;
 
   rowsPerPage: number;

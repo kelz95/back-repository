@@ -20,6 +20,7 @@ import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
 import { Category } from "#root/modules/categories/types";
 
 import CreateProductModal from "./CreateProductModal";
+import DeleteProductDialog from "./DeleteProductDialog";
 import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
@@ -31,6 +32,8 @@ const ProductsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
+  const [isUpdateProductModalOpen, setIsUpdateProductModalOpen] = useState(false);
+  const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] = useState(false);
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false);
   const [isUpdateCategoryModalOpen, setIsUpdateCategoryModalOpen] = useState(false);
   const [isDeleteCategoryModalOpen, setIsDeleteCategoryModalOpen] = useState(false);
@@ -38,6 +41,7 @@ const ProductsPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [clickedCategory, setClickedCategory] = useState<Category | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
+  const [clickedProduct, setClickedProduct] = useState<Product | null>(null);
 
   const dataTableOptions = useTableOptions<Product>({});
   const debouncedSearchString = useDebounce(dataTableOptions.searchString, 300);
@@ -96,8 +100,9 @@ const ProductsPage = () => {
     console.log("edit", currentProduct);
   };
 
-  const handleDelete = (id: number) => {
-    console.log("delete", id);
+  const handleDelete = (currentProduct: Product) => {
+    setClickedProduct(currentProduct);
+    setIsDeleteProductModalOpen(true);
   };
 
   useEffect(() => {
@@ -159,6 +164,13 @@ const ProductsPage = () => {
         onClose={() => setIsCreateProductModalOpen(false)}
         onCreateProduct={fetchProducts}
       />
+      <DeleteProductDialog
+        data={clickedProduct}
+        isOpen={isDeleteProductModalOpen}
+        onClose={() => setIsDeleteProductModalOpen(false)}
+        onDeleteProduct={fetchProducts}
+      />
+
       <CreateCategoryModal
         isOpen={isCreateCategoryModalOpen}
         onClose={() => setIsCreateCategoryModalOpen(false)}
