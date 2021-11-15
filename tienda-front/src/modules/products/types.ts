@@ -3,7 +3,7 @@ import { Category } from "../categories/types";
 export type Product = {
   idProduct: number;
 
-  productCategory: Category;
+  productCategory: Partial<Category>;
 
   code: string;
   name: string;

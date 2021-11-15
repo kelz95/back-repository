@@ -21,6 +21,7 @@ type ProductsTableProps = {
   data: Product[];
   onDelete?: (product: Product) => void;
   onEdit?: (product: Product) => void;
+  totalRows?: number;
 
   rowsPerPage: number;
   page: number;
@@ -32,6 +33,7 @@ const ProductsTable = ({
   data,
   onDelete,
   onEdit,
+  totalRows,
   rowsPerPage,
   page,
   setPage,
@@ -59,9 +61,9 @@ const ProductsTable = ({
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: `${t("all")}`, value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
-              count={data.length}
+              count={totalRows || data.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{ inputProps: { "aria-label": "rows per page" }, native: true }}

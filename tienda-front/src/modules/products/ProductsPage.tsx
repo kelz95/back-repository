@@ -24,6 +24,7 @@ import DeleteProductDialog from "./DeleteProductDialog";
 import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
+import UpdateProductModal from "./UpdateProductModal";
 
 const ProductsPage = () => {
   const { t } = useTranslation(namespaces.pages.products);
@@ -88,6 +89,7 @@ const ProductsPage = () => {
       return;
     }
 
+    dataTableOptions.setTotalRows(res?.data.totalElements || 0);
     setProducts(res?.data.content || []);
     setIsLoading(false);
   }, [dataTableOptions.pageIndex, dataTableOptions.pageSize, debouncedSearchString]);
@@ -97,7 +99,8 @@ const ProductsPage = () => {
   };
 
   const handleEdit = (currentProduct: Product) => {
-    console.log("edit", currentProduct);
+    setClickedProduct(currentProduct);
+    setIsUpdateProductModalOpen(true);
   };
 
   const handleDelete = (currentProduct: Product) => {
@@ -128,6 +131,7 @@ const ProductsPage = () => {
         <Toolbar
           createButtonText={t("cProduct")}
           onCreate={handleCreate}
+          searchLabel="Buscar por nombre"
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           withSearchBar
@@ -141,6 +145,7 @@ const ProductsPage = () => {
           rowsPerPage={dataTableOptions.pageSize}
           setPage={dataTableOptions.setPageIndex}
           setRowsPerPage={dataTableOptions.setPageSize}
+          totalRows={dataTableOptions.totalRows}
         />
 
         <Typography component="h2" variant="h4" marginBottom="2rem" marginTop="1rem">
@@ -163,6 +168,12 @@ const ProductsPage = () => {
         isOpen={isCreateProductModalOpen}
         onClose={() => setIsCreateProductModalOpen(false)}
         onCreateProduct={fetchProducts}
+      />
+      <UpdateProductModal
+        data={clickedProduct}
+        isOpen={isUpdateProductModalOpen}
+        onClose={() => setIsUpdateProductModalOpen(false)}
+        onUpdateProduct={fetchProducts}
       />
       <DeleteProductDialog
         data={clickedProduct}

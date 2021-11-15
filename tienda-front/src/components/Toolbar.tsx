@@ -7,6 +7,7 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 type ToolbarProps = {
   onCreate?: () => void;
+  searchLabel?: string;
   searchValue?: string;
   setSearchValue?: Dispatch<SetStateAction<string>>;
 
@@ -16,6 +17,7 @@ type ToolbarProps = {
 
 const Toolbar = ({
   onCreate,
+  searchLabel,
   searchValue,
   setSearchValue,
 
@@ -41,7 +43,7 @@ const Toolbar = ({
               </InputAdornment>
             ),
           }}
-          label={t("search")}
+          label={searchLabel || t("defaultSearchLabel")}
           variant="outlined"
           value={searchValue}
           onChange={evt => setSearchValue?.(evt.target.value)}

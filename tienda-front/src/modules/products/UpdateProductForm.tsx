@@ -1,21 +1,13 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { ChangeEventHandler, useState } from "react";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
 import { namespaces } from "#root/translations/i18n.constants";
 
-export type CreateProductFormPayload = {
+import { Product } from "./types";
+
+export type UpdateProductFormPayload = {
   name: string;
   code: string;
   description: string;
@@ -23,30 +15,20 @@ export type CreateProductFormPayload = {
   unitPrice: number;
 
   productCategory: string;
-  productImage: File;
 };
 
-type CreateProductFormProps = {
-  onSubmit: (payload: CreateProductFormPayload) => void;
+type UpdateProductFormProps = {
+  data: Product;
+  onSubmit: (payload: UpdateProductFormPayload) => void;
 };
 
-const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
+const UpdateProductForm = ({ data, onSubmit }: UpdateProductFormProps) => {
   const { categories } = useCategoryStore();
   const { t } = useTranslation(namespaces.pages.cProductForm);
-  const { control, handleSubmit } = useForm<CreateProductFormPayload>();
+  const { control, handleSubmit } = useForm<UpdateProductFormPayload>();
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
-
-  const handleImageChange: ChangeEventHandler<HTMLInputElement> = evt => {
-    if (!evt) return;
-    const image = evt?.target?.files?.[0] || null;
-    setImageFile(image);
-  };
-
-  const preSubmit = (payload: CreateProductFormPayload) => {
-    console.log({ payload });
-    if (!imageFile) return;
-    onSubmit({ ...payload, productImage: imageFile });
+  const preSubmit = (payload: UpdateProductFormPayload) => {
+    onSubmit({ ...payload });
   };
 
   const categoryOptions = categories.map(c => ({ value: c.code, label: c.code }));
@@ -55,7 +37,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
     <Box component="form" onSubmit={handleSubmit(preSubmit)} sx={{ mt: 1 }}>
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.code}
         name="code"
         rules={{ required: true }}
         render={({ field }) => (
@@ -65,7 +47,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.name}
         name="name"
         rules={{ required: true }}
         render={({ field }) => (
@@ -74,7 +56,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.description}
         name="description"
         rules={{ required: true }}
         render={({ field }) => (
@@ -83,7 +65,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue={1}
+        defaultValue={data.quantity}
         name="quantity"
         rules={{ required: true }}
         render={({ field }) => (
@@ -99,7 +81,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue={1.0}
+        defaultValue={data.unitPrice}
         name="unitPrice"
         rules={{ required: true }}
         render={({ field }) => (
@@ -116,7 +98,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
 
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.productCategory.code}
         name="productCategory"
         rules={{ required: true }}
         render={({ field }) => (
@@ -141,12 +123,6 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         )}
       />
 
-      <Typography variant="caption" display="block">
-        Imagen
-      </Typography>
-
-      <input type="file" name="productImage" onChange={handleImageChange} />
-
       <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
         {t("create")}
       </Button>
@@ -154,4 +130,4 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
   );
 };
 
-export default CreateProductForm;
+export default UpdateProductForm;
