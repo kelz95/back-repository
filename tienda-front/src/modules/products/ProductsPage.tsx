@@ -11,17 +11,18 @@ import NavBar from "#root/components/NavBar";
 import Toolbar from "#root/components/Toolbar";
 import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
+import CategoriesTable from "#root/modules/categories/CategoriesTable";
+import CategoryController from "#root/modules/categories/CategoryController";
+import CreateCategoryModal from "#root/modules/categories/CreateCategoryModal";
+import UpdateCategoryModal from "#root/modules/categories/UpdateCategoryModal";
+import DeleteCategoryDialog from "#root/modules/categories/DeleteCategoryDialog";
+import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
+import { Category } from "#root/modules/categories/types";
 
-import CategoryController from "../categories/CategoryController";
-import CategoriesTable from "../categories/CategoriesTable";
-import { Category } from "../categories/types";
 import CreateProductModal from "./CreateProductModal";
 import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
-import CreateCategoryModal from "../categories/CreateCategoryModal";
-import UpdateCategoryModal from "../categories/UpdateCategoryModal";
-import DeleteCategoryDialog from "../categories/DeleteCategoryDialog";
 
 const defaultProducts: Product[] = [
   {
@@ -62,19 +63,6 @@ const ProductsPage = () => {
   const dataTableOptions = useTableOptions<Product>({});
   const debouncedSearchString = useDebounce(dataTableOptions.searchString, 300);
 
-  const handleCreate = () => {
-    console.log("create");
-    setIsCreateProductModalOpen(true);
-  };
-
-  const handleEdit = (currentProduct: Product) => {
-    console.log("edit", currentProduct);
-  };
-
-  const handleDelete = (id: number) => {
-    console.log("delete", id);
-  };
-
   const fetchCategories = useCallback(async () => {
     setIsLoading(true);
     const [res, err] = await CategoryController.getAll();
@@ -84,7 +72,10 @@ const ProductsPage = () => {
       return;
     }
 
-    setCategories(res?.data || []);
+    const receivedCategories = res?.data || [];
+
+    useCategoryStore.getState().setCategories(receivedCategories);
+    setCategories(receivedCategories);
     setIsLoading(false);
   }, []);
 
@@ -102,35 +93,33 @@ const ProductsPage = () => {
 
   const fetchProducts = useCallback(async () => {
     setIsLoading(true);
-    const url = `/api/v1/products?page${dataTableOptions.pageIndex}&size=${
-      dataTableOptions.pageSize
-    }&name=${encodeURI(debouncedSearchString)}`;
-    console.log(url);
 
     const [res, err] = await ProductController.getAll({
       page: dataTableOptions.pageIndex,
       size: dataTableOptions.pageSize,
       name: encodeURI(debouncedSearchString),
     });
-    console.log({ res, err });
+    if (err) {
+      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      setIsLoading(false);
+      return;
+    }
 
-    // const [resOperators, errOperators] = await OperatorController.fetchAll({
-    //   limit: String(dataTableOptions.limit),
-    //   offset: String(dataTableOptions.offset),
-    //   searchString: dataTableOptions.searchString,
-    // });
-    // if (errOperators) {
-    //   toast({ title: "Algo salió mal", status: "error" });
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // const contentRangeHeader = resOperators?.headers["content-range"];
-    // const totalFromHeader = contentRangeHeader?.split("/").pop() || "0";
-    // dataTableOptions.setTotalRows(parseInt(totalFromHeader, 10));
-    // setProducts(resOperators?.data || []);
-    setProducts(defaultProducts);
+    setProducts(res?.data.content || []);
     setIsLoading(false);
   }, [dataTableOptions.pageIndex, dataTableOptions.pageSize, debouncedSearchString]);
+
+  const handleCreate = () => {
+    setIsCreateProductModalOpen(true);
+  };
+
+  const handleEdit = (currentProduct: Product) => {
+    console.log("edit", currentProduct);
+  };
+
+  const handleDelete = (id: number) => {
+    console.log("delete", id);
+  };
 
   useEffect(() => {
     fetchProducts();
@@ -144,9 +133,6 @@ const ProductsPage = () => {
     <>
       <NavBar />
       <Container component="main" maxWidth="lg">
-        {/* <Typography component="h1" variant="h3" marginBottom="2rem" marginTop="1rem">
-          {t("title")}
-        </Typography> */}
         <Typography component="h1" variant="h3" marginBottom="2rem" marginTop="1rem">
           {t("inventory")}
         </Typography>

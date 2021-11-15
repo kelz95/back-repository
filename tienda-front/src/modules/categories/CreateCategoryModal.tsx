@@ -1,12 +1,11 @@
 import { useSnackbar } from "notistack";
+import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
-
-import CreateCategoryForm, { CreateCategoryFormPayload } from "./CreateCategoryForm";
-import CategoryController from "./CategoryController";
-
-import { useTranslation } from "react-i18next";
 import { namespaces } from "#root/translations/i18n.constants";
+
+import CategoryController from "./CategoryController";
+import CreateCategoryForm, { CreateCategoryFormPayload } from "./CreateCategoryForm";
 
 type CreateCategoryModalProps = {
   isOpen: boolean;
