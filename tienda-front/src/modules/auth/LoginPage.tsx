@@ -1,5 +1,7 @@
-import { Avatar, Box, Button, Container, Paper, TextField, Typography, Stack } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Avatar, Box, Container, Paper, TextField, Typography, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
@@ -24,9 +26,12 @@ const LoginPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { control, handleSubmit } = useForm<LoginPayload>();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const from = location.state?.from?.pathname || "/products";
 
   const onSubmit = async (data: LoginPayload) => {
+    setIsLoading(true);
     const signInResult = await AuthController.signIn({
       username: data.username,
       password: data.password,
@@ -34,9 +39,12 @@ const LoginPage = () => {
 
     if (signInResult.error || !signInResult.data) {
       enqueueSnackbar(signInResult.error, { variant: "error" });
+      setIsLoading(false);
       return;
     }
     enqueueSnackbar("Logueado exitosamente", { variant: "success" });
+    setIsLoading(false);
+
     navigate(from, { replace: true });
   };
 
@@ -80,6 +88,7 @@ const LoginPage = () => {
               render={({ field }) => (
                 <TextField
                   autoFocus
+                  disabled={isLoading}
                   fullWidth
                   id="username"
                   label={t("labelUsername")}
@@ -97,6 +106,7 @@ const LoginPage = () => {
               render={({ field }) => (
                 <TextField
                   autoComplete="current-password"
+                  disabled={isLoading}
                   fullWidth
                   id="password"
                   label={t("labelPassword")}
@@ -108,9 +118,15 @@ const LoginPage = () => {
               )}
             />
 
-            <Button fullWidth type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <LoadingButton
+              fullWidth
+              loading={isLoading}
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
               {t("buttonText")}
-            </Button>
+            </LoadingButton>
           </Box>
         </Paper>
 
