@@ -26,7 +26,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
         <TableCell width="4rem">
           <IconButton
             aria-label="expand row"
-            tip="More details"
+            tip={t("details")}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}

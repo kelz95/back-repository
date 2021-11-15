@@ -3,5 +3,6 @@
     "name": "Nombre",
     "quantity": "Cantidad",
     "uPrice": "Precio Unitario",
-    "all": "Todo"
+    "all": "Todo",
+    "rowsPerPage": "Filas por página"
 }

@@ -79,7 +79,7 @@ const ProductsPage = () => {
     setIsLoading(true);
     const [res, err] = await CategoryController.getAll();
     if (err) {
-      enqueueSnackbar("Algo salió mal", { variant: "error" });
+      enqueueSnackbar(`${t("error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }

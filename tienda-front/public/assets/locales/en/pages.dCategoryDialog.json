@@ -1,0 +1,9 @@
+{
+    "error": "A problem occurred",
+    "success": "Category removed successfully",
+    "tDelete": "Delete",
+    "tCategory": "category?",
+    "message": "Careful! This action is irreversible.",
+    "bCancel": "Cancel",
+    "bDelete": "Delete"
+}

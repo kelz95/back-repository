@@ -11,6 +11,9 @@ import { useSnackbar } from "notistack";
 import CategoryController from "./CategoryController";
 import { Category } from "./types";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 type DeleteCategoryDialogProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -24,16 +27,18 @@ const DeleteCategoryDialog = ({
   onDeleteCategory,
   data,
 }: DeleteCategoryDialogProps) => {
+  const { t } = useTranslation(namespaces.pages.dCategoryDialog);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (id: number) => {
     if (!data) return;
     const [res, err] = await CategoryController.deleteOne(id);
     if (err || !res) {
-      enqueueSnackbar("Ocurrió un problema", { variant: "error" });
+      enqueueSnackbar(`${t("error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar("Categoría eliminida exitosamente", { variant: "success" });
+    enqueueSnackbar(`${t("success")}`, { variant: "success" });
     onDeleteCategory?.();
     onClose();
   };
@@ -42,14 +47,16 @@ const DeleteCategoryDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">{`Delete "${data.code}" category?`}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{`${t("tDelete")} "${data.code}" ${t(
+        "tCategory"
+      )}`}</DialogTitle>
       <DialogContent>
-        <DialogContentText>¡Careful! This action is irreversible.</DialogContentText>
+        <DialogContentText>{t("message")}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose}>{t("bCancel")}</Button>
         <Button onClick={() => handleSubmit(data.idProductCategory)} autoFocus>
-          Delete
+          {t("bDelete")}
         </Button>
       </DialogActions>
     </Dialog>

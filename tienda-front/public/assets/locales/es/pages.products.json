@@ -3,5 +3,6 @@
     "products": "Productos",
     "categories": "Categorias",
     "cProduct": "Crear producto",
-    "cCategory": "Crear categoría"
+    "cCategory": "Crear categoría",
+    "error": "Algo salió mal"
 }

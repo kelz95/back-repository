@@ -18,7 +18,12 @@ import IconButton from "#root/components/IconButton";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 const NavBar = () => {
+  const { t } = useTranslation(namespaces.pages.navbar);
+
   const { user } = useAuthStore();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -61,8 +66,10 @@ const NavBar = () => {
       </Box>
       {user && (
         <Stack direction="row" spacing={1} alignItems="center">
-          <Typography color="white" fontSize="1.125rem">{`Welcome, ${user?.username}!`}</Typography>
-          <IconButton onClick={handleProfileMenu} tip="Menu">
+          <Typography color="white" fontSize="1.125rem">{`${t("welcome")}, ${
+            user?.username
+          }!`}</Typography>
+          <IconButton onClick={handleProfileMenu} tip={t("menu")}>
             <AccountCircle htmlColor="white" fontSize="large" />
           </IconButton>
           <LanguageSwitcher />
@@ -79,14 +86,14 @@ const NavBar = () => {
               <ListItemIcon>
                 <LocalGroceryStore />
               </ListItemIcon>
-              <ListItemText>View products</ListItemText>
+              <ListItemText>{t("viewProducts")}</ListItemText>
             </MenuItem>
 
             <MenuItem onClick={handleUsers}>
               <ListItemIcon>
                 <PersonAdd />
               </ListItemIcon>
-              <ListItemText>Manage users</ListItemText>
+              <ListItemText>{t("manageUsers")}</ListItemText>
             </MenuItem>
 
             <Divider />
@@ -95,7 +102,7 @@ const NavBar = () => {
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
-              <ListItemText>Logout</ListItemText>
+              <ListItemText>{t("logout")}</ListItemText>
             </MenuItem>
           </Menu>
         </Stack>

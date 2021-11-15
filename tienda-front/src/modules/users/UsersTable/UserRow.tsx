@@ -16,7 +16,7 @@ type UserRowProps = {
 };
 
 const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
-  const { t } = useTranslation(namespaces.pages.uRow);
+  const { t } = useTranslation(namespaces.pages.userRow);
 
   const [isExpanded, setIsExpanded] = useState(false);
 

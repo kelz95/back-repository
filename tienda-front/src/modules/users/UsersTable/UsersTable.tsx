@@ -36,7 +36,7 @@ const UsersTable = ({
   setPage,
   setRowsPerPage,
 }: UsersTableProps) => {
-  const { t } = useTranslation(namespaces.pages.uTable);
+  const { t } = useTranslation(namespaces.pages.userTable);
 
   return (
     <TableContainer component={Paper}>
@@ -69,6 +69,7 @@ const UsersTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
+              labelRowsPerPage={t("rowsPerPage")}
             />
           </TableRow>
         </TableFooter>

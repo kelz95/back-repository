@@ -4,6 +4,9 @@ import { Stack, TableCell, TableRow } from "@mui/material";
 import IconButton from "#root/components/IconButton";
 import { Category } from "../types";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "#root/translations/i18n.constants";
+
 type CategoryRowProps = {
   onDelete?: (category: Category) => void;
   onEdit?: (category: Category) => void;
@@ -11,6 +14,8 @@ type CategoryRowProps = {
 };
 
 const CategoryRow = ({ onDelete, onEdit, row }: CategoryRowProps) => {
+  const { t } = useTranslation(namespaces.pages.categoriesRow);
+
   return (
     <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
       <TableCell scope="row">{row.code}</TableCell>
@@ -21,7 +26,7 @@ const CategoryRow = ({ onDelete, onEdit, row }: CategoryRowProps) => {
         <Stack direction="row" spacing={2} alignItems="center">
           <IconButton
             aria-label="update"
-            tip="Update"
+            tip={t("update")}
             iconButtonProps={{ color: "info" }}
             onClick={() => onEdit?.(row)}
           >
@@ -29,7 +34,7 @@ const CategoryRow = ({ onDelete, onEdit, row }: CategoryRowProps) => {
           </IconButton>
           <IconButton
             aria-label="delete"
-            tip="Delete"
+            tip={t("delete")}
             iconButtonProps={{ color: "error" }}
             onClick={() => onDelete?.(row)}
           >

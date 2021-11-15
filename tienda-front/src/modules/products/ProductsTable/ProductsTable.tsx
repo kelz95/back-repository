@@ -70,6 +70,7 @@ const ProductsTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
+              labelRowsPerPage={t("rowsPerPage")}
               // ActionsComponent={TablePaginationActions}
             />
           </TableRow>
