@@ -24,27 +24,6 @@ import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
 
-const defaultProducts: Product[] = [
-  {
-    idProduct: 1,
-    code: "code1",
-    description: "descripcion1",
-    name: "name1",
-    pictures: "",
-    quantity: 10,
-    unitPrice: 15.5,
-  },
-  {
-    idProduct: 2,
-    code: "code2",
-    description: "descripcion2",
-    name: "name2",
-    pictures: "",
-    quantity: 12,
-    unitPrice: 10.5,
-  },
-];
-
 const ProductsPage = () => {
   const { t } = useTranslation(namespaces.pages.products);
   const { enqueueSnackbar } = useSnackbar();
@@ -58,7 +37,7 @@ const ProductsPage = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [clickedCategory, setClickedCategory] = useState<Category | null>(null);
-  const [products, setProducts] = useState<Product[]>(defaultProducts);
+  const [products, setProducts] = useState<Product[]>([]);
 
   const dataTableOptions = useTableOptions<Product>({});
   const debouncedSearchString = useDebounce(dataTableOptions.searchString, 300);
@@ -178,6 +157,7 @@ const ProductsPage = () => {
       <CreateProductModal
         isOpen={isCreateProductModalOpen}
         onClose={() => setIsCreateProductModalOpen(false)}
+        onCreateProduct={fetchProducts}
       />
       <CreateCategoryModal
         isOpen={isCreateCategoryModalOpen}

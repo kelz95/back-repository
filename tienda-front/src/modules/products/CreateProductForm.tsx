@@ -17,6 +17,7 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 export type CreateProductFormPayload = {
   name: string;
+  code: string;
   description: string;
   quantity: number;
   unitPrice: number;
@@ -52,6 +53,16 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit(preSubmit)} sx={{ mt: 1 }}>
+      <Controller
+        control={control}
+        defaultValue=""
+        name="code"
+        rules={{ required: true }}
+        render={({ field }) => (
+          <TextField autoFocus fullWidth label="Código" margin="normal" required {...field} />
+          // <TextField autoFocus fullWidth label={t("name")} margin="normal" required {...field} />
+        )}
+      />
       <Controller
         control={control}
         defaultValue=""

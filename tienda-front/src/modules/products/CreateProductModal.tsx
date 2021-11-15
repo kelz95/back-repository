@@ -26,6 +26,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
       JSON.stringify({
         productCategory: { code: payload.productCategory },
         name: payload.name,
+        code: payload.code,
         description: payload.description,
         quantity: payload.quantity,
         unitPrice: payload.unitPrice,

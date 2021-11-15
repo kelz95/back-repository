@@ -83,7 +83,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                   </Typography>
                 </Box>
                 <Box height="10rem">
-                  <img src={row.pictures || IMAGE_FALLBACK_URL} alt="product" height="100%" />
+                  <img src={row.picture || IMAGE_FALLBACK_URL} alt="product" height="100%" />
                 </Box>
               </Stack>
             </Box>

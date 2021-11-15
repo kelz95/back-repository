@@ -1,23 +1,19 @@
+import { Category } from "../categories/types";
+
 export type Product = {
   idProduct: number;
 
-  // @ManyToOne(fetch = FetchType.EAGER)
-  // @JoinColumn(name="id_product_category")
-  // private ProductCategory productCategory;
+  productCategory: Category;
 
   code: string;
-
   name: string;
-
   description: string;
 
   quantity: number;
-
   unitPrice: number;
 
-  pictures: string;
+  picture: string;
 
-  creationDate?: Date;
-
-  modificationDate?: Date;
+  creationDate?: string;
+  modificationDate?: string | null;
 };
