@@ -26,6 +26,9 @@ import javax.validation.constraints.NotNull;
 @Table(name="ps_user")
 
 public class User implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_user")
@@ -67,13 +70,53 @@ public class User implements Serializable{
 	public void prePersist() {
 		createAt= new Date();
 	}
-	
+
 	public Long getIdUser() {
 		return idUser;
 	}
 
 	public void setIdUser(Long idUser) {
 		this.idUser = idUser;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getLastname() {
@@ -84,6 +127,14 @@ public class User implements Serializable{
 		this.lastname = lastname;
 	}
 
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
 	public Boolean isActivo() {
 		return activo;
 	}
@@ -92,49 +143,5 @@ public class User implements Serializable{
 		this.activo = activo;
 	}
 	
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getLastName() {
-		return lastname;
-	}
-	public void setLastName(String lastName) {
-		this.lastname = lastName;
-	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	public Date getCreateAt() {
-		return createAt;
-	}
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
-	}
-	private static final long serialVersionUID = 1L;
-
 
 }

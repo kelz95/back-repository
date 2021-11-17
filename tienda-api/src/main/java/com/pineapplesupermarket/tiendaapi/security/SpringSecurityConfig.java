@@ -103,7 +103,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("https://pineapple-front.herokuapp.com/",
+		configuration.setAllowedOrigins(Arrays.asList("https://pineapple-front.herokuapp.com",
 				"http://localhost:4200"));
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 		configuration.setAllowCredentials(true);

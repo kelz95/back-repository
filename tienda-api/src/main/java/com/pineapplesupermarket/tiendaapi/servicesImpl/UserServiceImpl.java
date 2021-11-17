@@ -121,7 +121,7 @@ public class UserServiceImpl implements IUserService {
 			
 			Role role = this.roleRepository.findByCode(user.getRole().getCode());
 			
-			userActual.setLastName(user.getLastname());
+			userActual.setLastname(user.getLastname());
 			userActual.setName(user.getName());
 			userActual.setRole(role);
 			userActual.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
