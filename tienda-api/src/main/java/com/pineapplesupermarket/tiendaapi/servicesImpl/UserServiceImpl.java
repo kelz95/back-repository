@@ -68,19 +68,26 @@ public class UserServiceImpl implements IUserService {
 	 *@param User
 	 *@return User
 	 *@exception DuplicateEntryException
+	 * @throws EntityNotFoundException 
 	 */
 	@Transactional
 	@Override
-	public User save(User user) throws DuplicateEntryException {
+	public User save(User user) throws DuplicateEntryException, EntityNotFoundException {
 		User usuarioNameExistente = this.userRepository.findByUsername(user.getUsername()).orElse(null);
 		User usuarioEmailExistente = this.userRepository.findByEmail(user.getEmail()).orElse(null);
 
 		if(usuarioNameExistente == null && usuarioEmailExistente == null) {
-			Role role = this.roleRepository.findByCode(user.getRole().getCode());
-			user.setActivo(true);
-			user.setRole(role);
-			String password = user.getPassword();
-			user.setPassword(this.bCryptPasswordEncoder.encode(password));
+			Role role = this.roleRepository.findByCode(user.getRole().getCode()).orElse(null);
+			if(role != null) {
+				user.setActivo(true);
+				user.setRole(role);
+				String password = user.getPassword();
+				user.setPassword(this.bCryptPasswordEncoder.encode(password));
+			}else {
+			
+				throw new EntityNotFoundException(ENTITY_NAME, "code", user.getRole().getCode());
+			}
+			
 		}else {
 			StringBuilder duplicateParameters = new StringBuilder();
 			duplicateParameters.append(usuarioNameExistente != null ? "username" : "email");
@@ -100,36 +107,38 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public User update(Long id, User user) throws DuplicateEntryException, EntityNotFoundException {
 		User userActual = this.userRepository.findById(id).orElse(null);
-		if(userActual != null) {
-			if(!userActual.getUsername().equals(user.getUsername())) {
-				User usuarioNameExistente = this.userRepository.findByUsername(user.getUsername()).orElse(null);
-				if(usuarioNameExistente == null) {
-					userActual.setUsername(user.getUsername());
-				}else {
-					throw new DuplicateEntryException(ENTITY_NAME, "username", user.getUsername());	
-				}
+		Role role = this.roleRepository.findByCode(user.getRole().getCode()).orElse(null);
+		if(userActual != null && role != null) {
+			User usuarioNameExistente = this.userRepository.
+					findByUsernameAndIdUserNot(user.getUsername(), id).orElse(null);
+			User usuarioEmailExistente = this.userRepository.
+					findByEmailAndIdUserNot(user.getEmail(), id).orElse(null);
+			if(usuarioNameExistente == null) {
+				userActual.setUsername(user.getUsername());
+			}else {
+				throw new DuplicateEntryException(ENTITY_NAME, "username", user.getUsername());	
 			}
-			
-			if(!userActual.getUsername().equals(user.getUsername())) {
-				User usuarioEmailExistente = this.userRepository.findByEmail(user.getEmail()).orElse(null);
-				if(usuarioEmailExistente == null) {
-					userActual.setEmail(user.getEmail());
-				}else {
-					throw new DuplicateEntryException(ENTITY_NAME, "email", user.getEmail());	
-				}
+				
+			if(usuarioEmailExistente == null) {
+				userActual.setEmail(user.getEmail());
+			}else {
+				throw new DuplicateEntryException(ENTITY_NAME, "email", user.getEmail());	
 			}
-			
-			Role role = this.roleRepository.findByCode(user.getRole().getCode());
 			
 			userActual.setLastname(user.getLastname());
 			userActual.setName(user.getName());
 			userActual.setRole(role);
 			userActual.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+			logger.info("Updated user " + userActual.getUsername());
+			return userRepository.save(userActual);
 		}else {
-			throw new EntityNotFoundException(ENTITY_NAME, "id", String.valueOf(id));
+			StringBuilder notFoundParameters = new StringBuilder();
+			notFoundParameters.append(userActual == null ? "id" : "role");
+			throw new EntityNotFoundException(ENTITY_NAME, notFoundParameters.toString(), 
+					userActual == null ? String.valueOf(id) : user.getRole().getCode());
+			
 		}
-		logger.info("Updated user " + user.getUsername());
-		return userRepository.save(user);
+		
 	}
 	/** Método para eliminar un usuario
 	 *@param id
