@@ -15,11 +15,9 @@ type CreateProductModalProps = {
 
 const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductModalProps) => {
   const { t } = useTranslation(namespaces.pages.cProductModal);
-
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (payload: CreateProductFormPayload) => {
-    console.log(payload);
     const formData = new FormData();
     formData.append(
       "producto",
@@ -44,6 +42,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
     onCreateProduct?.();
     onClose();
   };
+
   return (
     <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
       <CreateProductForm onSubmit={handleSubmit} />

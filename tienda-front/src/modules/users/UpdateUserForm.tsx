@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import { namespaces } from "#root/translations/i18n.constants";
 
-export type CreateUserFormPayload = {
+import { User } from "./types";
+
+export type UpdateUserFormPayload = {
   username: string;
   password: string;
   email: string;
@@ -14,13 +16,14 @@ export type CreateUserFormPayload = {
   role: string;
 };
 
-type CreateUserFormProps = {
-  onSubmit: (payload: CreateUserFormPayload) => void;
+type UpdateUserFormProps = {
+  data: User;
+  onSubmit: (payload: UpdateUserFormPayload) => void;
 };
 
-const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
+const UpdateUserForm = ({ data, onSubmit }: UpdateUserFormProps) => {
   const { t } = useTranslation(namespaces.pages.cUserForm);
-  const { control, handleSubmit } = useForm<CreateUserFormPayload>();
+  const { control, handleSubmit } = useForm<UpdateUserFormPayload>();
 
   const roleOptions = [
     { label: "Admin", value: "ROLE_ADMIN" },
@@ -31,7 +34,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.username}
         name="username"
         rules={{ required: true }}
         render={({ field }) => (
@@ -41,6 +44,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
       <Controller
         control={control}
         defaultValue=""
+        // defaultValue={data.password}
         name="password"
         rules={{ required: true }}
         render={({ field }) => (
@@ -50,13 +54,14 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
             margin="normal"
             required
             type="password"
+            helperText="Debe crear la contraseña nuevamente"
             {...field}
           />
         )}
       />
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.email}
         name="email"
         rules={{ required: true }}
         render={({ field }) => (
@@ -65,7 +70,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.name}
         name="name"
         rules={{ required: true }}
         render={({ field }) => (
@@ -74,7 +79,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
       />
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.lastname}
         name="lastname"
         rules={{ required: true }}
         render={({ field }) => (
@@ -84,7 +89,7 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
 
       <Controller
         control={control}
-        defaultValue=""
+        defaultValue={data.role.code}
         name="role"
         rules={{ required: true }}
         render={({ field }) => (
@@ -111,4 +116,4 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
   );
 };
 
-export default CreateUserForm;
+export default UpdateUserForm;

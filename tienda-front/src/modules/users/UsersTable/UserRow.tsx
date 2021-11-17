@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { namespaces } from "#root/translations/i18n.constants";
 
 type UserRowProps = {
-  onDelete?: (id: number) => void;
+  onDelete?: (user: User) => void;
   onEdit?: (user: User) => void;
   row: User;
 };
@@ -38,7 +38,7 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
         </TableCell>
 
         <TableCell>{row.name}</TableCell>
-        <TableCell align="right">{row.role.description}</TableCell>
+        <TableCell>{row.role.description}</TableCell>
         <TableCell align="right">{row.activo.toString()}</TableCell>
       </TableRow>
       <TableRow>
@@ -47,7 +47,7 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
             <Box sx={{ marginY: 2, marginX: 1 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography component="h5" variant="h6" gutterBottom>
-                  {`${t("user")}: ${row.name} ${row.lastName}`}
+                  {`${t("user")}: ${row.name} ${row.lastname}`}
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <IconButton
@@ -62,7 +62,7 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
                     aria-label="delete"
                     tip={t("delete")}
                     iconButtonProps={{ color: "error" }}
-                    onClick={() => onDelete?.(row.idUser)}
+                    onClick={() => onDelete?.(row)}
                   >
                     <Delete />
                   </IconButton>

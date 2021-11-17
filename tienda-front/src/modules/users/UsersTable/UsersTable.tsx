@@ -18,7 +18,7 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 type UsersTableProps = {
   data: User[];
-  onDelete?: (id: number) => void;
+  onDelete?: (user: User) => void;
   onEdit?: (user: User) => void;
 
   rowsPerPage: number;
@@ -45,8 +45,8 @@ const UsersTable = ({
           <TableRow>
             <TableCell />
             <TableCell>{t("username")}</TableCell>
-            <TableCell align="right">{t("name")}</TableCell>
-            <TableCell align="right">{t("role")}</TableCell>
+            <TableCell>{t("name")}</TableCell>
+            <TableCell>{t("role")}</TableCell>
             <TableCell align="right">{t("active")}</TableCell>
           </TableRow>
         </TableHead>
