@@ -70,7 +70,7 @@ public class User implements Serializable{
 	public void prePersist() {
 		createAt= new Date();
 	}
-
+	
 	public Long getIdUser() {
 		return idUser;
 	}
@@ -142,6 +142,5 @@ public class User implements Serializable{
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	}
-	
 
 }
