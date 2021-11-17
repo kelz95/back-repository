@@ -123,9 +123,7 @@ public class UserServiceImpl implements IUserService {
 				userActual.setEmail(user.getEmail());
 			}else {
 				throw new DuplicateEntryException(ENTITY_NAME, "email", user.getEmail());	
-			}
-			
-			Role role = this.roleRepository.findByCode(user.getRole().getCode());
+			}	
 			
 			userActual.setLastname(user.getLastname());
 			userActual.setName(user.getName());
