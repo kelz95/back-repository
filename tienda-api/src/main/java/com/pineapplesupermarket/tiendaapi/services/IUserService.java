@@ -18,7 +18,7 @@ public interface IUserService {
 	
 	public Page<User> findAll(Pageable pageable);
 	
-	public User save(User user) throws DuplicateEntryException;
+	public User save(User user) throws DuplicateEntryException, EntityNotFoundException;
 	
 	public User update(Long id, User user) throws DuplicateEntryException, EntityNotFoundException;
 	
