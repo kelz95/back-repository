@@ -18,7 +18,7 @@ type ProductRowProps = {
 const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { t } = useTranslation(namespaces.pages.productRow);
+  const { t } = useTranslation(namespaces.translation);
 
   return (
     <Fragment>
@@ -26,7 +26,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
         <TableCell width="4rem">
           <IconButton
             aria-label="expand row"
-            tip={t("details")}
+            tip={t("productRow.details")}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -47,12 +47,12 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
             <Box sx={{ marginY: 2, marginX: 1 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography component="h5" variant="h6" gutterBottom>
-                  {`${t("product")}: ${row.code}-${row.name}`}
+                  {`${t("productRow.product")}: ${row.code}-${row.name}`}
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <IconButton
                     aria-label="update"
-                    tip={t("bUpdate")}
+                    tip={t("productRow.bUpdate")}
                     iconButtonProps={{ color: "info" }}
                     onClick={() => onEdit?.(row)}
                   >
@@ -60,7 +60,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                   </IconButton>
                   <IconButton
                     aria-label="delete"
-                    tip={t("bDelete")}
+                    tip={t("productRow.bDelete")}
                     iconButtonProps={{ color: "error" }}
                     onClick={() => onDelete?.(row)}
                   >
@@ -76,20 +76,22 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                   </Typography>
 
                   <Typography component="p">
-                    {t("quantity")}: {row.quantity}
+                    {t("productRow.quantity")}: {row.quantity}
                   </Typography>
                   <Typography component="p">
-                    {t("uPrice")}: {row.unitPrice}
+                    {t("productRow.uPrice")}: {row.unitPrice}
                   </Typography>
                 </Box>
                 <Box sx={{ border: 1, borderRadius: 2, padding: 2 }}>
                   <Typography component="h6" marginBottom="1rem" variant="h6">
-                    Categoría
+                    {t("productRow.category")}
                   </Typography>
 
-                  <Typography component="p">Código: {row.productCategory.code}</Typography>
                   <Typography component="p">
-                    Descripción: {row.productCategory.description}
+                    {t("productRow.code")}: {row.productCategory.code}
+                  </Typography>
+                  <Typography component="p">
+                    {t("productRow.description")}: {row.productCategory.description}
                   </Typography>
                 </Box>
                 <Box height="10rem">

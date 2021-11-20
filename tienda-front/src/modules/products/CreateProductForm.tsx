@@ -32,7 +32,7 @@ type CreateProductFormProps = {
 
 const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
   const { categories } = useCategoryStore();
-  const { t } = useTranslation(namespaces.pages.cProductForm);
+  const { t } = useTranslation(namespaces.translation);
   const { control, handleSubmit } = useForm<CreateProductFormPayload>();
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -59,7 +59,14 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         name="code"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField autoFocus fullWidth label="Código" margin="normal" required {...field} />
+          <TextField
+            autoFocus
+            fullWidth
+            label={t("createProductForm.code")}
+            margin="normal"
+            required
+            {...field}
+          />
           // <TextField autoFocus fullWidth label={t("name")} margin="normal" required {...field} />
         )}
       />
@@ -69,7 +76,13 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         name="name"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField fullWidth label={t("name")} margin="normal" required {...field} />
+          <TextField
+            fullWidth
+            label={t("createProductForm.name")}
+            margin="normal"
+            required
+            {...field}
+          />
         )}
       />
       <Controller
@@ -78,7 +91,13 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         name="description"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField fullWidth label={t("description")} margin="normal" required {...field} />
+          <TextField
+            fullWidth
+            label={t("createProductForm.description")}
+            margin="normal"
+            required
+            {...field}
+          />
         )}
       />
       <Controller
@@ -89,7 +108,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         render={({ field }) => (
           <TextField
             fullWidth
-            label={t("quantity")}
+            label={t("createProductForm.quantity")}
             margin="normal"
             required
             type="number"
@@ -105,7 +124,7 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         render={({ field }) => (
           <TextField
             fullWidth
-            label={t("uPrice")}
+            label={t("createProductForm.uPrice")}
             margin="normal"
             required
             type="number"
@@ -121,15 +140,15 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
         rules={{ required: true }}
         render={({ field }) => (
           <FormControl fullWidth required variant="outlined">
-            <InputLabel id="product-category-label">Categoría</InputLabel>
+            <InputLabel id="product-category-label">{t("createProductForm.category")}</InputLabel>
             <Select
               // label={t("uPrice")}
-              label="Categoría"
+              label={t("createProductForm.category")}
               labelId="product-category-label"
               {...field}
             >
               <MenuItem disabled value="">
-                <em>Selecciona una categoría</em>
+                <em>{t("createProductForm.selectCategory")}</em>
               </MenuItem>
               {categoryOptions.map(c => (
                 <MenuItem key={c.value} value={c.value}>
@@ -142,13 +161,13 @@ const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
       />
 
       <Typography variant="caption" display="block">
-        Imagen
+        {t("createProductForm.image")}
       </Typography>
 
       <input type="file" name="productImage" onChange={handleImageChange} />
 
       <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("create")}
+        {t("createProductForm.create")}
       </Button>
     </Box>
   );

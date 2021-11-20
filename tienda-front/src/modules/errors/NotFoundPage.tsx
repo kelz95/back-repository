@@ -6,7 +6,7 @@ import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import { namespaces } from "#root/translations/i18n.constants";
 
 const NotFoundPage = () => {
-  const { t } = useTranslation(namespaces.pages.errors);
+  const { t } = useTranslation(namespaces.translation);
 
   return (
     <Box
@@ -60,7 +60,7 @@ const NotFoundPage = () => {
               paddingLeft: "6px",
             }}
           >
-            {t("notFound")}
+            {t("notFound.notFound")}
           </Typography>
           <Typography
             component="h1"
@@ -104,7 +104,7 @@ const NotFoundPage = () => {
           }}
         >
           {" "}
-          {t("message")}
+          {t("notFound.message")}
         </Typography>
         <Button
           component={Link}
@@ -113,7 +113,7 @@ const NotFoundPage = () => {
           sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
         >
           {" "}
-          {t("return")}
+          {t("notFound.return")}
         </Button>
       </Box>
     </Box>

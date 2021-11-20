@@ -39,7 +39,7 @@ const ProductsTable = ({
   setPage,
   setRowsPerPage,
 }: ProductsTableProps) => {
-  const { t } = useTranslation(namespaces.pages.productsTable);
+  const { t } = useTranslation(namespaces.translation);
 
   return (
     <TableContainer component={Paper}>
@@ -47,10 +47,10 @@ const ProductsTable = ({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>{t("code")}</TableCell>
-            <TableCell>{t("name")}</TableCell>
-            <TableCell align="right">{t("quantity")}</TableCell>
-            <TableCell align="right">{t("uPrice")} (USD)</TableCell>
+            <TableCell>{t("productsTable.code")}</TableCell>
+            <TableCell>{t("productsTable.name")}</TableCell>
+            <TableCell align="right">{t("productsTable.quantity")}</TableCell>
+            <TableCell align="right">{t("productsTable.uPrice")} (USD)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -72,7 +72,7 @@ const ProductsTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
-              labelRowsPerPage={t("rowsPerPage")}
+              labelRowsPerPage={t("productsTable.rowsPerPage")}
               // ActionsComponent={TablePaginationActions}
             />
           </TableRow>

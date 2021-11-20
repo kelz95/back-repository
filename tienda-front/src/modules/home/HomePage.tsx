@@ -9,7 +9,7 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(namespaces.pages.home);
+  const { t } = useTranslation(namespaces.translation);
 
   const users = [
     { name: "Nombre1", imageSrc: "https://avatars.dicebear.com/api/avataaars/i1.svg" },
@@ -47,7 +47,7 @@ const HomePage = () => {
             sx={{ marginRight: "2rem" }}
             variant="contained"
           >
-            {t("login")}
+            {t("home.login")}
           </Button>
         </Stack>
         <Box sx={{ marginTop: "8rem", width: "50rem" }}>
@@ -64,7 +64,7 @@ const HomePage = () => {
             borderRadius: "10px",
           }}
         >
-          {t("title")}
+          {t("home.title")}
         </Typography>
       </Box>
 
@@ -91,7 +91,7 @@ const HomePage = () => {
             borderRadius: "10px",
           }}
         >
-          {t("group")}
+          {t("home.group")}
         </Typography>
 
         <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={4}>

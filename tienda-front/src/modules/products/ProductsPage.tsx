@@ -27,7 +27,7 @@ import { Product } from "./types";
 import UpdateProductModal from "./UpdateProductModal";
 
 const ProductsPage = () => {
-  const { t } = useTranslation(namespaces.pages.products);
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +51,7 @@ const ProductsPage = () => {
     setIsLoading(true);
     const [res, err] = await CategoryController.getAll();
     if (err) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -84,7 +84,7 @@ const ProductsPage = () => {
       name: encodeURI(debouncedSearchString),
     });
     if (err) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -121,17 +121,17 @@ const ProductsPage = () => {
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h3" marginBottom="2rem" marginTop="1rem">
-          {t("inventory")}
+          {t("products.inventory")}
         </Typography>
 
         <Typography component="h2" variant="h4" marginBottom="2rem" marginTop="1rem">
-          {t("products")}
+          {t("products.products")}
         </Typography>
 
         <Toolbar
-          createButtonText={t("cProduct")}
+          createButtonText={t("products.cProduct")}
           onCreate={handleCreate}
-          searchLabel="Buscar por nombre"
+          searchLabel={t("products.searchName")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           withSearchBar
@@ -149,10 +149,10 @@ const ProductsPage = () => {
         />
 
         <Typography component="h2" variant="h4" marginBottom="2rem" marginTop="1rem">
-          {t("categories")}
+          {t("products.categories")}
         </Typography>
 
-        <Toolbar createButtonText={t("cCategory")} onCreate={handleCreateCategory} />
+        <Toolbar createButtonText={t("products.cCategory")} onCreate={handleCreateCategory} />
         <CategoriesTable
           data={categories}
           onEdit={handleEditCategory}

@@ -19,7 +19,7 @@ type LoginPayload = {
 };
 
 const LoginPage = () => {
-  const { t } = useTranslation(namespaces.pages.login);
+  const { t } = useTranslation(namespaces.translation);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const LoginPage = () => {
       setIsLoading(false);
       return;
     }
-    enqueueSnackbar("Logueado exitosamente", { variant: "success" });
+    enqueueSnackbar(`${t("login.successMessage")}`, { variant: "success" });
     setIsLoading(false);
 
     navigate(from, { replace: true });
@@ -76,7 +76,7 @@ const LoginPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("title")}
+            {t("login.title")}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -91,7 +91,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="username"
-                  label={t("labelUsername")}
+                  label={t("login.labelUsername")}
                   margin="normal"
                   required
                   {...field}
@@ -109,7 +109,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="password"
-                  label={t("labelPassword")}
+                  label={t("login.labelPassword")}
                   margin="normal"
                   required
                   type="password"
@@ -125,7 +125,7 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("buttonText")}
+              {t("login.buttonText")}
             </LoadingButton>
           </Box>
         </Paper>
