@@ -28,16 +28,16 @@ const DeleteProductDialog = ({
   data,
 }: DeleteProductDialogProps) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation(namespaces.pages.dCategoryDialog);
+  const { t } = useTranslation(namespaces.translation);
 
   const handleSubmit = async (id: number) => {
     if (!data) return;
     const [res, err] = await ProductController.deleteOne(id);
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.succesDelete")}`, { variant: "success" });
     onDeleteProduct?.();
     onClose();
   };
@@ -46,16 +46,16 @@ const DeleteProductDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">{`${t("tDeleteProduct")} "${data.code}" ${t(
-        "tProduct"
-      )}`}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{`${t("deleteProductDialog.tDeleteProduct")} "${
+        data.code
+      }" ${t("deleteProductDialog.tProduct")}`}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{t("message")}</DialogContentText>
+        <DialogContentText>{t("common.messageDelete")}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t("bCancel")}</Button>
+        <Button onClick={onClose}>{t("common.bCancel")}</Button>
         <Button color="error" onClick={() => handleSubmit(data.idProduct)} autoFocus>
-          {t("bDelete")}
+          {t("common.bDelete")}
         </Button>
       </DialogActions>
     </Dialog>

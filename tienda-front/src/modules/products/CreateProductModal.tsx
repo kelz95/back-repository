@@ -14,7 +14,7 @@ type CreateProductModalProps = {
 };
 
 const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cProductModal);
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (payload: CreateProductFormPayload) => {
@@ -35,16 +35,21 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
     const [res, err] = await ProductController.create(formData);
     console.log({ res, err });
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("createProductModal.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("createProductModal.success")}`, { variant: "success" });
     onCreateProduct?.();
     onClose();
   };
 
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("createProductModal.title")}
+      willCloseOnEsc={false}
+    >
       <CreateProductForm onSubmit={handleSubmit} />
     </MyModal>
   );

@@ -1,4 +1,9 @@
 {
+    "common":{
+        "error": "Algo salió mal",
+        "succesDelete": "Se eliminó correctamente" 
+    },
+    
     "home":{
         "login": "Iniciar sesión",
         "title": "Sistema De Gestión De Inventario",
@@ -55,5 +60,14 @@
         "selectCategory": "Selecciona una categoría",
         "image": "Imagen",
         "create": "Crear"
+    },
+    "createProductModal":{
+        "title": "Crear nuevo producto",
+        "error": "Algo salió mal",
+        "success": "Producto creado exitosamente"
+    },
+    "deleteProduct":{
+        "tDeleteProduct":"Delete",
+        "tProduct":"product?"
     }
 }

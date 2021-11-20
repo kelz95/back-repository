@@ -1,4 +1,12 @@
 {
+    "common":{
+        "error": "Something went wrong",
+        "bCancel": "Cancel",
+        "bDelete": "Delete",
+        "succesDelete": "Was successfully removed",
+        "messageDelete": "Careful! This action is irreversible."
+    },
+
     "home":{
         "login": "Login",
         "title": "Inventory Management System",
@@ -55,5 +63,14 @@
         "selectCategory": "Select a category",
         "image": "Image",
         "create": "Create"
+    },
+    "createProductModal":{
+        "title": "Create new product",
+        "error": "Something went wrong",
+        "success": "Product created successfully"
+    },
+    "deleteProductDialog":{
+        "tDeleteProduct":"¿Eliminar el producto",
+        "tProduct":"?"
     }
 }
