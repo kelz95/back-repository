@@ -12,9 +12,18 @@ const HomePage = () => {
   const { t } = useTranslation(namespaces.translation);
 
   const users = [
-    { name: "Nombre1", imageSrc: "https://avatars.dicebear.com/api/avataaars/i1.svg" },
-    { name: "Nombre2", imageSrc: "https://avatars.dicebear.com/api/avataaars/i2.svg" },
-    { name: "Nombre3", imageSrc: "https://avatars.dicebear.com/api/avataaars/i3.svg" },
+    {
+      name: "Raquel de la Rosa",
+      imageSrc: "/assets/images/raquel.jpg",
+    },
+    {
+      name: "Laura Saldaña",
+      imageSrc: "/assets/images/laura.jpg",
+    },
+    {
+      name: "Estehany Panigua",
+      imageSrc: "/assets/images/estephany.jpg",
+    },
   ];
 
   return (
@@ -44,14 +53,15 @@ const HomePage = () => {
             color="primary"
             onClick={() => navigate("/login")}
             size="large"
-            sx={{ marginRight: "2rem" }}
+            sx={{ height: "100%", marginRight: "2rem" }}
             variant="contained"
           >
             {t("home.login")}
           </Button>
         </Stack>
-        <Box sx={{ marginTop: "8rem", width: "50rem" }}>
-          <img src={logo} alt="logo" loading="lazy" style={{ width: "100%" }} />
+
+        <Box sx={{ marginTop: "8rem", width: { xs: "19rem", sm: "30rem", md: "50rem" } }}>
+          <img src={logo} alt="logo" loading="lazy" width="100%" />
         </Box>
 
         <Typography
@@ -62,6 +72,7 @@ const HomePage = () => {
             borderWidth: "1px",
             borderColor: "white",
             borderRadius: "10px",
+            textAlign: "center",
           }}
         >
           {t("home.title")}
@@ -89,19 +100,36 @@ const HomePage = () => {
             borderWidth: "1px",
             borderColor: "white",
             borderRadius: "10px",
+            textAlign: "center",
           }}
         >
           {t("home.group")}
         </Typography>
 
-        <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={4}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          divider={<Divider orientation="vertical" flexItem />}
+          spacing={3}
+        >
           {users.map(user => (
             <Paper
               key={user.imageSrc}
-              sx={{ paddingX: "1rem", paddingY: "1rem", maxWidth: "10rem" }}
+              sx={{ paddingX: "1rem", paddingY: "1rem", maxWidth: "220px" }}
             >
-              <img alt={user.name} src={user.imageSrc} />
-              <Typography component="h3" variant="subtitle1" sx={{ marginTop: "2rem" }}>
+              <Box sx={{ width: { xs: "7rem", sm: "8rem", md: "12.5rem" } }}>
+                <img
+                  alt={user.name}
+                  src={user.imageSrc}
+                  loading="lazy"
+                  width="100%"
+                  style={{ objectFit: "cover" }}
+                />
+              </Box>
+              <Typography
+                component="h3"
+                variant="subtitle1"
+                sx={{ marginTop: "2rem", textAlign: "center" }}
+              >
                 {user.name}
               </Typography>
             </Paper>
