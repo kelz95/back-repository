@@ -66,7 +66,7 @@ const CategoriesPage = () => {
     <>
       <NavBar />
       <Container component="main" maxWidth="lg">
-        <Typography component="h1" variant="h3" marginBottom="2rem" marginTop="1rem">
+        <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
           {t("products.categories")}
         </Typography>
 

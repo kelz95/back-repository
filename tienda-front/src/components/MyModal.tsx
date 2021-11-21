@@ -45,7 +45,7 @@ const MyModal = ({
           transform: "translate(-50%, -50%)",
           bgcolor: "background.paper",
           boxShadow: 24,
-          minWidth: "20rem",
+          minWidth: { xs: "14rem", sm: "20rem" },
           padding: 4,
         }}
       >
