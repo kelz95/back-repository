@@ -11,7 +11,7 @@
 	<artifactId>tienda-api</artifactId>
 	<version>1.0.0</version>
 	<name>tienda-api</name>
-	<description>Sistema de gestión para inventario de tienda de abarrotes</description>
+	<description>Sistema de gestión para inventario de una tienda</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -109,6 +109,18 @@
 		    <scope>test</scope>
 		</dependency>-->
 
+		<!-- springfox-swagger-ui -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
