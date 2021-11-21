@@ -34,7 +34,9 @@ import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
 
-//@CrossOrigin(origins= {"http://localhost:4200"})
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Controlador del Rol
  * @author Laura Saldaña
@@ -43,6 +45,7 @@ import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
 @RestController
 @RequestMapping("/api/v1/users")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
+@Api(value = "Users Controller")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -56,6 +59,7 @@ public class UserController {
 	 * @return Page<User>
 	 */
 	@GetMapping("")
+	@ApiOperation(value = "List users")
 	public Page<User> findAll(@RequestParam(defaultValue="0") int page,
 			@RequestParam(defaultValue = "10") int size, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
@@ -76,6 +80,7 @@ public class UserController {
 	 * @exception EntityNotFoundException, Exception
 	 */
 	@GetMapping("/{id}")
+	@ApiOperation(response = User.class, value = "Find an user by id")
 	public ResponseEntity<?> getUser(@PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Get user", username);
@@ -102,6 +107,7 @@ public class UserController {
 	 * @exception DuplicateEntryException, Exception
 	 */
 	@PostMapping("")
+	@ApiOperation(response = User.class, value = "Create an user")
 	public  ResponseEntity<?> create(@Valid @RequestBody User user, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Create user", username);
@@ -137,6 +143,7 @@ public class UserController {
 	 * @exception EntityNotFoundException, DuplicateEntryException, Exception 
 	 */
 	@PutMapping("/{id}")
+	@ApiOperation(response = User.class, value = "Update an user")
 	public ResponseEntity<?> update(@Valid @RequestBody User user, @PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Update user", username);
@@ -177,14 +184,16 @@ public class UserController {
 	 * @exception EntityNotFoundException, Exception
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id, Principal principal) {
+	@ApiOperation(value = "Delete an user")
+	public ResponseEntity<ResponseDTO> delete(@PathVariable Long id, Principal principal) {
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Delete user", username);
 
 		try {
 			userService.delete(id);
 			LoggerUtils.logResponse(logger, HttpStatus.NO_CONTENT.toString(), "User id: " + id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.PROCESADO.getMensaje()), HttpStatus.NO_CONTENT);
 		} catch (EntityNotFoundException e) {
 			LoggerUtils.logException(logger, HttpStatus.NOT_FOUND.toString(), e.getMessage());
 			 return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 

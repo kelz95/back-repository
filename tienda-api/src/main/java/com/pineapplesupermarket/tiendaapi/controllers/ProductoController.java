@@ -43,6 +43,9 @@ import com.pineapplesupermarket.tiendaapi.util.ExportarInventario;
 import com.pineapplesupermarket.tiendaapi.util.JsonUtils;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 
 /**
  *Controlador del producto
@@ -52,6 +55,7 @@ import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@Api(value = "Product Controller")
 public class ProductoController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductoController.class);
@@ -73,6 +77,7 @@ public class ProductoController {
 	 * @exception EntityNotFoundException, Exception
 	 */
 	@GetMapping("/{id}")
+	@ApiOperation(response = Product.class, value = "Find a product by id")
 	public ResponseEntity<?> getProduct(@PathVariable(value="id") long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Consult product", username);
@@ -105,6 +110,7 @@ public class ProductoController {
 	 */
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "List of products")
 	public Page<Product> listAllProduct(@RequestParam(defaultValue="0") int page,
 				@RequestParam(defaultValue = "10") int size,
 				@RequestParam(required = false) String name, 
@@ -136,6 +142,7 @@ public class ProductoController {
 	 */
 	@PostMapping(value="",consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(response = Product.class, value = "Create a product")
 	public ResponseEntity<?> create(@Valid @RequestPart String producto,
 			@RequestPart("picture") MultipartFile picture, Principal principal) { 
 		String username = userService.getPrincipalUsername(principal);
@@ -190,6 +197,7 @@ public class ProductoController {
 	 */
 	@PutMapping("/{id}/upload")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(value = "Upload a product image")
 	public ResponseEntity<ResponseDTO> upload(@PathVariable(value="id") long id,
 			@RequestParam("picture") MultipartFile picture,
 			Principal principal) { 
@@ -200,7 +208,8 @@ public class ProductoController {
 			this.productoService.upload(id,picture);
 			
 			LoggerUtils.logResponse(logger, HttpStatus.CREATED.toString());
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.PROCESADO.getMensaje()),HttpStatus.CREATED);
 		} catch(FailUploadedException e) {
 			LoggerUtils.logException(logger, HttpStatus.NOT_MODIFIED.toString(), e.getMessage());
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_PROCESADO.getCodigo(), 
@@ -224,6 +233,7 @@ public class ProductoController {
 	 */
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(response = Product.class, value = "Update a product")
 	public ResponseEntity<?> update(@Valid @RequestBody Product productoUpdate,
 			@PathVariable Long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
@@ -257,6 +267,7 @@ public class ProductoController {
 	 */
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@ApiOperation(value = "Delete a product")
 	public ResponseEntity<ResponseDTO> delete(@PathVariable(value="id") long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Delete product", username);
@@ -264,7 +275,8 @@ public class ProductoController {
 		try {
 			this.productoService.delete(id);
 			LoggerUtils.logResponse(logger, HttpStatus.NO_CONTENT.toString(), "Product id: " + id);
-		        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		        return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
+		        		ResponseCodeEnum.PROCESADO.getMensaje()), HttpStatus.NO_CONTENT);
 		}catch(EntityNotFoundException e) {
 			LoggerUtils.logException(logger, HttpStatus.NOT_FOUND.toString(), e.getMessage());
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 
@@ -283,6 +295,7 @@ public class ProductoController {
 	 */
 	@GetMapping("/exportar")
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(response = ExportarInventario.class, value = "Export products to Excel")
 	public ExportarInventario exportar(Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Export products to Excel", username);
