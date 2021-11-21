@@ -2,8 +2,8 @@ import { Box, Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-import TextInput from "#root/components/TextInput";
 import SelectInput from "#root/components/SelectInput";
+import TextInput from "#root/components/TextInput";
 import { namespaces } from "#root/translations/i18n.constants";
 
 import { User } from "./types";
@@ -40,6 +40,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
       <TextInput
+        autoFocus
         control={control}
         defaultValue={data.username}
         error={errors.username}
@@ -98,7 +99,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         options={roleOptions}
         isDisabled={isLoading}
         isRequired
-        id="product-category-label2"
+        id="product-category-label"
         name="role"
         label="Role"
         placeholder="Selecciona un rol"

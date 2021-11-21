@@ -1,7 +1,9 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Box, Button } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+import SelectInput from "#root/components/SelectInput";
+import TextInput from "#root/components/TextInput";
 import { namespaces } from "#root/translations/i18n.constants";
 
 export type CreateUserFormPayload = {
@@ -16,11 +18,16 @@ export type CreateUserFormPayload = {
 
 type CreateUserFormProps = {
   onSubmit: (payload: CreateUserFormPayload) => void;
+  isLoading?: boolean;
 };
 
-const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
+const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
   const { t } = useTranslation(namespaces.pages.cUserForm);
-  const { control, handleSubmit } = useForm<CreateUserFormPayload>();
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<CreateUserFormPayload>();
 
   const roleOptions = [
     { label: "Admin", value: "ROLE_ADMIN" },
@@ -29,79 +36,70 @@ const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
-      <Controller
+      <TextInput
+        autoFocus
         control={control}
         defaultValue=""
+        error={errors.username}
+        isDisabled={isLoading}
+        isRequired
         name="username"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField autoFocus fullWidth label="Username" margin="normal" required {...field} />
-        )}
-      />
-      <Controller
-        control={control}
-        defaultValue=""
-        name="password"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField
-            fullWidth
-            label="Password"
-            margin="normal"
-            required
-            type="password"
-            {...field}
-          />
-        )}
-      />
-      <Controller
-        control={control}
-        defaultValue=""
-        name="email"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label="Email" margin="normal" required {...field} />
-        )}
-      />
-      <Controller
-        control={control}
-        defaultValue=""
-        name="name"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label="Name" margin="normal" required {...field} />
-        )}
-      />
-      <Controller
-        control={control}
-        defaultValue=""
-        name="lastname"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label="Last Name" margin="normal" required {...field} />
-        )}
+        label="Username"
       />
 
-      <Controller
+      <TextInput
         control={control}
         defaultValue=""
+        error={errors.password}
+        isDisabled={isLoading}
+        helperText="Debe crear la contraseña nuevamente"
+        isRequired
+        name="password"
+        label="Password"
+        type="password"
+      />
+
+      <TextInput
+        control={control}
+        defaultValue=""
+        error={errors.email}
+        isDisabled={isLoading}
+        isRequired
+        name="email"
+        label="Email"
+      />
+
+      <TextInput
+        control={control}
+        defaultValue=""
+        error={errors.name}
+        isDisabled={isLoading}
+        isRequired
+        name="name"
+        label="Name"
+      />
+
+      <TextInput
+        control={control}
+        defaultValue=""
+        error={errors.lastname}
+        isDisabled={isLoading}
+        isRequired
+        name="lastname"
+        label="Last Name"
+      />
+
+      <SelectInput
+        control={control}
+        defaultValue=""
+        error={errors.role}
+        options={roleOptions}
+        isDisabled={isLoading}
+        isRequired
+        id="product-category-label"
         name="role"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <FormControl fullWidth required variant="outlined" sx={{ marginTop: "1rem" }}>
-            <InputLabel id="product-category-label">Role</InputLabel>
-            <Select label="Role" labelId="product-category-label" {...field}>
-              <MenuItem disabled value="">
-                <em>Selecciona un rol</em>
-              </MenuItem>
-              {roleOptions.map(r => (
-                <MenuItem key={r.value} value={r.value}>
-                  {r.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
+        label="Role"
+        placeholder="Selecciona un rol"
       />
 
       <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
