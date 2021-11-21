@@ -1,4 +1,10 @@
-import { AccountCircle, LocalGroceryStore, Logout, PersonAdd } from "@mui/icons-material";
+import {
+  AccountCircle,
+  Dashboard,
+  LocalGroceryStore,
+  Logout,
+  PersonAdd,
+} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -47,6 +53,11 @@ const NavBar = () => {
     navigate("/products");
   };
 
+  const handleViewCategories = () => {
+    setProfileAnchorEl(null);
+    navigate("/categories");
+  };
+
   const handleUsers = () => {
     setProfileAnchorEl(null);
     navigate("/users");
@@ -87,6 +98,13 @@ const NavBar = () => {
                 <LocalGroceryStore />
               </ListItemIcon>
               <ListItemText>{t("viewProducts")}</ListItemText>
+            </MenuItem>
+
+            <MenuItem onClick={handleViewCategories}>
+              <ListItemIcon>
+                <Dashboard />
+              </ListItemIcon>
+              <ListItemText>{t("viewCategories")}</ListItemText>
             </MenuItem>
 
             <MenuItem onClick={handleUsers}>
