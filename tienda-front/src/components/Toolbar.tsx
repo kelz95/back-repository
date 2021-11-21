@@ -36,7 +36,7 @@ const Toolbar = ({
   const { t } = useTranslation(namespaces.pages.toolbar);
   return (
     <Stack
-      direction="row"
+      direction={{ xs: "column", md: "row" }}
       alignItems="center"
       justifyContent="space-between"
       marginBottom="1.5rem"
@@ -58,7 +58,7 @@ const Toolbar = ({
         />
       )}
       {!withSearchBar && <div />}
-      <Stack direction="row" spacing={2}>
+      <Stack direction={{ xs: "column", md: "row" }} marginTop={{ xs: 2, md: 0 }} spacing={2}>
         {withExport && (
           <Button onClick={onExport} startIcon={<Download fontSize="large" />} variant="outlined">
             {exportButtonText}

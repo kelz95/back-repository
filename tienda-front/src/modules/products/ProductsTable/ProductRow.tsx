@@ -1,21 +1,22 @@
 import { Delete, Edit, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { Box, Collapse, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import IconButton from "#root/components/IconButton";
 import { IMAGE_FALLBACK_URL } from "#root/lib/constants";
-import { Product } from "#root/modules/products/types";
+import { namespaces } from "#root/translations/i18n.constants";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "../../../translations/i18n.constants";
+import { Product } from "../types";
 
 type ProductRowProps = {
   onDelete?: (product: Product) => void;
   onEdit?: (product: Product) => void;
+  onEditImage?: (product: Product) => void;
   row: Product;
 };
 
-const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
+const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { t } = useTranslation(namespaces.translation);
@@ -70,9 +71,9 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
               </Stack>
 
               <Stack direction="row" alignItems="center" justifyContent="space-between">
-                <Box sx={{ border: 1, borderRadius: 2, padding: 2, width: "45%" }}>
+                <Box sx={{ borderRadius: 2, padding: 2, width: "45%" }}>
                   <Typography component="p" marginY="1rem">
-                    {row.description}
+                    {t("productRow.description")}: {row.description}
                   </Typography>
 
                   <Typography component="p">
@@ -82,7 +83,7 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                     {t("productRow.uPrice")}: {row.unitPrice}
                   </Typography>
                 </Box>
-                <Box sx={{ border: 1, borderRadius: 2, padding: 2 }}>
+                <Box sx={{ borderRadius: 2, padding: 2 }}>
                   <Typography component="h6" marginBottom="1rem" variant="h6">
                     {t("productRow.category")}
                   </Typography>
@@ -94,7 +95,11 @@ const ProductRow = ({ onDelete, onEdit, row }: ProductRowProps) => {
                     {t("productRow.description")}: {row.productCategory.description}
                   </Typography>
                 </Box>
-                <Box height="10rem">
+                <Box
+                  height="10rem"
+                  onClick={() => onEditImage?.(row)}
+                  sx={{ ":hover": { cursor: "pointer", opacity: 0.5 } }}
+                >
                   <img src={row.picture || IMAGE_FALLBACK_URL} alt="product" height="100%" />
                 </Box>
               </Stack>
