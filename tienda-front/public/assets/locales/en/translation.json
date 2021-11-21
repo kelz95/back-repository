@@ -1,76 +1,88 @@
 {
     "common":{
         "error": "Something went wrong",
-        "bCancel": "Cancel",
-        "bDelete": "Delete",
+        "noUsersFound": "No users found",
+        "cancel": "Cancel",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "login":"Login",
+        "username":"Username",
         "succesDelete": "Was successfully removed",
         "messageDelete": "Careful! This action is irreversible."
     },
+    "header":{
 
-    "home":{
-        "login": "Login",
-        "title": "Inventory Management System",
-        "group": "Developed by group 3"
     },
-    "login":{
-        "title" : "Login",
-        "labelUsername" : "Username",
-        "labelPassword" : "Password",
-        "buttonText" : "Login",
-        "successMessage": "Logged in successfully"
-    },
-    "notFound":{
-        "notFound": "Oops! Page not found",
-        "message": "we are sorry, but the page you requested was not found",
-        "return": "Return to Pineapple page"
-    },
+    "footer":{
 
-
-    "products":{
-        "inventory": "Inventory",
-        "products": "Products",
-        "categories": "Categories",
-        "cProduct": "Create product",
-        "cCategory": "Create category",
-        "error": "Something went wrong",
-        "searchName": "Search by name"
     },
-    "productRow":{
-        "details": "More details",
-        "product": "Product",
-        "quantity": "Quantity",
-        "uPrice": "Unit Price",
-        "bUpdate": "Update",
-        "bDelete": "Delete",
-        "category": "Category",
-        "code": "Code",
-        "description": "Description"
-    },
-    "productsTable":{
-        "code": "Code",
-        "name": "Name",
-        "quantity": "Quantity",
-        "uPrice": "Unit price",
-        "rowsPerPage": "Rows per page"
-    },
-    "createProductForm":{
-        "code": "Code",
-        "name": "Name",
-        "description": "Description",
-        "quantity": "Quantity",
-        "uPrice": "Unit Price (USD)",
-        "category": "Category",
-        "selectCategory": "Select a category",
-        "image": "Image",
-        "create": "Create"
-    },
-    "createProductModal":{
-        "title": "Create new product",
-        "error": "Something went wrong",
-        "success": "Product created successfully"
-    },
-    "deleteProductDialog":{
-        "tDeleteProduct":"¿Eliminar el producto",
-        "tProduct":"?"
+    "pages":{
+        "home":{
+            "title": "Inventory Management System",
+            "group": "Developed by group 3"
+        },
+        "login":{
+            "labelPassword" : "Password",
+            "successMessage": "Logged in successfully"
+        },
+        "notFound":{
+            "notFound": "Oops! Page not found",
+            "message": "we are sorry, but the page you requested was not found",
+            "return": "Return to Pineapple page"
+        },
+        
+        
+        "products":{
+            "inventory": "Inventory",
+            "products": "Products",
+            "categories": "Categories",
+            "cProduct": "Create product",
+            "cCategory": "Create category",
+            "error": "Something went wrong",
+            "searchName": "Search by name"
+        },
+        "productRow":{
+            "details": "More details",
+            "product": "Product",
+            "quantity": "Quantity",
+            "uPrice": "Unit Price",
+            "bUpdate": "Update",
+            "bDelete": "Delete",
+            "category": "Category",
+            "code": "Code",
+            "description": "Description"
+        },
+        "productsTable":{
+            "code": "Code",
+            "name": "Name",
+            "quantity": "Quantity",
+            "uPrice": "Unit price",
+            "rowsPerPage": "Rows per page"
+        },
+        "createProductForm":{
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "quantity": "Quantity",
+            "uPrice": "Unit Price (USD)",
+            "category": "Category",
+            "selectCategory": "Select a category",
+            "image": "Image",
+            "create": "Create"
+        },
+        "createProductModal":{
+            "title": "Create new product",
+            "error": "Something went wrong",
+            "success": "Product created successfully"
+        },
+        "deleteProductDialog":{
+            "tDeleteProduct":"¿Eliminar el producto",
+            "tProduct":"?"
+        },
+        
+        "updateUserForm":{
+            
+        }
     }
 }

@@ -60,7 +60,7 @@ const NotFoundPage = () => {
               paddingLeft: "6px",
             }}
           >
-            {t("notFound.notFound")}
+            {t("pages.notFound.notFound")}
           </Typography>
           <Typography
             component="h1"
@@ -104,7 +104,7 @@ const NotFoundPage = () => {
           }}
         >
           {" "}
-          {t("notFound.message")}
+          {t("pages.notFound.message")}
         </Typography>
         <Button
           component={Link}
@@ -113,7 +113,7 @@ const NotFoundPage = () => {
           sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
         >
           {" "}
-          {t("notFound.return")}
+          {t("pages.notFound.return")}
         </Button>
       </Box>
     </Box>

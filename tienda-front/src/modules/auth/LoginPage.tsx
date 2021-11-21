@@ -42,7 +42,7 @@ const LoginPage = () => {
       setIsLoading(false);
       return;
     }
-    enqueueSnackbar(`${t("login.successMessage")}`, { variant: "success" });
+    enqueueSnackbar(`${t("pages.login.successMessage")}`, { variant: "success" });
     setIsLoading(false);
 
     navigate(from, { replace: true });
@@ -76,7 +76,7 @@ const LoginPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("login.title")}
+            {t("common.login")}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -91,7 +91,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="username"
-                  label={t("login.labelUsername")}
+                  label={t("common.username")}
                   margin="normal"
                   required
                   {...field}
@@ -109,7 +109,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="password"
-                  label={t("login.labelPassword")}
+                  label={t("pages.login.labelPassword")}
                   margin="normal"
                   required
                   type="password"
@@ -125,7 +125,7 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("login.buttonText")}
+              {t("common.login")}
             </LoadingButton>
           </Box>
         </Paper>

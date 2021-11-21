@@ -7,7 +7,7 @@ const createI18n = (language: string): i18nInstance => {
   const i18n = i18next.createInstance().use(initReactI18next);
 
   i18n.use(HttpApi).init({
-    debug: true,
+    // debug: true,
     react: {
       useSuspense: false,
     },

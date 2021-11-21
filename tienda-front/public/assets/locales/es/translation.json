@@ -1,73 +1,84 @@
 {
     "common":{
         "error": "Algo salió mal",
-        "succesDelete": "Se eliminó correctamente" 
+        "noUsersFound": "No se han encontrado usuarios",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "login":"Iniciar sesión",
+        "username" : "Usuario",
+        "succesDelete": "Se eliminó correctamente",
+        "messageDelete": "¡Cuidado! Esta acción es irreversible."
     },
-    
-    "home":{
-        "login": "Iniciar sesión",
-        "title": "Sistema De Gestión De Inventario",
-        "group": "Desarrollado por el grupo 3"
+    "header":{
+
     },
-    "login":{
-        "title" : "Iniciar Sesión",
-        "labelUsername" : "Usuario",
-        "labelPassword" : "Contraseña",
-        "buttonText" : "Iniciar Sesión",
-        "successMessage": "Logueado exitosamente"
+    "footer":{
+
     },
-    "notFound":{
-        "notFound": "¡UPS! Página no encontrada",
-        "message": "lo sentimos, pero la página solicitada no fue encontrada",
-        "return": "Regresar a la página Pineapple"
-    },
+    "pages":{  
+        "home":{
+            "title": "Sistema De Gestión De Inventario",
+            "group": "Desarrollado por el grupo 3"
+        },
+        "login":{
+            "labelPassword" : "Contraseña",
+            "successMessage": "Logueado exitosamente"
+        },
+        "notFound":{
+            "notFound": "¡UPS! Página no encontrada",
+            "message": "lo sentimos, pero la página solicitada no fue encontrada",
+            "return": "Regresar a la página Pineapple"
+        },
 
 
-    "products":{
-        "inventory": "Inventario",
-        "products": "Productos",
-        "categories": "Categorias",
-        "cProduct": "Crear producto",
-        "cCategory": "Crear categoría",
-        "error": "Algo salió mal",
-        "searchName": "Buscar por nombre"
-    },
-    "productRow":{
-        "details": "Más detalles",
-        "product": "Producto",
-        "quantity": "Cantidad",
-        "uPrice": "Precio Unitario",
-        "bUpdate": "Actualizar",
-        "bDelete": "Eliminar",
-        "category": "Categoría",
-        "code": "Código",
-        "description": "Descripción"
-    },
-    "productsTable":{
-        "code": "Código",
-        "name": "Nombre",
-        "quantity": "Cantidad",
-        "uPrice": "Precio Unitario",
-        "rowsPerPage": "Filas por página"
-    },
-    "createProductForm":{
-        "code": "Código",
-        "name": "Nombre",
-        "description": "Descripción",
-        "quantity": "Cantidad",
-        "uPrice": "Precio Unitario (USD)",
-        "category": "Categoría",
-        "selectCategory": "Selecciona una categoría",
-        "image": "Imagen",
-        "create": "Crear"
-    },
-    "createProductModal":{
-        "title": "Crear nuevo producto",
-        "error": "Algo salió mal",
-        "success": "Producto creado exitosamente"
-    },
-    "deleteProduct":{
-        "tDeleteProduct":"Delete",
-        "tProduct":"product?"
+        "products":{
+            "inventory": "Inventario",
+            "products": "Productos",
+            "categories": "Categorias",
+            "cProduct": "Crear producto",
+            "cCategory": "Crear categoría",
+            "error": "Algo salió mal",
+            "searchName": "Buscar por nombre"
+        },
+        "productRow":{
+            "details": "Más detalles",
+            "product": "Producto",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario",
+            "bUpdate": "Actualizar",
+            "bDelete": "Eliminar",
+            "category": "Categoría",
+            "code": "Código",
+            "description": "Descripción"
+        },
+        "productsTable":{
+            "code": "Código",
+            "name": "Nombre",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario",
+            "rowsPerPage": "Filas por página"
+        },
+        "createProductForm":{
+            "code": "Código",
+            "name": "Nombre",
+            "description": "Descripción",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario (USD)",
+            "category": "Categoría",
+            "selectCategory": "Selecciona una categoría",
+            "image": "Imagen",
+            "create": "Crear"
+        },
+        "createProductModal":{
+            "title": "Crear nuevo producto",
+            "error": "Algo salió mal",
+            "success": "Producto creado exitosamente"
+        },
+        "deleteProduct":{
+            "tDeleteProduct":"Delete",
+            "tProduct":"product?"
+        }
     }
 }

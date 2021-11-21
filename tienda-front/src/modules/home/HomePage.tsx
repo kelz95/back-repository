@@ -21,7 +21,7 @@ const HomePage = () => {
       imageSrc: "/assets/images/laura.jpg",
     },
     {
-      name: "Estehany Panigua",
+      name: "Estephany Panigua",
       imageSrc: "/assets/images/estephany.jpg",
     },
   ];
@@ -56,7 +56,7 @@ const HomePage = () => {
             sx={{ height: "100%", marginRight: "2rem" }}
             variant="contained"
           >
-            {t("home.login")}
+            {t("common.login")}
           </Button>
         </Stack>
 
@@ -75,7 +75,7 @@ const HomePage = () => {
             textAlign: "center",
           }}
         >
-          {t("home.title")}
+          {t("pages.home.title")}
         </Typography>
       </Box>
 
@@ -103,7 +103,7 @@ const HomePage = () => {
             textAlign: "center",
           }}
         >
-          {t("home.group")}
+          {t("pages.home.group")}
         </Typography>
 
         <Stack
