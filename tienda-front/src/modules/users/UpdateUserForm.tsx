@@ -51,7 +51,7 @@ type UpdateUserFormProps = {
 };
 
 const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
-  const { t } = useTranslation(namespaces.pages.cUserForm);
+  const { t } = useTranslation(namespaces.translation);
   const {
     control,
     formState: { errors },
@@ -59,8 +59,8 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
   } = useForm<UpdateUserFormPayload>({ resolver: yupResolver(schema) });
 
   const roleOptions = [
-    { label: "Admin", value: "ROLE_ADMIN" },
-    { label: "User", value: "ROLE_VIEWER" },
+    { label: `${t("pages.user.admin")}`, value: "ROLE_ADMIN" },
+    { label: `${t("pages.user.regularUser")}`, value: "ROLE_VIEWER" },
   ];
 
   return (
@@ -73,7 +73,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="username"
-        label="Username"
+        label={t("common.username")}
       />
 
       <PasswordInput
@@ -85,7 +85,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isRequired
         name="password"
         id="password-input-update"
-        label="Password"
+        label={t("common.password")}
       />
 
       <TextInput
@@ -95,7 +95,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="email"
-        label="Email"
+        label={t("common.email")}
       />
 
       <TextInput
@@ -105,7 +105,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="name"
-        label="Name"
+        label={t("common.name")}
       />
 
       <TextInput
@@ -115,7 +115,7 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="lastname"
-        label="Last Name"
+        label={t("common.lastname")}
       />
 
       <SelectInput
@@ -127,12 +127,12 @@ const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
         isRequired
         id="product-category-label"
         name="role"
-        label="Role"
-        placeholder="Selecciona un rol"
+        label={t("pages.user.role")}
+        placeholder={t("pages.user.selectRole")}
       />
 
       <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("create")}
+        {t("common.update")}
       </LoadingButton>
     </Box>
   );

@@ -36,7 +36,7 @@ const UsersTable = ({
   setPage,
   setRowsPerPage,
 }: UsersTableProps) => {
-  const { t } = useTranslation(namespaces.pages.userTable);
+  const { t } = useTranslation(namespaces.translation);
 
   return (
     <TableContainer component={Paper}>
@@ -44,10 +44,10 @@ const UsersTable = ({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>{t("username")}</TableCell>
-            <TableCell>{t("name")}</TableCell>
-            <TableCell>{t("role")}</TableCell>
-            <TableCell align="right">{t("active")}</TableCell>
+            <TableCell>{t("common.username")}</TableCell>
+            <TableCell>{t("common.name")}</TableCell>
+            <TableCell>{t("pages.user.role")}</TableCell>
+            <TableCell align="right">{t("pages.user.active")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,7 +69,7 @@ const UsersTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
-              labelRowsPerPage={t("rowsPerPage")}
+              labelRowsPerPage={t("common.rowsPerPage")}
             />
           </TableRow>
         </TableFooter>

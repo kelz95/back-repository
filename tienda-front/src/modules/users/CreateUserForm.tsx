@@ -48,7 +48,7 @@ type CreateUserFormProps = {
 };
 
 const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
-  const { t } = useTranslation(namespaces.pages.cUserForm);
+  const { t } = useTranslation(namespaces.translation);
   const {
     control,
     formState: { errors },
@@ -56,8 +56,8 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
   } = useForm<CreateUserFormPayload>({ resolver: yupResolver(schema) });
 
   const roleOptions = [
-    { label: "Admin", value: "ROLE_ADMIN" },
-    { label: "User", value: "ROLE_VIEWER" },
+    { label: `${t("pages.user.admin")}`, value: "ROLE_ADMIN" },
+    { label: `${t("pages.user.regularUser")}`, value: "ROLE_VIEWER" },
   ];
 
   return (
@@ -70,7 +70,7 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="username"
-        label="Username"
+        label={t("common.username")}
       />
 
       <PasswordInput
@@ -81,7 +81,7 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isRequired
         name="password"
         id="password-input"
-        label="Password"
+        label={t("common.password")}
       />
 
       <TextInput
@@ -91,7 +91,7 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="email"
-        label="Email"
+        label={t("common.email")}
       />
 
       <TextInput
@@ -101,7 +101,7 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="name"
-        label="Name"
+        label={t("common.name")}
       />
 
       <TextInput
@@ -111,7 +111,7 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="lastname"
-        label="Last Name"
+        label={t("common.lastname")}
       />
 
       <SelectInput
@@ -123,12 +123,12 @@ const CreateUserForm = ({ onSubmit, isLoading }: CreateUserFormProps) => {
         isRequired
         id="product-category-label"
         name="role"
-        label="Role"
-        placeholder="Selecciona un rol"
+        label={t("pages.user.role")}
+        placeholder={t("pages.user.selectRole")}
       />
 
       <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("create")}
+        {t("common.create")}
       </LoadingButton>
     </Box>
   );

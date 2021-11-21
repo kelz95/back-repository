@@ -1,15 +1,29 @@
 {
     "common":{
         "error": "Algo salió mal",
+        "createdSuccess": "Creado exitosamente",
+        "deletedSuccess": "Eliminado exitosamente",
+        "updatedSuccess": "Actualizado exitosamente",
         "noUsersFound": "No se han encontrado usuarios",
+        "rowsPerPage":"Filas por página",
         "cancel": "Cancelar",
+        "create": "Crear",
         "save": "Guardar",
         "edit": "Editar",
+        "update": "Actualizar",
         "delete": "Eliminar",
         "login":"Iniciar sesión",
         "username" : "Usuario",
+        "name":"Nombre",
+        "lastname": "Apellido",
+        "fullname":"Nombre completo",
+        "email": "Correo",
+        "password" : "Contraseña",
         "succesDelete": "Se eliminó correctamente",
-        "messageDelete": "¡Cuidado! Esta acción es irreversible."
+        "details":"Más detalles",
+        "messageDelete": "¡Cuidado! Esta acción es irreversible.",
+        "initMessageDelete":"¿Eliminar",
+        "finishMessageDelete":"?"
     },
     "header":{
 
@@ -23,7 +37,6 @@
             "group": "Desarrollado por el grupo 3"
         },
         "login":{
-            "labelPassword" : "Contraseña",
             "successMessage": "Logueado exitosamente"
         },
         "notFound":{
@@ -32,7 +45,16 @@
             "return": "Regresar a la página Pineapple"
         },
 
-
+        "user":{
+            "role": "Rol",
+            "active": "Esta activo",
+            "selectRole": "Selecciona un rol",
+            "admin": "Administrador",
+            "regularUser": "Usuario Regular",
+            "createUser": "Crear usuario",
+            "updateUser": "Actualizar usuario",
+            "list": "Lista De Usuarios"
+        },
         "products":{
             "inventory": "Inventario",
             "products": "Productos",

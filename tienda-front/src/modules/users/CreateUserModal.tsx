@@ -16,7 +16,7 @@ type CreateUserModalProps = {
 };
 
 const CreateUserModal = ({ isOpen, onClose, onCreateUser }: CreateUserModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cUserModal);
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -33,17 +33,22 @@ const CreateUserModal = ({ isOpen, onClose, onCreateUser }: CreateUserModalProps
     });
     if (err || !res) {
       setIsLoading(false);
-      enqueueSnackbar(err?.response?.data.mensaje || t("error"), { variant: "error" });
+      enqueueSnackbar(err?.response?.data.mensaje || t("common.error"), { variant: "error" });
       return;
     }
     setIsLoading(false);
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.createdSuccess")}`, { variant: "success" });
     onCreateUser?.();
     onClose();
   };
 
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("pages.user.createUser")}
+      willCloseOnEsc={false}
+    >
       <CreateUserForm isLoading={isLoading} onSubmit={handleSubmit} />
     </MyModal>
   );

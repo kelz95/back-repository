@@ -19,7 +19,7 @@ import UserController from "./UserController";
 import UsersTable from "./UsersTable";
 
 const UsersPage = () => {
-  const { t } = useTranslation(namespaces.pages.users);
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +53,7 @@ const UsersPage = () => {
       size: dataTableOptions.pageSize,
     });
     if (err) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -72,11 +72,11 @@ const UsersPage = () => {
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
-          {t("list")}
+          {t("pages.user.list")}
         </Typography>
 
         <Toolbar
-          createButtonText={t("cUser")}
+          createButtonText={t("pages.user.createUser")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           onCreate={handleCreate}

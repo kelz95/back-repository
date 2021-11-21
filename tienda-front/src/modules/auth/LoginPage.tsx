@@ -109,7 +109,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="password"
-                  label={t("pages.login.labelPassword")}
+                  label={t("common.password")}
                   margin="normal"
                   required
                   type="password"

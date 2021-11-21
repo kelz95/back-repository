@@ -17,7 +17,7 @@ type UpdateUserModalProps = {
 };
 
 const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cUserModal);
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -38,11 +38,11 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
     });
     if (err || !res) {
       setIsLoading(false);
-      enqueueSnackbar(err?.response?.data?.mensaje || t("error"), { variant: "error" });
+      enqueueSnackbar(err?.response?.data?.mensaje || t("common.error"), { variant: "error" });
       return;
     }
     setIsLoading(false);
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.updatedSuccess")}`, { variant: "success" });
     onUpdateUser?.();
     onClose();
   };
@@ -50,7 +50,12 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
   if (!data) return <div />;
 
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title="Actualizar usuario" willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("pages.user.updateUser")}
+      willCloseOnEsc={false}
+    >
       <UpdateUserForm data={data} isLoading={isLoading} onSubmit={handleSubmit} />
     </MyModal>
   );

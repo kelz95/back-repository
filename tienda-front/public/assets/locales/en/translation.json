@@ -1,15 +1,29 @@
 {
     "common":{
         "error": "Something went wrong",
+        "createdSuccess": "Created successfully",
+        "deletedSuccess": "Removed successfully",
+        "updatedSuccess": "Updated successfully",
         "noUsersFound": "No users found",
+        "rowsPerPage":"Rows per page",
         "cancel": "Cancel",
+        "create": "Create",
         "save": "Save",
         "edit": "Edit",
+        "update": "Update",
         "delete": "Delete",
         "login":"Login",
         "username":"Username",
+        "name":"Name",
+        "lastname": "Lastname",
+        "fullname":"Fullname",
+        "email": "Email",
+        "password" : "Password",
         "succesDelete": "Was successfully removed",
-        "messageDelete": "Careful! This action is irreversible."
+        "details":"More details",
+        "messageDelete": "Careful! This action is irreversible.",
+        "initMessageDelete":"Delete",
+        "finishMessageDelete":"?"
     },
     "header":{
 
@@ -23,7 +37,6 @@
             "group": "Developed by group 3"
         },
         "login":{
-            "labelPassword" : "Password",
             "successMessage": "Logged in successfully"
         },
         "notFound":{
@@ -32,7 +45,16 @@
             "return": "Return to Pineapple page"
         },
         
-        
+        "user":{
+            "role": "Role",
+            "active": "Is active",
+            "selectRole": "Select a role",
+            "admin": "Administrator",
+            "regularUser": "Regular User",
+            "createUser": "Create user",
+            "updateUser": "Update user",
+            "list": "Users List"
+        },
         "products":{
             "inventory": "Inventory",
             "products": "Products",
