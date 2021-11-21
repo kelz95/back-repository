@@ -1,4 +1,5 @@
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
@@ -18,11 +19,12 @@ const CreateUserModal = ({ isOpen, onClose, onCreateUser }: CreateUserModalProps
   const { t } = useTranslation(namespaces.pages.cUserModal);
   const { enqueueSnackbar } = useSnackbar();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (payload: CreateUserFormPayload) => {
+    setIsLoading(true);
     const [res, err] = await UserController.create({
-      role: {
-        code: payload.role as RoleCode,
-      },
+      role: { code: payload.role as RoleCode },
       username: payload.username,
       password: payload.password,
       email: payload.email,
@@ -30,9 +32,11 @@ const CreateUserModal = ({ isOpen, onClose, onCreateUser }: CreateUserModalProps
       lastname: payload.lastname,
     });
     if (err || !res) {
+      setIsLoading(false);
       enqueueSnackbar(err?.response?.data.mensaje || t("error"), { variant: "error" });
       return;
     }
+    setIsLoading(false);
     enqueueSnackbar(`${t("success")}`, { variant: "success" });
     onCreateUser?.();
     onClose();
@@ -40,7 +44,7 @@ const CreateUserModal = ({ isOpen, onClose, onCreateUser }: CreateUserModalProps
 
   return (
     <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
-      <CreateUserForm onSubmit={handleSubmit} />
+      <CreateUserForm isLoading={isLoading} onSubmit={handleSubmit} />
     </MyModal>
   );
 };

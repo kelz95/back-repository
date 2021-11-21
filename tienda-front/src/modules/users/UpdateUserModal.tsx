@@ -1,4 +1,5 @@
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
@@ -19,9 +20,12 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
   const { t } = useTranslation(namespaces.pages.cUserModal);
   const { enqueueSnackbar } = useSnackbar();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async (payload: UpdateUserFormPayload) => {
     if (!data) return;
 
+    setIsLoading(true);
     const [res, err] = await UserController.update(data.idUser, {
       role: {
         code: payload.role as RoleCode,
@@ -33,9 +37,11 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
       lastname: payload.lastname,
     });
     if (err || !res) {
+      setIsLoading(false);
       enqueueSnackbar(err?.response?.data?.mensaje || t("error"), { variant: "error" });
       return;
     }
+    setIsLoading(false);
     enqueueSnackbar(`${t("success")}`, { variant: "success" });
     onUpdateUser?.();
     onClose();
@@ -45,7 +51,7 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
 
   return (
     <MyModal isOpen={isOpen} onClose={onClose} title="Actualizar usuario" willCloseOnEsc={false}>
-      <UpdateUserForm data={data} onSubmit={handleSubmit} />
+      <UpdateUserForm data={data} isLoading={isLoading} onSubmit={handleSubmit} />
     </MyModal>
   );
 };
