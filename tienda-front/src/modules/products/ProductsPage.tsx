@@ -9,6 +9,7 @@ import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
 import NavBar from "#root/components/NavBar";
 import Toolbar from "#root/components/Toolbar";
+import downloadFile from "#root/lib/downloadFile";
 import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
 import CategoriesTable from "#root/modules/categories/CategoriesTable";
@@ -98,6 +99,21 @@ const ProductsPage = () => {
     setIsCreateProductModalOpen(true);
   };
 
+  const handleExportProduct = async () => {
+    setIsLoading(true);
+
+    const [res, err] = await ProductController.export();
+    console.log({ res, err });
+    if (err) {
+      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
+      setIsLoading(false);
+      return;
+    }
+
+    downloadFile(res?.data, `productsExportedAt${new Date().toLocaleString()}`);
+    setIsLoading(false);
+  };
+
   const handleEdit = (currentProduct: Product) => {
     setClickedProduct(currentProduct);
     setIsUpdateProductModalOpen(true);
@@ -130,10 +146,14 @@ const ProductsPage = () => {
 
         <Toolbar
           createButtonText={t("products.cProduct")}
+          exportButtonText={t("products.exportProduct")}
           onCreate={handleCreate}
+          onExport={handleExportProduct}
           searchLabel={t("products.searchName")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
+          withCreate
+          withExport
           withSearchBar
         />
 

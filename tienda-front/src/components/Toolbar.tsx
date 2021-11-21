@@ -1,4 +1,4 @@
-import { Add, Search } from "@mui/icons-material";
+import { Add, Download, Search } from "@mui/icons-material";
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
@@ -7,23 +7,31 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 type ToolbarProps = {
   onCreate?: () => void;
+  onExport?: () => void;
   searchLabel?: string;
   searchValue?: string;
   setSearchValue?: Dispatch<SetStateAction<string>>;
 
   withSearchBar?: boolean;
+  withCreate?: boolean;
+  withExport?: boolean;
   createButtonText?: string;
+  exportButtonText?: string;
 };
 
 const Toolbar = ({
   onCreate,
+  onExport,
   searchLabel,
   searchValue,
   setSearchValue,
 
   withSearchBar,
+  withCreate = true,
+  withExport,
 
   createButtonText = "Create product",
+  exportButtonText = "Export",
 }: ToolbarProps) => {
   const { t } = useTranslation(namespaces.pages.toolbar);
   return (
@@ -50,9 +58,18 @@ const Toolbar = ({
         />
       )}
       {!withSearchBar && <div />}
-      <Button onClick={onCreate} startIcon={<Add fontSize="large" />} variant="outlined">
-        {createButtonText}
-      </Button>
+      <Stack direction="row" spacing={2}>
+        {withExport && (
+          <Button onClick={onExport} startIcon={<Download fontSize="large" />} variant="outlined">
+            {exportButtonText}
+          </Button>
+        )}
+        {withCreate && (
+          <Button onClick={onCreate} startIcon={<Add fontSize="large" />} variant="outlined">
+            {createButtonText}
+          </Button>
+        )}
+      </Stack>
     </Stack>
   );
 };

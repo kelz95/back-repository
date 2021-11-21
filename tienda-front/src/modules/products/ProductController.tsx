@@ -94,7 +94,7 @@ class ProductController {
 
   static async export() {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      productRequest.get("/exportar")
+      productRequest.get("/exportar", { responseType: "blob" })
     );
     return [apiRes, error] as const;
   }
