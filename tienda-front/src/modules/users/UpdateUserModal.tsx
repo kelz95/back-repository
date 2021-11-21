@@ -30,11 +30,11 @@ const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModa
       role: {
         code: payload.role as RoleCode,
       },
-      username: payload.username,
-      password: payload.password,
-      email: payload.email,
-      name: payload.name,
-      lastname: payload.lastname,
+      username: payload.username.trim(),
+      password: payload.password.trim(),
+      email: payload.email.trim(),
+      name: payload.name.trim(),
+      lastname: payload.lastname.trim(),
     });
     if (err || !res) {
       setIsLoading(false);
