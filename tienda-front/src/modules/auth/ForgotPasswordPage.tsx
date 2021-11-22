@@ -30,9 +30,7 @@ const ForgotPasswordPage = () => {
 
   const onSubmit = async (data: ForgotPasswordPayload) => {
     setIsLoading(true);
-    const apiResponse = await AuthController.requestRestorePassword({
-      parametro: data.usernameOrEmail,
-    });
+    const apiResponse = await AuthController.requestRestorePassword(data.usernameOrEmail);
 
     if (apiResponse.error || !apiResponse.data) {
       enqueueSnackbar(apiResponse.error, { variant: "error" });

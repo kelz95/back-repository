@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import Copyright from "#root/components/Copyright";
@@ -26,6 +26,7 @@ const ProductsPage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
+  const inputFileRef = useRef<HTMLInputElement>(null);
 
   const [isCreateProductModalOpen, setIsCreateProductModalOpen] = useState(false);
   const [isUpdateProductModalOpen, setIsUpdateProductModalOpen] = useState(false);
@@ -79,7 +80,6 @@ const ProductsPage = () => {
     setIsLoading(true);
 
     const [res, err] = await ProductController.export();
-    console.log({ res, err });
     if (err) {
       enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       setIsLoading(false);
@@ -93,6 +93,35 @@ const ProductsPage = () => {
   const handleEdit = (currentProduct: Product) => {
     setClickedProduct(currentProduct);
     setIsUpdateProductModalOpen(true);
+  };
+
+  const handleEditImageProduct = (currentProduct: Product) => {
+    setClickedProduct(currentProduct);
+    inputFileRef?.current?.click();
+  };
+
+  const handleChangeEditImageProduct: ChangeEventHandler<HTMLInputElement> = async evt => {
+    const file = evt?.target?.files?.[0];
+    if (!clickedProduct?.idProduct) return;
+
+    if (!file) {
+      alert("Update a valid image file");
+      return;
+    }
+
+    const payload = new FormData();
+    payload.append("picture", file);
+    setIsLoading(true);
+    const [, err] = await ProductController.updateImage(clickedProduct.idProduct, payload);
+    if (err) {
+      enqueueSnackbar(t("common.error"), { variant: "error" });
+      setIsLoading(false);
+      return;
+    }
+
+    enqueueSnackbar(`Image updated successfuly`, { variant: "success" });
+    setIsLoading(false);
+    fetchProducts();
   };
 
   const handleDelete = (currentProduct: Product) => {
@@ -132,6 +161,7 @@ const ProductsPage = () => {
         <ProductsTable
           data={products}
           onEdit={handleEdit}
+          onEditImage={handleEditImageProduct}
           onDelete={handleDelete}
           page={dataTableOptions.pageIndex}
           rowsPerPage={dataTableOptions.pageSize}
@@ -161,6 +191,13 @@ const ProductsPage = () => {
         isOpen={isDeleteProductModalOpen}
         onClose={() => setIsDeleteProductModalOpen(false)}
         onDeleteProduct={fetchProducts}
+      />
+      <input
+        type="file"
+        id="productImage"
+        ref={inputFileRef}
+        onChange={handleChangeEditImageProduct}
+        style={{ display: "none" }}
       />
     </>
   );
