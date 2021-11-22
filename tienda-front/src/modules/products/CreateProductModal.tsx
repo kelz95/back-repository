@@ -32,7 +32,9 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
       })
     );
 
-    formData.append("picture", payload.productImage || "null");
+    if (payload.productImage) {
+      formData.append("picture", payload.productImage);
+    }
 
     setIsLoading(true);
     const [res, err] = await ProductController.create(formData);
