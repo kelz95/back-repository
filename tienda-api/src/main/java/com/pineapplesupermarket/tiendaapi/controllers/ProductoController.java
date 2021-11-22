@@ -144,7 +144,7 @@ public class ProductoController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@ApiOperation(response = Product.class, value = "Create a product")
 	public ResponseEntity<?> create(@Valid @RequestPart String producto,
-			@RequestPart("picture") MultipartFile picture, Principal principal) { 
+			@RequestPart(value="picture", required = false) MultipartFile picture, Principal principal) { 
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Create product", username);
 		
