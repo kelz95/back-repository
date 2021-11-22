@@ -6,7 +6,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class TiendaApiApplication extends SpringBootServletInitializer{
+public class TiendaApiApplication extends SpringBootServletInitializer {
 	
 	//Para servlet externo
 	@Override

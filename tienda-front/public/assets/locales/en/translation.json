@@ -1,0 +1,116 @@
+{
+    "common":{
+        "error": "Something went wrong",
+        "createdSuccess": "Created successfully",
+        "deletedSuccess": "Removed successfully",
+        "updatedSuccess": "Updated successfully",
+        "noUsersFound": "No users found",
+        "rowsPerPage":"Rows per page",
+        "cancel": "Cancel",
+        "create": "Create",
+        "save": "Save",
+        "edit": "Edit",
+        "update": "Update",
+        "delete": "Delete",
+        "login":"Login",
+        "username":"Username",
+        "name":"Name",
+        "lastname": "Lastname",
+        "fullname":"Fullname",
+        "email": "Email",
+        "password" : "Password",
+        "code": "Code",
+        "description": "Description",
+        "details":"More details",
+        "messageDelete": "Careful! This action is irreversible.",
+        "initMessageDelete":"Delete",
+        "finishMessageDelete":"?"
+    },
+    "header":{
+
+    },
+    "footer":{
+
+    },
+    "pages":{
+        "home":{
+            "title": "Inventory Management System",
+            "group": "Developed by group 3"
+        },
+        "login":{
+            "successMessage": "Logged in successfully"
+        },
+        "notFound":{
+            "notFound": "Oops! Page not found",
+            "message": "we are sorry, but the page you requested was not found",
+            "return": "Return to Pineapple page"
+        },
+        "user":{
+            "role": "Role",
+            "active": "Is active",
+            "selectRole": "Select a role",
+            "admin": "Administrator",
+            "regularUser": "Regular User",
+            "createUser": "Create user",
+            "updateUser": "Update user",
+            "list": "Users List"
+        },
+        "category":{
+            "createCategory": "Create category",
+            "updateCategory": "Update category",
+            "list": "Categories List"
+        },
+
+        "products":{
+            "inventory": "Inventory",
+            "products": "Products",
+            "categories": "Categories",
+            "cProduct": "Create product",
+            "cCategory": "Create category",
+            "error": "Something went wrong",
+            "searchName": "Search by name"
+        },
+        "productRow":{
+            "details": "More details",
+            "product": "Product",
+            "quantity": "Quantity",
+            "uPrice": "Unit Price",
+            "bUpdate": "Update",
+            "bDelete": "Delete",
+            "category": "Category",
+            "code": "Code",
+            "description": "Description"
+        },
+        "productsTable":{
+            "code": "Code",
+            "name": "Name",
+            "quantity": "Quantity",
+            "uPrice": "Unit price",
+            "rowsPerPage": "Rows per page"
+        },
+        "createProductForm":{
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "quantity": "Quantity",
+            "uPrice": "Unit Price (USD)",
+            "category": "Category",
+            "selectCategory": "Select a category",
+            "image": "Image",
+            "create": "Create"
+        },
+        "createProductModal":{
+            "title": "Create new product",
+            "error": "Something went wrong",
+            "success": "Product created successfully"
+        },
+        "deleteProductDialog":{
+            "tDeleteProduct":"¿Eliminar el producto",
+            "tProduct":"?"
+        },
+        
+        "updateUserForm":{
+            
+        }
+    }
+}

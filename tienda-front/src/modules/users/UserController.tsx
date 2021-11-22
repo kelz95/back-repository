@@ -36,16 +36,17 @@ userRequest.interceptors.response.use(
   }
 );
 
-type CreatePayload = FormData;
-type UpdateDataPayload = Partial<User>;
-type UpdateImagePayload = FormData;
+type CreatePayload = Partial<User>;
+type UpdatePayload = Partial<User>;
 
 type PaginationParams = {
   page: number;
   size: number;
-  name?: string;
-  categoria?: string;
-  fechaCreacion?: string;
+};
+
+type ErrorResponse = {
+  codigo: string;
+  mensaje: string;
 };
 
 class UserController {
@@ -64,22 +65,15 @@ class UserController {
   }
 
   static async create(payload: CreatePayload) {
-    const [apiRes, error] = await asyncWrapper<AxiosResponse<User>, AxiosError>(
-      userRequest.post("/", payload, { headers: { "content-type": "multipart/form-data" } })
+    const [apiRes, error] = await asyncWrapper<AxiosResponse<User>, AxiosError<ErrorResponse>>(
+      userRequest.post("/", payload)
     );
     return [apiRes, error] as const;
   }
 
-  static async updateData(id: number, payload: UpdateDataPayload) {
+  static async update(id: number, payload: UpdatePayload) {
     const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
       userRequest.put(`/${id}`, payload)
-    );
-    return [apiRes, error] as const;
-  }
-
-  static async updateImage(id: number, payload: UpdateImagePayload) {
-    const [apiRes, error] = await asyncWrapper<AxiosResponse, AxiosError>(
-      userRequest.put(`/${id}/upload`, payload)
     );
     return [apiRes, error] as const;
   }

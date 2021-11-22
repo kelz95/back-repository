@@ -1,6 +1,8 @@
 package com.pineapplesupermarket.tiendaapi.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pineapplesupermarket.tiendaapi.models.Role;
 /**
@@ -8,7 +10,7 @@ import com.pineapplesupermarket.tiendaapi.models.Role;
  *@author Laura Saldaña
  *@version 1.0
  */
-public interface RoleRepository extends CrudRepository<Role, Long>  {
+public interface RoleRepository extends JpaRepository<Role, Long>  {
 
-	Role findByCode(String code);
+	Optional<Role> findByCode(String code);
 }

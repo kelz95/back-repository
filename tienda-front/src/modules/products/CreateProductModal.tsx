@@ -1,4 +1,5 @@
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
@@ -14,12 +15,11 @@ type CreateProductModalProps = {
 };
 
 const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cProductModal);
-
+  const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (payload: CreateProductFormPayload) => {
-    console.log(payload);
     const formData = new FormData();
     formData.append(
       "producto",
@@ -28,25 +28,35 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
         name: payload.name,
         code: payload.code,
         description: payload.description,
-        quantity: payload.quantity,
-        unitPrice: payload.unitPrice,
+        quantity: Number(payload.quantity),
+        unitPrice: Number(payload.unitPrice),
       })
     );
-    formData.append("picture", payload.productImage);
 
+    formData.append("picture", payload.productImage || "null");
+
+    setIsLoading(true);
     const [res, err] = await ProductController.create(formData);
     console.log({ res, err });
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      setIsLoading(false);
+      enqueueSnackbar(`${t("createProductModal.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    setIsLoading(false);
+    enqueueSnackbar(`${t("createProductModal.success")}`, { variant: "success" });
     onCreateProduct?.();
     onClose();
   };
+
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
-      <CreateProductForm onSubmit={handleSubmit} />
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("createProductModal.title")}
+      willCloseOnEsc={false}
+    >
+      <CreateProductForm onSubmit={handleSubmit} isLoading={isLoading} />
     </MyModal>
   );
 };

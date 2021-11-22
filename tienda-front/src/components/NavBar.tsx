@@ -1,4 +1,10 @@
-import { AccountCircle, LocalGroceryStore, Logout, PersonAdd } from "@mui/icons-material";
+import {
+  AccountCircle,
+  Dashboard,
+  LocalGroceryStore,
+  Logout,
+  PersonAdd,
+} from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -8,12 +14,14 @@ import {
   ListItemText,
   Stack,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { MouseEvent, useState } from "react";
 import { useNavigate } from "react-router";
 
 import SrcLogo from "#root/assets/pina.png";
+import SrcLogoNoLetters from "#root/assets/pina_sola.png";
 import IconButton from "#root/components/IconButton";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import { useAuthStore } from "#root/modules/auth/useAuthStore";
@@ -27,6 +35,7 @@ const NavBar = () => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
   const theme = useTheme();
+  const smallScreenOrBigger = useMediaQuery(theme.breakpoints.up("sm"));
 
   const [profileAnchorEl, setProfileAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -47,6 +56,11 @@ const NavBar = () => {
     navigate("/products");
   };
 
+  const handleViewCategories = () => {
+    setProfileAnchorEl(null);
+    navigate("/categories");
+  };
+
   const handleUsers = () => {
     setProfileAnchorEl(null);
     navigate("/users");
@@ -62,13 +76,15 @@ const NavBar = () => {
       bgcolor={theme.palette.primary.light}
     >
       <Box height="5rem" paddingY="0.5rem">
-        <img src={SrcLogo} alt="logo" height="100%" />
+        <img src={smallScreenOrBigger ? SrcLogo : SrcLogoNoLetters} alt="logo" height="100%" />
       </Box>
       {user && (
         <Stack direction="row" spacing={1} alignItems="center">
-          <Typography color="white" fontSize="1.125rem">{`${t("welcome")}, ${
-            user?.username
-          }!`}</Typography>
+          <Typography
+            color="white"
+            fontSize="1.125rem"
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >{`${t("welcome")}, ${user?.username}!`}</Typography>
           <IconButton onClick={handleProfileMenu} tip={t("menu")}>
             <AccountCircle htmlColor="white" fontSize="large" />
           </IconButton>
@@ -87,6 +103,13 @@ const NavBar = () => {
                 <LocalGroceryStore />
               </ListItemIcon>
               <ListItemText>{t("viewProducts")}</ListItemText>
+            </MenuItem>
+
+            <MenuItem onClick={handleViewCategories}>
+              <ListItemIcon>
+                <Dashboard />
+              </ListItemIcon>
+              <ListItemText>{t("viewCategories")}</ListItemText>
             </MenuItem>
 
             <MenuItem onClick={handleUsers}>

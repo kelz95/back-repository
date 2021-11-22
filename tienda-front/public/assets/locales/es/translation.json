@@ -1,0 +1,112 @@
+{
+    "common":{
+        "error": "Algo salió mal",
+        "createdSuccess": "Creado exitosamente",
+        "deletedSuccess": "Eliminado exitosamente",
+        "updatedSuccess": "Actualizado exitosamente",
+        "noUsersFound": "No se han encontrado usuarios",
+        "rowsPerPage":"Filas por página",
+        "cancel": "Cancelar",
+        "create": "Crear",
+        "save": "Guardar",
+        "edit": "Editar",
+        "update": "Actualizar",
+        "delete": "Eliminar",
+        "login":"Iniciar sesión",
+        "username" : "Usuario",
+        "name":"Nombre",
+        "lastname": "Apellido",
+        "fullname":"Nombre completo",
+        "email": "Correo",
+        "password" : "Contraseña",
+        "code": "Código",
+        "description": "Descripción",
+        "details":"Más detalles",
+        "messageDelete": "¡Cuidado! Esta acción es irreversible.",
+        "initMessageDelete":"¿Eliminar",
+        "finishMessageDelete":"?"
+    },
+    "header":{
+
+    },
+    "footer":{
+
+    },
+    "pages":{  
+        "home":{
+            "title": "Sistema De Gestión De Inventario",
+            "group": "Desarrollado por el grupo 3"
+        },
+        "login":{
+            "successMessage": "Logueado exitosamente"
+        },
+        "notFound":{
+            "notFound": "¡UPS! Página no encontrada",
+            "message": "lo sentimos, pero la página solicitada no fue encontrada",
+            "return": "Regresar a la página Pineapple"
+        },
+        "user":{
+            "role": "Rol",
+            "active": "Esta activo",
+            "selectRole": "Selecciona un rol",
+            "admin": "Administrador",
+            "regularUser": "Usuario Regular",
+            "createUser": "Crear usuario",
+            "updateUser": "Actualizar usuario",
+            "list": "Lista De Usuarios"
+        },
+        "category":{
+            "createCategory": "Crear categoría",
+            "updateCategory": "Actualizar categoría",
+            "list": "Lista De Categorias"
+        },
+
+        "products":{
+            "inventory": "Inventario",
+            "products": "Productos",
+            "categories": "Categorias",
+            "cProduct": "Crear producto",
+            "cCategory": "Crear categoría",
+            "error": "Algo salió mal",
+            "searchName": "Buscar por nombre"
+        },
+        "productRow":{
+            "details": "Más detalles",
+            "product": "Producto",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario",
+            "bUpdate": "Actualizar",
+            "bDelete": "Eliminar",
+            "category": "Categoría",
+            "code": "Código",
+            "description": "Descripción"
+        },
+        "productsTable":{
+            "code": "Código",
+            "name": "Nombre",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario",
+            "rowsPerPage": "Filas por página"
+        },
+        "createProductForm":{
+            "code": "Código",
+            "name": "Nombre",
+            "description": "Descripción",
+            "quantity": "Cantidad",
+            "uPrice": "Precio Unitario (USD)",
+            "category": "Categoría",
+            "selectCategory": "Selecciona una categoría",
+            "image": "Imagen",
+            "create": "Crear"
+        },
+        "createProductModal":{
+            "title": "Crear nuevo producto",
+            "error": "Algo salió mal",
+            "success": "Producto creado exitosamente"
+        },
+        "deleteProduct":{
+            "tDeleteProduct":"Delete",
+            "tProduct":"product?"
+        }
+    }
+}

@@ -34,9 +34,9 @@ public class User implements Serializable{
 	@Column(name = "id_user")
 	private Long idUser;
 	
+	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="id_role")
-	@NotNull
 	private Role role;
 	
 	@NotBlank

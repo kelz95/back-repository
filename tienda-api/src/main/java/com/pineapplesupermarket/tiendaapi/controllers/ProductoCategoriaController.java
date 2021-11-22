@@ -29,6 +29,9 @@ import com.pineapplesupermarket.tiendaapi.models.ProductCategory;
 import com.pineapplesupermarket.tiendaapi.services.IProductoCategoriaService;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 /**
  *Controlador de la categoría del producto
  *@author Raquel de la Rosa 
@@ -37,6 +40,7 @@ import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 @RestController
 @RequestMapping("/api/v1/categories")
 @PreAuthorize("hasRole('ROLE_ADMIN')")
+@Api(value = "Product Category Controller")
 public class ProductoCategoriaController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProductoCategoriaController.class);
@@ -53,6 +57,7 @@ public class ProductoCategoriaController {
 	 */
 	@GetMapping("")
 	@ResponseStatus(HttpStatus.OK)
+	@ApiOperation(value = "List of categories")
 	public ResponseEntity<List<ProductCategory>> listAllProduct(Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "List categories", username);
@@ -63,6 +68,7 @@ public class ProductoCategoriaController {
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(response = ProductCategory.class, value = "Find a product category by id")
 	public ResponseEntity<?> findOne(@PathVariable Long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Find product category", username);
@@ -86,6 +92,7 @@ public class ProductoCategoriaController {
 	}
 	
 	@PostMapping("")
+	@ApiOperation(response = ProductCategory.class, value = "Create a product category")
 	public ResponseEntity<?> create(@Valid @RequestBody ProductCategory productoCategoria, 
 			Principal principal){
 		String username = userService.getPrincipalUsername(principal);
@@ -111,6 +118,7 @@ public class ProductoCategoriaController {
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation(response = ProductCategory.class, value = "Update a product category")
 	public ResponseEntity<?> update(@Valid @RequestBody ProductCategory productoCategoriaNew,
 			@PathVariable Long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
@@ -140,13 +148,15 @@ public class ProductoCategoriaController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id, Principal principal){
+	@ApiOperation(value = "Delete a product category")
+	public ResponseEntity<ResponseDTO> delete(@PathVariable Long id, Principal principal){
 		String username = userService.getPrincipalUsername(principal);
 		LoggerUtils.logRequest(logger, "Delete product category", username);
 		try {
 			this.categoriaService.delete(id);
 			LoggerUtils.logResponse(logger, HttpStatus.OK.toString(), "Product Id: "+ id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.PROCESADO.getCodigo(), 
+	        		ResponseCodeEnum.PROCESADO.getMensaje()), HttpStatus.NO_CONTENT);
 		} catch (EntityNotFoundException e) {
 			LoggerUtils.logException(logger, HttpStatus.NOT_FOUND.toString(), e.getMessage());
 			return new ResponseEntity<>(new ResponseDTO(ResponseCodeEnum.NO_ENCONTRADO.getCodigo(), 

@@ -13,12 +13,11 @@ import {
 import { User } from "../types";
 import UserRow from "./UserRow";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type UsersTableProps = {
   data: User[];
-  onDelete?: (id: number) => void;
+  onDelete?: (user: User) => void;
   onEdit?: (user: User) => void;
 
   rowsPerPage: number;
@@ -36,7 +35,7 @@ const UsersTable = ({
   setPage,
   setRowsPerPage,
 }: UsersTableProps) => {
-  const { t } = useTranslation(namespaces.pages.userTable);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <TableContainer component={Paper}>
@@ -44,10 +43,10 @@ const UsersTable = ({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>{t("username")}</TableCell>
-            <TableCell align="right">{t("name")}</TableCell>
-            <TableCell align="right">{t("role")}</TableCell>
-            <TableCell align="right">{t("active")}</TableCell>
+            <TableCell>{t("common.username")}</TableCell>
+            <TableCell>{t("common.name")}</TableCell>
+            <TableCell>{t("pages.user.role")}</TableCell>
+            <TableCell align="right">{t("pages.user.active")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,7 +68,7 @@ const UsersTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
-              labelRowsPerPage={t("rowsPerPage")}
+              labelRowsPerPage={t("common.rowsPerPage")}
             />
           </TableRow>
         </TableFooter>

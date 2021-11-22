@@ -1,5 +1,5 @@
 {
-    "error": "Ocurrió un problema",
     "success": "Categoría creada exitosamente",
+    "error": "Ocurrió un problema",
     "title": "Crear nueva categoría"
 }

@@ -3,8 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import { Category } from "./types";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 export type UpdateCategoryFormPayload = {
   code: string;
@@ -17,7 +16,7 @@ type UpdateCategoryFormProps = {
 };
 
 const UpdateCategoryForm = ({ data, onSubmit }: UpdateCategoryFormProps) => {
-  const { t } = useTranslation(namespaces.pages.uCategoryForm);
+  const { t } = useTypeSafeTranslation();
 
   const { control, handleSubmit } = useForm<UpdateCategoryFormPayload>();
   return (
@@ -28,7 +27,14 @@ const UpdateCategoryForm = ({ data, onSubmit }: UpdateCategoryFormProps) => {
         name="code"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField autoFocus fullWidth label={t("code")} margin="normal" required {...field} />
+          <TextField
+            autoFocus
+            fullWidth
+            label={t("common.code")}
+            margin="normal"
+            required
+            {...field}
+          />
         )}
       />
       <Controller
@@ -37,12 +43,18 @@ const UpdateCategoryForm = ({ data, onSubmit }: UpdateCategoryFormProps) => {
         name="description"
         rules={{ required: true }}
         render={({ field }) => (
-          <TextField fullWidth label={t("description")} margin="normal" required {...field} />
+          <TextField
+            fullWidth
+            label={t("common.description")}
+            margin="normal"
+            required
+            {...field}
+          />
         )}
       />
 
       <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("update")}
+        {t("common.update")}
       </Button>
     </Box>
   );

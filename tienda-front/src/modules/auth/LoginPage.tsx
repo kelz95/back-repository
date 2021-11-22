@@ -3,13 +3,12 @@ import { Avatar, Box, Container, Paper, TextField, Typography, Stack } from "@mu
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import AuthController from "./AuthController";
 
@@ -19,7 +18,7 @@ type LoginPayload = {
 };
 
 const LoginPage = () => {
-  const { t } = useTranslation(namespaces.pages.login);
+  const { t } = useTypeSafeTranslation();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,7 +41,7 @@ const LoginPage = () => {
       setIsLoading(false);
       return;
     }
-    enqueueSnackbar("Logueado exitosamente", { variant: "success" });
+    enqueueSnackbar(`${t("pages.login.successMessage")}`, { variant: "success" });
     setIsLoading(false);
 
     navigate(from, { replace: true });
@@ -76,7 +75,7 @@ const LoginPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("title")}
+            {t("common.login")}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -91,7 +90,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="username"
-                  label={t("labelUsername")}
+                  label={t("common.username")}
                   margin="normal"
                   required
                   {...field}
@@ -109,7 +108,7 @@ const LoginPage = () => {
                   disabled={isLoading}
                   fullWidth
                   id="password"
-                  label={t("labelPassword")}
+                  label={t("common.password")}
                   margin="normal"
                   required
                   type="password"
@@ -125,7 +124,7 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("buttonText")}
+              {t("common.login")}
             </LoadingButton>
           </Box>
         </Paper>

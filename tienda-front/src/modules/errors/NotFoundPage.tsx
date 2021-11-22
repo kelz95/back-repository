@@ -1,12 +1,11 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 const NotFoundPage = () => {
-  const { t } = useTranslation(namespaces.pages.errors);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <Box
@@ -60,7 +59,7 @@ const NotFoundPage = () => {
               paddingLeft: "6px",
             }}
           >
-            {t("notFound")}
+            {t("pages.notFound.notFound")}
           </Typography>
           <Typography
             component="h1"
@@ -104,7 +103,7 @@ const NotFoundPage = () => {
           }}
         >
           {" "}
-          {t("message")}
+          {t("pages.notFound.message")}
         </Typography>
         <Button
           component={Link}
@@ -113,7 +112,7 @@ const NotFoundPage = () => {
           sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
         >
           {" "}
-          {t("return")}
+          {t("pages.notFound.return")}
         </Button>
       </Box>
     </Box>

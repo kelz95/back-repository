@@ -1,7 +1,12 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoadingButton } from "@mui/lab";
+import { Box } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
+import SelectInput from "#root/components/SelectInput";
+import TextInput from "#root/components/TextInput";
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
 import { namespaces } from "#root/translations/i18n.constants";
 
@@ -17,15 +22,29 @@ export type UpdateProductFormPayload = {
   productCategory: string;
 };
 
+const schema = yup.object().shape({
+  name: yup.string().required("Please enter a name"),
+  code: yup.string().required("Please enter a code"),
+  description: yup.string().required("Please enter a description"),
+  quantity: yup.number().required("Please enter a quantity"),
+  unitPrice: yup.number().required("Please enter the unit price"),
+  productCategory: yup.string().required("Please enter a category"),
+});
+
 type UpdateProductFormProps = {
   data: Product;
   onSubmit: (payload: UpdateProductFormPayload) => void;
+  isLoading?: boolean;
 };
 
-const UpdateProductForm = ({ data, onSubmit }: UpdateProductFormProps) => {
+const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps) => {
   const { categories } = useCategoryStore();
   const { t } = useTranslation(namespaces.pages.cProductForm);
-  const { control, handleSubmit } = useForm<UpdateProductFormPayload>();
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<UpdateProductFormPayload>({ resolver: yupResolver(schema) });
 
   const preSubmit = (payload: UpdateProductFormPayload) => {
     onSubmit({ ...payload });
@@ -35,97 +54,75 @@ const UpdateProductForm = ({ data, onSubmit }: UpdateProductFormProps) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit(preSubmit)} sx={{ mt: 1 }}>
-      <Controller
+      <TextInput
+        autoFocus
         control={control}
         defaultValue={data.code}
+        error={errors.code}
+        isDisabled={isLoading}
+        isRequired
         name="code"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField autoFocus fullWidth label="Código" margin="normal" required {...field} />
-          // <TextField autoFocus fullWidth label={t("name")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.code")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={data.name}
+        error={errors.name}
+        isDisabled={isLoading}
+        isRequired
         name="name"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label={t("name")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.name")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={data.description}
+        error={errors.description}
+        isDisabled={isLoading}
+        isRequired
         name="description"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label={t("description")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.description")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={data.quantity}
+        error={errors.quantity}
+        isDisabled={isLoading}
+        isRequired
         name="quantity"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField
-            fullWidth
-            label={t("quantity")}
-            margin="normal"
-            required
-            type="number"
-            {...field}
-          />
-        )}
+        label={t("createProductForm.quantity")}
+        type="number"
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={data.unitPrice}
+        error={errors.unitPrice}
+        isDisabled={isLoading}
+        isRequired
         name="unitPrice"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField
-            fullWidth
-            label={t("uPrice")}
-            margin="normal"
-            required
-            type="number"
-            {...field}
-          />
-        )}
+        label={t("createProductForm.unitPrice")}
+        type="number"
       />
 
-      <Controller
+      <SelectInput
         control={control}
         defaultValue={data.productCategory.code}
+        error={errors.productCategory}
+        options={categoryOptions}
+        isDisabled={isLoading}
+        isRequired
+        id="productcategory-label"
         name="productCategory"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <FormControl fullWidth required variant="outlined">
-            <InputLabel id="product-category-label">Categoría</InputLabel>
-            <Select
-              // label={t("uPrice")}
-              label="Categoría"
-              labelId="product-category-label"
-              {...field}
-            >
-              <MenuItem disabled value="">
-                <em>Selecciona una categoría</em>
-              </MenuItem>
-              {categoryOptions.map(c => (
-                <MenuItem key={c.value} value={c.value}>
-                  {c.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
+        label={t("createProductForm.category")}
+        placeholder={t("createProductForm.selectCategory")}
       />
 
-      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("create")}
-      </Button>
+      <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
+        {t("update")}
+      </LoadingButton>
     </Box>
   );
 };

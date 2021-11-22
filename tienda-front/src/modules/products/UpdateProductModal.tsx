@@ -1,4 +1,5 @@
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
@@ -23,10 +24,12 @@ const UpdateProductModal = ({
 }: UpdateProductModalProps) => {
   const { t } = useTranslation(namespaces.pages.cProductModal);
   const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (payload: UpdateProductFormPayload) => {
     if (!data) return;
 
+    setIsLoading(true);
     const [res, err] = await ProductController.updateData(data.idProduct, {
       productCategory: { code: payload.productCategory },
       name: payload.name,
@@ -37,9 +40,11 @@ const UpdateProductModal = ({
     });
 
     if (err || !res) {
+      setIsLoading(false);
       enqueueSnackbar(`${t("error")}`, { variant: "error" });
       return;
     }
+    setIsLoading(false);
     enqueueSnackbar(`${t("success")}`, { variant: "success" });
     onUpdateProduct?.();
     onClose();
@@ -49,7 +54,7 @@ const UpdateProductModal = ({
 
   return (
     <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
-      <UpdateProductForm data={data} onSubmit={handleSubmit} />
+      <UpdateProductForm data={data} onSubmit={handleSubmit} isLoading={isLoading} />
     </MyModal>
   );
 };

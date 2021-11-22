@@ -1,12 +1,14 @@
+export type RoleCode = "ROLE_ADMIN" | "ROLE_VIEWER";
+
 export type Role = {
   id: number;
-  code: "ROLE_ADMIN" | "ROLE_USER";
+  code: RoleCode;
   description: string;
 };
 
 export type User = {
   idUser: number;
-  role: Role;
+  role: Partial<Role>;
   username: string;
   password?: string;
   email: string;

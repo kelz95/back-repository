@@ -35,6 +35,9 @@ import com.pineapplesupermarket.tiendaapi.security.UserPrincipal;
 import com.pineapplesupermarket.tiendaapi.services.IUserService;
 import com.pineapplesupermarket.tiendaapi.util.LoggerUtils;
 import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 /**
  *End Point de autenticación
  *@author Raquel de la Rosa 
@@ -42,6 +45,7 @@ import com.pineapplesupermarket.tiendaapi.util.PasswordUtils;
  */
 @RestController
 @RequestMapping("/api/v1/auth")
+@Api(value = "Authentication Controller")
 public class AuthController {
 	private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 	
@@ -61,6 +65,7 @@ public class AuthController {
 	 * @exception BadCredentialsException, Exception
 	 */
 	@PostMapping("/signin")
+	@ApiOperation(response = JwtResponseDTO.class, value = "Sign in")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequest,
 			BindingResult bindingResult){
 		LoggerUtils.logRequest(logger, "Login", loginRequest.getUsername());
@@ -106,7 +111,8 @@ public class AuthController {
 	 * @exception EntityNotFoundException, Exception
 	 */
 	@PostMapping("/restore-password")
-	public  ResponseEntity<?> restorePassword(@RequestBody String parametro) {
+	@ApiOperation(value = "Restore user password")
+	public  ResponseEntity<ResponseDTO> restorePassword(@RequestBody String parametro) {
 		
 		if(parametro == null) {
 			LoggerUtils.logRequest(logger, "Create code restore password", "null");
@@ -141,7 +147,8 @@ public class AuthController {
 	 * @exception EntityNotFoundException, Exception
 	 */
 	@PutMapping("/restore-password/{code}")
-	public  ResponseEntity<?> restorePassword(
+	@ApiOperation(value = "Validate restore code password")
+	public  ResponseEntity<ResponseDTO> restorePassword(
 			@Valid @RequestBody RestorePasswordDTO userDTO,
 			@PathVariable String code) {
 		LoggerUtils.logRequest(logger, "Use code restore password", userDTO.getUsername());

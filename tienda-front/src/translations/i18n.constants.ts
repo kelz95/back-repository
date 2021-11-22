@@ -1,8 +1,5 @@
 export const namespaces = {
   pages: {
-    home: "pages.home",
-    errors: "pages.notFound",
-    login: "pages.login",
     products: "pages.products",
     productRow: "pages.productRow",
     productsTable: "pages.productsTable",
@@ -23,6 +20,7 @@ export const namespaces = {
     toolbar: "pages.toolbar",
     navbar: "pages.navbar",
   },
+  translation: "translation",
   common: "common",
 };
 

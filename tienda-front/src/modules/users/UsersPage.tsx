@@ -1,44 +1,47 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Container, Typography } from "@mui/material";
+import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
 
 import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
 import NavBar from "#root/components/NavBar";
 import Toolbar from "#root/components/Toolbar";
-import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import CreateUserModal from "./CreateUserModal";
+import DeleteUserDialog from "./DeleteUserDialog";
+import { User } from "./types";
+import UpdateUserModal from "./UpdateUserModal";
 import UserController from "./UserController";
 import UsersTable from "./UsersTable";
-import { User } from "./types";
-
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
-
-const defaultUsers: User[] = [];
 
 const UsersPage = () => {
-  const { t } = useTranslation(namespaces.pages.users);
+  const { t } = useTypeSafeTranslation();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isCreateUserModalOpen, setIsCreateUserModalOpen] = useState(false);
-  const [users, setUsers] = useState<User[]>(defaultUsers);
+  const [isUpdateUserModalOpen, setIsUpdateUserModalOpen] = useState(false);
+  const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
+  const [clickedUser, setClickedUser] = useState<User | null>(null);
+
   const dataTableOptions = useTableOptions<User>({});
-  const debouncedSearchString = useDebounce(dataTableOptions.searchString, 300);
 
   const handleCreate = () => {
-    console.log("create");
     setIsCreateUserModalOpen(true);
   };
 
   const handleEdit = (currentUser: User) => {
-    console.log("edit", currentUser);
+    setClickedUser(currentUser);
+    setIsUpdateUserModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
-    console.log("delete", id);
+  const handleDelete = (currentUser: User) => {
+    setClickedUser(currentUser);
+    setIsDeleteUserModalOpen(true);
   };
 
   const fetchUsers = useCallback(async () => {
@@ -47,42 +50,32 @@ const UsersPage = () => {
     const [res, err] = await UserController.getAll({
       page: dataTableOptions.pageIndex,
       size: dataTableOptions.pageSize,
-      name: encodeURI(debouncedSearchString),
     });
-    console.log({ res, err });
+    if (err) {
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
+      setIsLoading(false);
+      return;
+    }
 
-    // const [resOperators, errOperators] = await OperatorController.fetchAll({
-    //   limit: String(dataTableOptions.limit),
-    //   offset: String(dataTableOptions.offset),
-    //   searchString: dataTableOptions.searchString,
-    // });
-    // if (errOperators) {
-    //   toast({ title: "Algo salió mal", status: "error" });
-    //   setIsLoading(false);
-    //   return;
-    // }
-    // const contentRangeHeader = resOperators?.headers["content-range"];
-    // const totalFromHeader = contentRangeHeader?.split("/").pop() || "0";
-    // dataTableOptions.setTotalRows(parseInt(totalFromHeader, 10));
-    // setProducts(resOperators?.data || []);
-    setUsers(defaultUsers);
+    dataTableOptions.setTotalRows(res?.data.totalElements || 0);
+    setUsers(res?.data.content || []);
     setIsLoading(false);
-  }, [dataTableOptions.pageIndex, dataTableOptions.pageSize, debouncedSearchString]);
+  }, [dataTableOptions.pageIndex, dataTableOptions.pageSize]);
 
   useEffect(() => {
     fetchUsers();
-  }, [dataTableOptions.pageIndex, dataTableOptions.pageSize, debouncedSearchString]);
+  }, [dataTableOptions.pageIndex, dataTableOptions.pageSize]);
 
   return (
     <>
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
-          {t("list")}
+          {t("pages.user.list")}
         </Typography>
 
         <Toolbar
-          createButtonText={t("cUser")}
+          createButtonText={t("pages.user.createUser")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           onCreate={handleCreate}
@@ -101,9 +94,23 @@ const UsersPage = () => {
 
         <Copyright marginTop="2rem" />
       </Container>
+
       <CreateUserModal
         isOpen={isCreateUserModalOpen}
         onClose={() => setIsCreateUserModalOpen(false)}
+        onCreateUser={fetchUsers}
+      />
+      <UpdateUserModal
+        data={clickedUser}
+        isOpen={isUpdateUserModalOpen}
+        onClose={() => setIsUpdateUserModalOpen(false)}
+        onUpdateUser={fetchUsers}
+      />
+      <DeleteUserDialog
+        data={clickedUser}
+        isOpen={isDeleteUserModalOpen}
+        onClose={() => setIsDeleteUserModalOpen(false)}
+        onDeleteUser={fetchUsers}
       />
     </>
   );

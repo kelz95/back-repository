@@ -6,17 +6,16 @@ import IconButton from "#root/components/IconButton";
 
 import { User } from "../types";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type UserRowProps = {
-  onDelete?: (id: number) => void;
+  onDelete?: (user: User) => void;
   onEdit?: (user: User) => void;
   row: User;
 };
 
 const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
-  const { t } = useTranslation(namespaces.pages.userRow);
+  const { t } = useTypeSafeTranslation();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -26,7 +25,7 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
         <TableCell width="4rem">
           <IconButton
             aria-label="expand row"
-            tip={t("details")}
+            tip={t("common.details")}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -38,7 +37,7 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
         </TableCell>
 
         <TableCell>{row.name}</TableCell>
-        <TableCell align="right">{row.role.description}</TableCell>
+        <TableCell>{row.role.description}</TableCell>
         <TableCell align="right">{row.activo.toString()}</TableCell>
       </TableRow>
       <TableRow>
@@ -47,12 +46,12 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
             <Box sx={{ marginY: 2, marginX: 1 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography component="h5" variant="h6" gutterBottom>
-                  {`${t("user")}: ${row.name} ${row.lastName}`}
+                  {`${t("common.fullname")}: ${row.name} ${row.lastname}`}
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <IconButton
                     aria-label="update"
-                    tip={t("update")}
+                    tip={t("common.update")}
                     iconButtonProps={{ color: "info" }}
                     onClick={() => onEdit?.(row)}
                   >
@@ -60,9 +59,9 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
                   </IconButton>
                   <IconButton
                     aria-label="delete"
-                    tip={t("delete")}
+                    tip={t("common.delete")}
                     iconButtonProps={{ color: "error" }}
-                    onClick={() => onDelete?.(row.idUser)}
+                    onClick={() => onDelete?.(row)}
                   >
                     <Delete />
                   </IconButton>
@@ -72,14 +71,14 @@ const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Box>
                   <Typography component="p" marginY="1rem">
-                    {t("email")}: {row.email}
+                    {t("common.email")}: {row.email}
                   </Typography>
 
                   <Typography component="p">
-                    {t("username")}: {row.username}
+                    {t("common.username")}: {row.username}
                   </Typography>
                   <Typography component="p">
-                    {t("role")}: {row.role.description}
+                    {t("pages.user.role")}: {row.role.description}
                   </Typography>
                 </Box>
               </Stack>

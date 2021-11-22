@@ -1,17 +1,13 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { ChangeEventHandler, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoadingButton } from "@mui/lab";
+import { Box } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import * as yup from "yup";
 
+import FileInput from "#root/components/FileInput";
+import SelectInput from "#root/components/SelectInput";
+import TextInput from "#root/components/TextInput";
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
 import { namespaces } from "#root/translations/i18n.constants";
 
@@ -23,133 +19,128 @@ export type CreateProductFormPayload = {
   unitPrice: number;
 
   productCategory: string;
-  productImage: File;
+  productImage?: File;
 };
+
+const schema = yup.object().shape({
+  name: yup.string().required("Please enter a name"),
+  code: yup.string().required("Please enter a code"),
+  description: yup.string().required("Please enter a description"),
+  quantity: yup.number().required("Please enter a quantity"),
+  unitPrice: yup.number().required("Please enter the unit price"),
+
+  productCategory: yup.string().required("Please enter a category"),
+  // productImage: yup
+  //   .mixed()
+  //   .test("required", "You need to provide a file", value => {
+  //     return value && value.length;
+  //   })
+  //   .test("fileSize", "The file is too large", (value, context) => {
+  //     return value && value[0] && value[0].size <= 200000;
+  //   })
+  //   .test("type", "We only support jpeg", function (value) {
+  //     return value && value[0] && value[0].type === "image/jpeg";
+  //   }),
+});
 
 type CreateProductFormProps = {
   onSubmit: (payload: CreateProductFormPayload) => void;
+  isLoading?: boolean;
 };
 
-const CreateProductForm = ({ onSubmit }: CreateProductFormProps) => {
+const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
   const { categories } = useCategoryStore();
-  const { t } = useTranslation(namespaces.pages.cProductForm);
-  const { control, handleSubmit } = useForm<CreateProductFormPayload>();
-
-  const [imageFile, setImageFile] = useState<File | null>(null);
-
-  const handleImageChange: ChangeEventHandler<HTMLInputElement> = evt => {
-    if (!evt) return;
-    const image = evt?.target?.files?.[0] || null;
-    setImageFile(image);
-  };
-
-  const preSubmit = (payload: CreateProductFormPayload) => {
-    console.log({ payload });
-    if (!imageFile) return;
-    onSubmit({ ...payload, productImage: imageFile });
-  };
+  const { t } = useTranslation(namespaces.translation);
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<CreateProductFormPayload>({ resolver: yupResolver(schema) });
 
   const categoryOptions = categories.map(c => ({ value: c.code, label: c.code }));
 
   return (
-    <Box component="form" onSubmit={handleSubmit(preSubmit)} sx={{ mt: 1 }}>
-      <Controller
+    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+      <TextInput
+        autoFocus
         control={control}
         defaultValue=""
+        error={errors.code}
+        isDisabled={isLoading}
+        isRequired
         name="code"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField autoFocus fullWidth label="Código" margin="normal" required {...field} />
-          // <TextField autoFocus fullWidth label={t("name")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.code")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue=""
+        error={errors.name}
+        isDisabled={isLoading}
+        isRequired
         name="name"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label={t("name")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.name")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue=""
+        error={errors.description}
+        isDisabled={isLoading}
+        isRequired
         name="description"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField fullWidth label={t("description")} margin="normal" required {...field} />
-        )}
+        label={t("createProductForm.description")}
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={1}
+        error={errors.quantity}
+        isDisabled={isLoading}
+        isRequired
         name="quantity"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField
-            fullWidth
-            label={t("quantity")}
-            margin="normal"
-            required
-            type="number"
-            {...field}
-          />
-        )}
+        label={t("createProductForm.quantity")}
+        type="number"
       />
-      <Controller
+
+      <TextInput
         control={control}
         defaultValue={1.0}
+        error={errors.unitPrice}
+        isDisabled={isLoading}
+        isRequired
         name="unitPrice"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <TextField
-            fullWidth
-            label={t("uPrice")}
-            margin="normal"
-            required
-            type="number"
-            {...field}
-          />
-        )}
+        label={t("createProductForm.unitPrice")}
+        type="number"
       />
 
-      <Controller
+      <SelectInput
         control={control}
         defaultValue=""
+        error={errors.productCategory}
+        options={categoryOptions}
+        isDisabled={isLoading}
+        isRequired
+        id="productcategory-label"
         name="productCategory"
-        rules={{ required: true }}
-        render={({ field }) => (
-          <FormControl fullWidth required variant="outlined">
-            <InputLabel id="product-category-label">Categoría</InputLabel>
-            <Select
-              // label={t("uPrice")}
-              label="Categoría"
-              labelId="product-category-label"
-              {...field}
-            >
-              <MenuItem disabled value="">
-                <em>Selecciona una categoría</em>
-              </MenuItem>
-              {categoryOptions.map(c => (
-                <MenuItem key={c.value} value={c.value}>
-                  {c.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )}
+        label={t("createProductForm.category")}
+        placeholder={t("createProductForm.selectCategory")}
       />
 
-      <Typography variant="caption" display="block">
-        Imagen
-      </Typography>
+      <FileInput
+        control={control}
+        error={errors.productImage}
+        isDisabled={isLoading}
+        // isRequired
+        name="productImage"
+        id="password-input"
+        label={t("createProductForm.image")}
+        helperText="Ingrese una imagen"
+      />
 
-      <input type="file" name="productImage" onChange={handleImageChange} />
-
-      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("create")}
-      </Button>
+      <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
+        {t("createProductForm.create")}
+      </LoadingButton>
     </Box>
   );
 };
