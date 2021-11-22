@@ -6,8 +6,7 @@ import IconButton from "#root/components/IconButton";
 
 import { User } from "../types";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type UserRowProps = {
   onDelete?: (user: User) => void;
@@ -16,7 +15,7 @@ type UserRowProps = {
 };
 
 const UserRow = ({ onDelete, onEdit, row }: UserRowProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const [isExpanded, setIsExpanded] = useState(false);
 

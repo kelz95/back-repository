@@ -1,12 +1,11 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 const NotFoundPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <Box

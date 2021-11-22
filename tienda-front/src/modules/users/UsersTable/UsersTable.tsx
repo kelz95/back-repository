@@ -13,8 +13,7 @@ import {
 import { User } from "../types";
 import UserRow from "./UserRow";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type UsersTableProps = {
   data: User[];
@@ -36,7 +35,7 @@ const UsersTable = ({
   setPage,
   setRowsPerPage,
 }: UsersTableProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <TableContainer component={Paper}>

@@ -2,14 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 import YupPassword from "yup-password";
 
 import PasswordInput from "#root/components/PasswordInput";
 import SelectInput from "#root/components/SelectInput";
 import TextInput from "#root/components/TextInput";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import { User } from "./types";
 
@@ -51,7 +50,7 @@ type UpdateUserFormProps = {
 };
 
 const UpdateUserForm = ({ data, onSubmit, isLoading }: UpdateUserFormProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const {
     control,
     formState: { errors },

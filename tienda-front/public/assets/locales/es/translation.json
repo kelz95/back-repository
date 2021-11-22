@@ -19,7 +19,8 @@
         "fullname":"Nombre completo",
         "email": "Correo",
         "password" : "Contraseña",
-        "succesDelete": "Se eliminó correctamente",
+        "code": "Código",
+        "description": "Descripción",
         "details":"Más detalles",
         "messageDelete": "¡Cuidado! Esta acción es irreversible.",
         "initMessageDelete":"¿Eliminar",
@@ -44,7 +45,6 @@
             "message": "lo sentimos, pero la página solicitada no fue encontrada",
             "return": "Regresar a la página Pineapple"
         },
-
         "user":{
             "role": "Rol",
             "active": "Esta activo",
@@ -55,6 +55,12 @@
             "updateUser": "Actualizar usuario",
             "list": "Lista De Usuarios"
         },
+        "category":{
+            "createCategory": "Crear categoría",
+            "updateCategory": "Actualizar categoría",
+            "list": "Lista De Categorias"
+        },
+
         "products":{
             "inventory": "Inventario",
             "products": "Productos",

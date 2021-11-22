@@ -1,8 +1,7 @@
 import { useSnackbar } from "notistack";
-import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import CategoryController from "./CategoryController";
 import CreateCategoryForm, { CreateCategoryFormPayload } from "./CreateCategoryForm";
@@ -14,7 +13,7 @@ type CreateCategoryModalProps = {
 };
 
 const CreateCategoryModal = ({ isOpen, onClose, onCreateCategory }: CreateCategoryModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cCategoryModal);
+  const { t } = useTypeSafeTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -24,15 +23,20 @@ const CreateCategoryModal = ({ isOpen, onClose, onCreateCategory }: CreateCatego
       description: payload.description,
     });
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.createdSuccess")}`, { variant: "success" });
     onCreateCategory?.();
     onClose();
   };
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("pages.category.createCategory")}
+      willCloseOnEsc={false}
+    >
       <CreateCategoryForm onSubmit={handleSubmit} />
     </MyModal>
   );

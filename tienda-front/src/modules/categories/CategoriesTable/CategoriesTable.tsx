@@ -11,8 +11,7 @@ import {
 import { Category } from "../types";
 import CategoryRow from "./CategoryRow";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type CategoriesTableProps = {
   data: Category[];
@@ -21,14 +20,14 @@ type CategoriesTableProps = {
 };
 
 const CategoriesTable = ({ data, onDelete, onEdit }: CategoriesTableProps) => {
-  const { t } = useTranslation(namespaces.pages.categoriesTable);
+  const { t } = useTypeSafeTranslation();
   return (
     <TableContainer component={Paper}>
       <Table aria-label="categories table">
         <TableHead>
           <TableRow>
-            <TableCell>{t("code")}</TableCell>
-            <TableCell>{t("description")}</TableCell>
+            <TableCell>{t("common.code")}</TableCell>
+            <TableCell>{t("common.description")}</TableCell>
             <TableCell width="4rem" />
           </TableRow>
         </TableHead>

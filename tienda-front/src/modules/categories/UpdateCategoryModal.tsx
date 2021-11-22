@@ -6,8 +6,7 @@ import CategoryController from "./CategoryController";
 import UpdateCategoryForm, { UpdateCategoryFormPayload } from "./UpdateCategoryForm";
 import { Category } from "./types";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type UpdateCategoryModalProps = {
   isOpen: boolean;
@@ -22,7 +21,7 @@ const UpdateCategoryModal = ({
   onUpdateCategory,
   data,
 }: UpdateCategoryModalProps) => {
-  const { t } = useTranslation(namespaces.pages.uCategoryModal);
+  const { t } = useTypeSafeTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -33,10 +32,10 @@ const UpdateCategoryModal = ({
       description: payload.description,
     });
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.updatedSuccess")}`, { variant: "success" });
     onUpdateCategory?.();
     onClose();
   };
@@ -44,7 +43,12 @@ const UpdateCategoryModal = ({
   if (!data) return <div />;
 
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("pages.category.updateCategory")}
+      willCloseOnEsc={false}
+    >
       <UpdateCategoryForm data={data} onSubmit={handleSubmit} />
     </MyModal>
   );

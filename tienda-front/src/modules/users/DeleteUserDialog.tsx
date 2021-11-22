@@ -7,9 +7,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useTranslation } from "react-i18next";
-
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import { User } from "./types";
 import UserController from "./UserController";
@@ -23,7 +21,7 @@ type DeleteUserDialogProps = {
 
 const DeleteUserDialog = ({ isOpen, onClose, onDeleteUser, data }: DeleteUserDialogProps) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const handleSubmit = async (id: number) => {
     if (!data) return;

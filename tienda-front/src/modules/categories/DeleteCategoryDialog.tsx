@@ -11,8 +11,7 @@ import { useSnackbar } from "notistack";
 import CategoryController from "./CategoryController";
 import { Category } from "./types";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 type DeleteCategoryDialogProps = {
   isOpen: boolean;
@@ -27,7 +26,7 @@ const DeleteCategoryDialog = ({
   onDeleteCategory,
   data,
 }: DeleteCategoryDialogProps) => {
-  const { t } = useTranslation(namespaces.pages.dCategoryDialog);
+  const { t } = useTypeSafeTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -35,10 +34,10 @@ const DeleteCategoryDialog = ({
     if (!data) return;
     const [res, err] = await CategoryController.deleteOne(id);
     if (err || !res) {
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.deletedSuccess")}`, { variant: "success" });
     onDeleteCategory?.();
     onClose();
   };
@@ -47,16 +46,16 @@ const DeleteCategoryDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">{`${t("tDelete")} "${data.code}" ${t(
-        "tCategory"
+      <DialogTitle id="alert-dialog-title">{`${t("common.initMessageDelete")} "${data.code}" ${t(
+        "common.finishMessageDelete"
       )}`}</DialogTitle>
       <DialogContent>
-        <DialogContentText>{t("message")}</DialogContentText>
+        <DialogContentText>{t("common.messageDelete")}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t("bCancel")}</Button>
+        <Button onClick={onClose}>{t("common.cancel")}</Button>
         <Button onClick={() => handleSubmit(data.idProductCategory)} autoFocus>
-          {t("bDelete")}
+          {t("common.delete")}
         </Button>
       </DialogActions>
     </Dialog>

@@ -3,13 +3,12 @@ import { Avatar, Box, Container, Paper, TextField, Typography, Stack } from "@mu
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import AuthController from "./AuthController";
 
@@ -19,7 +18,7 @@ type LoginPayload = {
 };
 
 const LoginPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const location = useLocation();
   const navigate = useNavigate();

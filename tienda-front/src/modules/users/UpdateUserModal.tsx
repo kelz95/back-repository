@@ -1,9 +1,8 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import { RoleCode, User } from "./types";
 import UserController from "./UserController";
@@ -17,7 +16,7 @@ type UpdateUserModalProps = {
 };
 
 const UpdateUserModal = ({ isOpen, onClose, onUpdateUser, data }: UpdateUserModalProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);

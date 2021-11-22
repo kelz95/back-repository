@@ -2,14 +2,13 @@
 import { Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
 import NavBar from "#root/components/NavBar";
 import Toolbar from "#root/components/Toolbar";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import CreateUserModal from "./CreateUserModal";
 import DeleteUserDialog from "./DeleteUserDialog";
@@ -19,7 +18,7 @@ import UserController from "./UserController";
 import UsersTable from "./UsersTable";
 
 const UsersPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
