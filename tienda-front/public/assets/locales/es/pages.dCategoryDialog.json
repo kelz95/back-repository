@@ -1,9 +1,0 @@
-{
-    "error": "Ocurrió un problema",
-    "success": "Categoría eliminida exitosamente",
-    "tDelete": "¿Eliminar la categoría",
-    "tCategory": "?",
-    "message": "¡Cuidado! Esta acción es irreversible.",
-    "bCancel": "Cancelar",
-    "bDelete": "Eliminar"
-}
