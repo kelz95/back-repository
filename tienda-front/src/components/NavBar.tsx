@@ -24,9 +24,9 @@ import SrcLogo from "#root/assets/pina.png";
 import SrcLogoNoLetters from "#root/assets/pina_sola.png";
 import IconButton from "#root/components/IconButton";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { useAuthStore } from "#root/modules/auth/useAuthStore";
-
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
+import isAdmin from "#root/lib/isAdmin";
+import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
 const NavBar = () => {
   const { t } = useTypeSafeTranslation();
@@ -64,6 +64,8 @@ const NavBar = () => {
     setProfileAnchorEl(null);
     navigate("/users");
   };
+
+  const isUserAdmin = isAdmin(user);
 
   return (
     <Stack
@@ -103,19 +105,23 @@ const NavBar = () => {
               <ListItemText>{t("navbar.viewProducts")}</ListItemText>
             </MenuItem>
 
-            <MenuItem onClick={handleViewCategories}>
-              <ListItemIcon>
-                <Dashboard />
-              </ListItemIcon>
-              <ListItemText>{t("navbar.viewCategories")}</ListItemText>
-            </MenuItem>
+            {isUserAdmin && (
+              <MenuItem onClick={handleViewCategories}>
+                <ListItemIcon>
+                  <Dashboard />
+                </ListItemIcon>
+                <ListItemText>{t("navbar.viewCategories")}</ListItemText>
+              </MenuItem>
+            )}
 
-            <MenuItem onClick={handleUsers}>
-              <ListItemIcon>
-                <PersonAdd />
-              </ListItemIcon>
-              <ListItemText>{t("navbar.manageUsers")}</ListItemText>
-            </MenuItem>
+            {isUserAdmin && (
+              <MenuItem onClick={handleUsers}>
+                <ListItemIcon>
+                  <PersonAdd />
+                </ListItemIcon>
+                <ListItemText>{t("navbar.manageUsers")}</ListItemText>
+              </MenuItem>
+            )}
 
             <Divider />
 

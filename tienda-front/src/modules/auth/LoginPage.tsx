@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { LoadingButton } from "@mui/lab";
 import { Avatar, Box, Container, Link, Paper, Typography, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 
@@ -11,8 +12,10 @@ import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import PasswordInput from "#root/components/PasswordInput";
 import TextInput from "#root/components/TextInput";
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
+import { FALLBACK_ROUTE_LOGGED_IN } from "#root/lib/constants";
 
 import AuthController from "./AuthController";
+import { useAuthStore } from "./useAuthStore";
 
 type LoginPayload = {
   username: string;
@@ -21,6 +24,7 @@ type LoginPayload = {
 
 const LoginPage = () => {
   const { t } = useTypeSafeTranslation();
+  const { accessToken } = useAuthStore();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +37,12 @@ const LoginPage = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const from = location.state?.from?.pathname || "/products";
+  useEffect(() => {
+    if (accessToken) {
+      navigate(FALLBACK_ROUTE_LOGGED_IN, { replace: true });
+    }
+  }, [accessToken]);
+  const from = location.state?.from?.pathname || FALLBACK_ROUTE_LOGGED_IN;
 
   const onSubmit = async (data: LoginPayload) => {
     setIsLoading(true);

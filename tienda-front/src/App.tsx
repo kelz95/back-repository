@@ -16,12 +16,12 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/recover-password/:code" element={<RecoverPasswordPage />} />
+      <Route path="/restore-password/:code" element={<RecoverPasswordPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route
         path="/categories"
         element={
-          <RequireAuth>
+          <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
             <CategoriesPage />
           </RequireAuth>
         }
@@ -37,7 +37,7 @@ const App = () => {
       <Route
         path="/users"
         element={
-          <RequireAuth>
+          <RequireAuth allowedRoles={["ROLE_ADMIN"]}>
             <UsersPage />
           </RequireAuth>
         }

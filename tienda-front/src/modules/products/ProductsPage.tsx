@@ -2,7 +2,6 @@
 import { Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { ChangeEventHandler, useCallback, useEffect, useRef, useState } from "react";
-import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
@@ -11,6 +10,7 @@ import Toolbar from "#root/components/Toolbar";
 import downloadFile from "#root/lib/downloadFile";
 import useDebounce from "#root/lib/hooks/useDebounce";
 import useTableOptions from "#root/lib/hooks/useTableOptions";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 import CategoryController from "#root/modules/categories/CategoryController";
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
 
@@ -20,10 +20,13 @@ import ProductController from "./ProductController";
 import ProductsTable from "./ProductsTable";
 import { Product } from "./types";
 import UpdateProductModal from "./UpdateProductModal";
+import { useAuthStore } from "../auth/useAuthStore";
+import isAdmin from "#root/lib/isAdmin";
 
 const ProductsPage = () => {
   const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
+  const { user } = useAuthStore();
 
   const [isLoading, setIsLoading] = useState(false);
   const inputFileRef = useRef<HTMLInputElement>(null);
@@ -133,9 +136,11 @@ const ProductsPage = () => {
     fetchProducts();
   }, [dataTableOptions.pageIndex, dataTableOptions.pageSize, debouncedSearchString]);
 
+  const isUserAdmin = isAdmin(user);
+
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (isUserAdmin) fetchCategories();
+  }, [isUserAdmin]);
 
   return (
     <>

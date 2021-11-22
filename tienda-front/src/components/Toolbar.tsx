@@ -1,8 +1,10 @@
 import { Add, Download, Search } from "@mui/icons-material";
 import { Button, InputAdornment, Stack, TextField } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
-
 import { useTranslation } from "react-i18next";
+
+import isAdmin from "#root/lib/isAdmin";
+import { useAuthStore } from "#root/modules/auth/useAuthStore";
 import { namespaces } from "#root/translations/i18n.constants";
 
 type ToolbarProps = {
@@ -33,7 +35,11 @@ const Toolbar = ({
   createButtonText = "Create product",
   exportButtonText = "Export",
 }: ToolbarProps) => {
+  const { user } = useAuthStore();
   const { t } = useTranslation(namespaces.pages.toolbar);
+
+  const isUserAdmin = isAdmin(user);
+
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
@@ -64,7 +70,7 @@ const Toolbar = ({
             {exportButtonText}
           </Button>
         )}
-        {withCreate && (
+        {isUserAdmin && withCreate && (
           <Button onClick={onCreate} startIcon={<Add fontSize="large" />} variant="outlined">
             {createButtonText}
           </Button>

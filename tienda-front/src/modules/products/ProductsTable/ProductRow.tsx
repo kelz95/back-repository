@@ -5,6 +5,8 @@ import { Fragment, useState } from "react";
 import IconButton from "#root/components/IconButton";
 import { IMAGE_FALLBACK_URL } from "#root/lib/constants";
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
+import isAdmin from "#root/lib/isAdmin";
+import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
 import { Product } from "../types";
 
@@ -19,6 +21,11 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
   const [isExpanded, setIsExpanded] = useState(false);
 
   const { t } = useTypeSafeTranslation();
+  const { user } = useAuthStore();
+
+  const productImage = row.picture?.replace?.(/^http:\/\//i, "https://") || IMAGE_FALLBACK_URL;
+
+  const isUserAdmin = isAdmin(user);
 
   return (
     <Fragment>
@@ -49,24 +56,26 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
                 <Typography component="h5" variant="h6" gutterBottom>
                   {`${t("pages.product.product")}: ${row.code}-${row.name}`}
                 </Typography>
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <IconButton
-                    aria-label="update"
-                    tip={t("common.update")}
-                    iconButtonProps={{ color: "info" }}
-                    onClick={() => onEdit?.(row)}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                    aria-label="delete"
-                    tip={t("common.delete")}
-                    iconButtonProps={{ color: "error" }}
-                    onClick={() => onDelete?.(row)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Stack>
+                {isUserAdmin && (
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <IconButton
+                      aria-label="update"
+                      tip={t("common.update")}
+                      iconButtonProps={{ color: "info" }}
+                      onClick={() => onEdit?.(row)}
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      aria-label="delete"
+                      tip={t("common.delete")}
+                      iconButtonProps={{ color: "error" }}
+                      onClick={() => onDelete?.(row)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Stack>
+                )}
               </Stack>
 
               <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -96,10 +105,10 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
                 </Box>
                 <Box
                   height="10rem"
-                  onClick={() => onEditImage?.(row)}
-                  sx={{ ":hover": { cursor: "pointer", opacity: 0.5 } }}
+                  onClick={() => isUserAdmin && onEditImage?.(row)}
+                  sx={{ ":hover": isUserAdmin ? { cursor: "pointer", opacity: 0.5 } : undefined }}
                 >
-                  <img src={row.picture || IMAGE_FALLBACK_URL} alt="product" height="100%" />
+                  <img src={productImage} alt="product" height="100%" />
                 </Box>
               </Stack>
             </Box>
