@@ -27,9 +27,11 @@ type SignInError = {
   mensaje: string;
 };
 
-type RequestRecoverPasswordRequest = {
-  parametro: string;
-};
+type RequestRecoverPasswordRequest = string;
+
+// type RequestRecoverPasswordRequest = {
+//   parametro: string;
+// };
 
 type RequestRecoverPasswordResponse = {
   codigo: number;
