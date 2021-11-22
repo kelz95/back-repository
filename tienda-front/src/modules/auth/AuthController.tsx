@@ -74,7 +74,9 @@ class AuthController {
     const [res, err] = await asyncWrapper<
       AxiosResponse<RequestRecoverPasswordResponse>,
       AxiosError<RequestRecoverPasswordError>
-    >(authRequest.post("/restore-password", payload));
+    >(
+      authRequest.post("/restore-password", payload, { headers: { "Content-Type": "text/plain" } })
+    );
     if (err || !res) {
       return { data: null, error: err?.response?.data.mensaje || err?.message };
     }
