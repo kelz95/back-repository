@@ -46,6 +46,7 @@ const MyModal = ({
           bgcolor: "background.paper",
           boxShadow: 24,
           minWidth: { xs: "14rem", sm: "20rem" },
+          width: { xs: "14rem", sm: "auto" },
           padding: 4,
         }}
       >

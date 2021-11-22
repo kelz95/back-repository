@@ -26,11 +26,12 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
         name: payload.name,
         code: payload.code,
         description: payload.description,
-        quantity: payload.quantity,
-        unitPrice: payload.unitPrice,
+        quantity: Number(payload.quantity),
+        unitPrice: Number(payload.unitPrice),
       })
     );
-    formData.append("picture", payload.productImage);
+
+    formData.append("picture", payload.productImage || "null");
 
     const [res, err] = await ProductController.create(formData);
     console.log({ res, err });
