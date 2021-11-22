@@ -112,7 +112,7 @@ const NotFoundPage = () => {
           sx={{ mt: 3, mb: 2, alignItems: "center", justifyContent: "center" }}
         >
           {" "}
-          {t("pages.notFound.return")}
+          {t("common.return")}
         </Button>
       </Box>
     </Box>

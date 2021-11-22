@@ -3,13 +3,12 @@ import { Avatar, Box, Container, Link, Paper, Typography, Stack } from "@mui/mat
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import TextInput from "#root/components/TextInput";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import AuthController from "./AuthController";
 
@@ -18,7 +17,7 @@ type ForgotPasswordPayload = {
 };
 
 const ForgotPasswordPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const { enqueueSnackbar } = useSnackbar();
   const {
@@ -72,7 +71,7 @@ const ForgotPasswordPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("pages.forgotPassword.title")}
+            {t("common.forgot")}
           </Typography>
 
           <Typography component="p" variant="body1" marginTop="1rem">
@@ -88,7 +87,7 @@ const ForgotPasswordPage = () => {
               isDisabled={isLoading}
               isRequired
               name="usernameOrEmail"
-              helperText={t("pages.forgotPassword.usernameOrEmailHelperText")}
+              helperText={t("pages.forgotPassword.helperText")}
               label={t("pages.forgotPassword.usernameOrEmail")}
             />
 
@@ -99,11 +98,11 @@ const ForgotPasswordPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("pages.forgotPassword.button")}
+              {t("common.send")}
             </LoadingButton>
           </Box>
           <Link href="/login" underline="hover" variant="body2">
-            {t("common.goBack")}
+            {t("common.return")}
           </Link>
         </Paper>
 

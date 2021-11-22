@@ -8,7 +8,7 @@
         "rowsPerPage":"Rows per page",
         "cancel": "Cancel",
         "create": "Create",
-        "save": "Save",
+        "send": "Send",
         "edit": "Edit",
         "update": "Update",
         "delete": "Delete",
@@ -25,7 +25,9 @@
         "messageDelete": "Careful! This action is irreversible.",
         "initMessageDelete":"Delete",
         "finishMessageDelete":"?",
-        "searchName": "Search by name"
+        "searchName": "Search by name",
+        "return": "Return to Pineapple page",
+        "forgot":"Did you forget your password?"
     },
 
     "header":{
@@ -53,10 +55,15 @@
         "login":{
             "successMessage": "Logged in successfully"
         },
+        "forgotPassword":{
+            "description":"You can reset your password here, a message will be sent to your email",
+            "usernameOrEmail":"Username or email",
+            "helperText":"Write your username or email to reset your password",
+            "success":"An email has been sent to your user provided"
+        },
         "notFound":{
             "notFound": "Oops! Page not found",
-            "message": "we are sorry, but the page you requested was not found",
-            "return": "Return to Pineapple page"
+            "message": "we are sorry, but the page you requested was not found"
         },
         "user":{
             "role": "Role",

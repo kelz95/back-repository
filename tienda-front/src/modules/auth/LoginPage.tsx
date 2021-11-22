@@ -117,7 +117,7 @@ const LoginPage = () => {
               {t("common.login")}
             </LoadingButton>
             <Link href="/forgot-password" underline="hover" variant="body2">
-              ¿Olvidaste tu contraseña?
+              {t("common.forgot")}
             </Link>
           </Box>
         </Paper>

@@ -8,7 +8,7 @@
         "rowsPerPage":"Filas por página",
         "cancel": "Cancelar",
         "create": "Crear",
-        "save": "Guardar",
+        "send": "Enviar",
         "edit": "Editar",
         "update": "Actualizar",
         "delete": "Eliminar",
@@ -25,7 +25,9 @@
         "messageDelete": "¡Cuidado! Esta acción es irreversible.",
         "initMessageDelete":"¿Eliminar",
         "finishMessageDelete":"?",
-        "searchName": "Buscar por nombre"
+        "searchName": "Buscar por nombre",
+        "return": "Regresar a la página Pineapple",
+        "forgot":"¿Olvidaste tu contraseña?"
     },
 
     "header":{
@@ -53,10 +55,15 @@
         "login":{
             "successMessage": "Logueado exitosamente"
         },
+        "forgotPassword":{
+            "description":"Puedes restablecer tu contraseña aquí, se te enviará un mensaje a tu correo",
+            "usernameOrEmail":"Usuario o correo",
+            "helperText":"Escribe tu usuario o correo para restablecer tu contraseña",
+            "success":"Se ha enviado un correo a tu usuario provisto"
+        },
         "notFound":{
             "notFound": "¡UPS! Página no encontrada",
-            "message": "lo sentimos, pero la página solicitada no fue encontrada",
-            "return": "Regresar a la página Pineapple"
+            "message": "lo sentimos, pero la página solicitada no fue encontrada"
         },
         "user":{
             "role": "Rol",
