@@ -19,6 +19,7 @@ type ProductsTableProps = {
   data: Product[];
   onDelete?: (product: Product) => void;
   onEdit?: (product: Product) => void;
+  onEditImage?: (product: Product) => void;
   totalRows?: number;
 
   rowsPerPage: number;
@@ -31,6 +32,7 @@ const ProductsTable = ({
   data,
   onDelete,
   onEdit,
+  onEditImage,
   totalRows,
   rowsPerPage,
   page,
@@ -53,7 +55,13 @@ const ProductsTable = ({
         </TableHead>
         <TableBody>
           {data.map(row => (
-            <ProductRow key={row?.name} row={row} onDelete={onDelete} onEdit={onEdit} />
+            <ProductRow
+              key={row?.name}
+              row={row}
+              onDelete={onDelete}
+              onEdit={onEdit}
+              onEditImage={onEditImage}
+            />
           ))}
         </TableBody>
         <TableFooter>
