@@ -11,11 +11,9 @@ import {
 } from "@mui/material";
 
 import { Product } from "#root/modules/products/types";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import ProductRow from "./ProductRow";
-
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
 
 type ProductsTableProps = {
   data: Product[];
@@ -39,7 +37,7 @@ const ProductsTable = ({
   setPage,
   setRowsPerPage,
 }: ProductsTableProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <TableContainer component={Paper}>

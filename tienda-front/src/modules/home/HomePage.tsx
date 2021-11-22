@@ -1,15 +1,14 @@
 import { Box, Button, Divider, Paper, Stack, Typography } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import logo from "#root/assets/pina.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const users = [
     {
