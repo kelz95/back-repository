@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import * as yup from "yup";
@@ -137,9 +138,9 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         helperText="Ingrese una imagen"
       />
 
-      <Button fullWidth type="submit" variant="contained" sx={{ mt: 3 }}>
+      <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
         {t("createProductForm.create")}
-      </Button>
+      </LoadingButton>
     </Box>
   );
 };

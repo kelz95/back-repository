@@ -1,4 +1,5 @@
 import { useSnackbar } from "notistack";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
@@ -16,6 +17,7 @@ type CreateProductModalProps = {
 const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductModalProps) => {
   const { t } = useTranslation(namespaces.translation);
   const { enqueueSnackbar } = useSnackbar();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (payload: CreateProductFormPayload) => {
     const formData = new FormData();
@@ -33,12 +35,15 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
 
     formData.append("picture", payload.productImage || "null");
 
+    setIsLoading(true);
     const [res, err] = await ProductController.create(formData);
     console.log({ res, err });
     if (err || !res) {
+      setIsLoading(false);
       enqueueSnackbar(`${t("createProductModal.error")}`, { variant: "error" });
       return;
     }
+    setIsLoading(false);
     enqueueSnackbar(`${t("createProductModal.success")}`, { variant: "success" });
     onCreateProduct?.();
     onClose();
@@ -51,7 +56,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
       title={t("createProductModal.title")}
       willCloseOnEsc={false}
     >
-      <CreateProductForm onSubmit={handleSubmit} />
+      <CreateProductForm onSubmit={handleSubmit} isLoading={isLoading} />
     </MyModal>
   );
 };
