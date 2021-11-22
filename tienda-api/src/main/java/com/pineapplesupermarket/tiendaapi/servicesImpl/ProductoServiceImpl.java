@@ -61,7 +61,7 @@ public class ProductoServiceImpl implements IProductoService{
 			Optional<Product> productoExistenteByCode = this.productRepository.findByCode(producto.getCode());
 			Optional<Product> productoExistenteByNameAndCategory = this.productRepository.findByNameAndProductCategory(producto.getName(), categoria);
 			if(productoExistenteByCode.isEmpty() && productoExistenteByNameAndCategory.isEmpty()) {
-					String urlPicture = (!picture.isEmpty()) ? this.cloudinaryService.upload(picture) : null;
+					String urlPicture = (picture != null) ? this.cloudinaryService.upload(picture) : null;
 					producto.setCode(producto.getCode());
 					producto.setProductCategory(categoria);
 					producto.setCreationDate(new Date());
