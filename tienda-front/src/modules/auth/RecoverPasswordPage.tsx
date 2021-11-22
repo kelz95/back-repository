@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Avatar, Box, Container, Paper, Typography, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
@@ -7,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
+import * as yup from "yup";
+import YupPassword from "yup-password";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
@@ -17,10 +20,28 @@ import { namespaces } from "#root/translations/i18n.constants";
 
 import AuthController from "./AuthController";
 
+YupPassword(yup); // extend yup
+
 type RecoverPasswordPayload = {
   username: string;
   password: string;
 };
+
+const schema = yup.object().shape({
+  username: yup
+    .string()
+    .min(4, "Username must be at least 4 characters")
+    .max(30, "Username must be at most 30 characters")
+    .required("Please enter a username"),
+  password: yup
+    .string()
+    .required("Please enter a password")
+    .min(8, "Password must be at least 8 characters")
+    .max(30, "Password must be at least 30 characters")
+    .minUppercase(1, "Password must contain at least 1 uppercase")
+    .minNumbers(2, "Password must contain at least 2 number")
+    .minSymbols(1, "Password must contain at least 1 special character"),
+});
 
 const RecoverPasswordPage = () => {
   const { t } = useTranslation(namespaces.translation);
@@ -33,7 +54,7 @@ const RecoverPasswordPage = () => {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<RecoverPasswordPayload>();
+  } = useForm<RecoverPasswordPayload>({ resolver: yupResolver(schema) });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
