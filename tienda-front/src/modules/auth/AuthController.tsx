@@ -27,6 +27,25 @@ type SignInError = {
   mensaje: string;
 };
 
+type RequestRecoverPasswordRequest = {
+  parametro: string;
+};
+
+type RequestRecoverPasswordResponse = {
+  codigo: number;
+  mensaje: string;
+};
+
+type RequestRecoverPasswordError = {
+  codigo: number;
+  mensaje: string;
+};
+
+type RecoverPasswordRequest = {
+  username: string;
+  password: string;
+};
+
 class AuthController {
   static async signIn(payload: SignInRequest) {
     const [res, err] = await asyncWrapper<AxiosResponse<SignInResponse>, AxiosError<SignInError>>(
@@ -47,6 +66,30 @@ class AuthController {
 
   static async signOut() {
     useAuthStore.getState().nullify();
+  }
+
+  static async requestRestorePassword(payload: RequestRecoverPasswordRequest) {
+    const [res, err] = await asyncWrapper<
+      AxiosResponse<RequestRecoverPasswordResponse>,
+      AxiosError<RequestRecoverPasswordError>
+    >(authRequest.post("/restore-password", payload));
+    if (err || !res) {
+      return { data: null, error: err?.response?.data.mensaje || err?.message };
+    }
+
+    return { data: res.data, error: null };
+  }
+
+  static async restorePassword(code: string, payload: RecoverPasswordRequest) {
+    const [res, err] = await asyncWrapper<
+      AxiosResponse<RequestRecoverPasswordResponse>,
+      AxiosError<RequestRecoverPasswordError>
+    >(authRequest.put(`/restore-password/${code}`, payload));
+    if (err || !res) {
+      return { data: null, error: err?.response?.data.mensaje || err?.message };
+    }
+
+    return { data: res.data, error: null };
   }
 }
 

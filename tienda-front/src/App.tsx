@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
+import ForgotPasswordPage from "./modules/auth/ForgotPasswordPage";
 import LoginPage from "./modules/auth/LoginPage";
+import RecoverPasswordPage from "./modules/auth/RecoverPasswordPage";
 import RequireAuth from "./modules/auth/RequireAuth";
 import CategoriesPage from "./modules/categories/CategoriesPage";
 import NotFoundPage from "./modules/errors/NotFoundPage";
@@ -14,6 +16,8 @@ const App = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/recover-password/:code" element={<RecoverPasswordPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route
         path="/categories"
         element={

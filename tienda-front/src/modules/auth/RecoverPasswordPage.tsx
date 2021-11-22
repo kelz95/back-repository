@@ -1,56 +1,65 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { LoadingButton } from "@mui/lab";
-import { Avatar, Box, Container, Link, Paper, Typography, Stack } from "@mui/material";
+import { Avatar, Box, Container, Paper, Typography, Stack } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import PasswordInput from "#root/components/PasswordInput";
 import TextInput from "#root/components/TextInput";
-import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
+import { namespaces } from "#root/translations/i18n.constants";
 
 import AuthController from "./AuthController";
 
-type LoginPayload = {
+type RecoverPasswordPayload = {
   username: string;
   password: string;
 };
 
-const LoginPage = () => {
-  const { t } = useTypeSafeTranslation();
+const RecoverPasswordPage = () => {
+  const { t } = useTranslation(namespaces.translation);
 
-  const location = useLocation();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const params = useParams();
+  const code = params.code as string;
   const {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<LoginPayload>();
+  } = useForm<RecoverPasswordPayload>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const from = location.state?.from?.pathname || "/products";
+  useEffect(() => {
+    if (!code) navigate("/login");
+  }, [code]);
 
-  const onSubmit = async (data: LoginPayload) => {
+  const onSubmit = async (data: RecoverPasswordPayload) => {
+    if (!code) {
+      enqueueSnackbar(t("auth.missingCode"), { variant: "error" });
+    }
     setIsLoading(true);
-    const signInResult = await AuthController.signIn({
-      username: data.username,
-      password: data.password,
+    const apiResult = await AuthController.restorePassword(code, {
+      username: data.username.trim(),
+      password: data.password.trim(),
     });
 
-    if (signInResult.error || !signInResult.data) {
-      enqueueSnackbar(signInResult.error, { variant: "error" });
+    if (apiResult.error || !apiResult.data) {
+      enqueueSnackbar(apiResult.error, { variant: "error" });
       setIsLoading(false);
       return;
     }
-    enqueueSnackbar(`${t("pages.login.successMessage")}`, { variant: "success" });
+    enqueueSnackbar(`${t("pages.recover.successMessage")}`, { variant: "success" });
     setIsLoading(false);
 
-    navigate(from, { replace: true });
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -81,7 +90,7 @@ const LoginPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("common.login")}
+            {t("pages.recover.title")}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -93,6 +102,7 @@ const LoginPage = () => {
               isDisabled={isLoading}
               isRequired
               name="username"
+              helperText={t("pages.recover.usernameHelperText")}
               label={t("common.username")}
             />
 
@@ -103,6 +113,7 @@ const LoginPage = () => {
               isDisabled={isLoading}
               isRequired
               name="password"
+              helperText={t("pages.recover.passwordHelperText")}
               id="password-input"
               label={t("common.password")}
             />
@@ -114,11 +125,8 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("common.login")}
+              {t("pages.recover.button")}
             </LoadingButton>
-            <Link href="/forgot-password" underline="hover" variant="body2">
-              ¿Olvidaste tu contraseña?
-            </Link>
           </Box>
         </Paper>
 
@@ -128,4 +136,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RecoverPasswordPage;

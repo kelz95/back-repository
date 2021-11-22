@@ -3,54 +3,45 @@ import { Avatar, Box, Container, Link, Paper, Typography, Stack } from "@mui/mat
 import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import PineappleIcon from "#root/assets/pina_sola.png";
 import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
-import PasswordInput from "#root/components/PasswordInput";
 import TextInput from "#root/components/TextInput";
-import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
+import { namespaces } from "#root/translations/i18n.constants";
 
 import AuthController from "./AuthController";
 
-type LoginPayload = {
-  username: string;
-  password: string;
+type ForgotPasswordPayload = {
+  usernameOrEmail: string;
 };
 
-const LoginPage = () => {
-  const { t } = useTypeSafeTranslation();
+const ForgotPasswordPage = () => {
+  const { t } = useTranslation(namespaces.translation);
 
-  const location = useLocation();
-  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const {
     control,
     formState: { errors },
     handleSubmit,
-  } = useForm<LoginPayload>();
+  } = useForm<ForgotPasswordPayload>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const from = location.state?.from?.pathname || "/products";
-
-  const onSubmit = async (data: LoginPayload) => {
+  const onSubmit = async (data: ForgotPasswordPayload) => {
     setIsLoading(true);
-    const signInResult = await AuthController.signIn({
-      username: data.username,
-      password: data.password,
+    const apiResponse = await AuthController.requestRestorePassword({
+      parametro: data.usernameOrEmail,
     });
 
-    if (signInResult.error || !signInResult.data) {
-      enqueueSnackbar(signInResult.error, { variant: "error" });
+    if (apiResponse.error || !apiResponse.data) {
+      enqueueSnackbar(apiResponse.error, { variant: "error" });
       setIsLoading(false);
       return;
     }
-    enqueueSnackbar(`${t("pages.login.successMessage")}`, { variant: "success" });
+    enqueueSnackbar(`${t("pages.forgotPassword.success")}`, { variant: "success" });
     setIsLoading(false);
-
-    navigate(from, { replace: true });
   };
 
   return (
@@ -81,7 +72,11 @@ const LoginPage = () => {
           />
 
           <Typography component="h1" variant="h5">
-            {t("common.login")}
+            {t("pages.forgotPassword.title")}
+          </Typography>
+
+          <Typography component="p" variant="body1" marginTop="1rem">
+            {t("pages.forgotPassword.description")}
           </Typography>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
@@ -89,22 +84,12 @@ const LoginPage = () => {
               autoFocus
               control={control}
               defaultValue=""
-              error={errors.username}
+              error={errors.usernameOrEmail}
               isDisabled={isLoading}
               isRequired
-              name="username"
-              label={t("common.username")}
-            />
-
-            <PasswordInput
-              control={control}
-              defaultValue=""
-              error={errors.password}
-              isDisabled={isLoading}
-              isRequired
-              name="password"
-              id="password-input"
-              label={t("common.password")}
+              name="usernameOrEmail"
+              helperText={t("pages.forgotPassword.usernameOrEmailHelperText")}
+              label={t("pages.forgotPassword.usernameOrEmail")}
             />
 
             <LoadingButton
@@ -114,12 +99,12 @@ const LoginPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("common.login")}
+              {t("pages.forgotPassword.button")}
             </LoadingButton>
-            <Link href="/forgot-password" underline="hover" variant="body2">
-              ¿Olvidaste tu contraseña?
-            </Link>
           </Box>
+          <Link href="/login" underline="hover" variant="body2">
+            {t("common.goBack")}
+          </Link>
         </Paper>
 
         <Copyright sx={{ mt: 8, mb: 4 }} />
@@ -128,4 +113,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;
