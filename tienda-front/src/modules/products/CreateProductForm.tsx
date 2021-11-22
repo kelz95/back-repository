@@ -2,14 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import FileInput from "#root/components/FileInput";
 import SelectInput from "#root/components/SelectInput";
 import TextInput from "#root/components/TextInput";
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 export type CreateProductFormPayload = {
   name: string;
@@ -50,7 +49,7 @@ type CreateProductFormProps = {
 
 const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
   const { categories } = useCategoryStore();
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const {
     control,
     formState: { errors },
@@ -69,7 +68,7 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="code"
-        label={t("createProductForm.code")}
+        label={t("common.code")}
       />
 
       <TextInput
@@ -79,7 +78,7 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="name"
-        label={t("createProductForm.name")}
+        label={t("common.name")}
       />
 
       <TextInput
@@ -89,7 +88,7 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="description"
-        label={t("createProductForm.description")}
+        label={t("common.description")}
       />
 
       <TextInput
@@ -99,7 +98,7 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="quantity"
-        label={t("createProductForm.quantity")}
+        label={t("pages.product.quantity")}
         type="number"
       />
 
@@ -110,7 +109,7 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isDisabled={isLoading}
         isRequired
         name="unitPrice"
-        label={t("createProductForm.unitPrice")}
+        label={t("pages.product.unitPrice")}
         type="number"
       />
 
@@ -123,8 +122,8 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         isRequired
         id="productcategory-label"
         name="productCategory"
-        label={t("createProductForm.category")}
-        placeholder={t("createProductForm.selectCategory")}
+        label={t("pages.product.category")}
+        placeholder={t("pages.product.selectCategory")}
       />
 
       <FileInput
@@ -134,12 +133,12 @@ const CreateProductForm = ({ onSubmit, isLoading }: CreateProductFormProps) => {
         // isRequired
         name="productImage"
         id="password-input"
-        label={t("createProductForm.image")}
-        helperText="Ingrese una imagen"
+        label={t("pages.product.image")}
+        helperText={t("pages.product.helpImage")}
       />
 
       <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("createProductForm.create")}
+        {t("common.create")}
       </LoadingButton>
     </Box>
   );

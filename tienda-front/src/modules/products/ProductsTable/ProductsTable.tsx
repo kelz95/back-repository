@@ -9,7 +9,6 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { useTranslation } from "react-i18next";
 
 import { Product } from "#root/modules/products/types";
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
@@ -38,7 +37,7 @@ const ProductsTable = ({
   setPage,
   setRowsPerPage,
 }: ProductsTableProps) => {
-  const { t } = useTranslation();
+  const { t } = useTypeSafeTranslation();
 
   return (
     <TableContainer component={Paper}>
@@ -46,10 +45,10 @@ const ProductsTable = ({
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>{t("productsTable.code")}</TableCell>
-            <TableCell>{t("productsTable.name")}</TableCell>
-            <TableCell align="right">{t("productsTable.quantity")}</TableCell>
-            <TableCell align="right">{t("productsTable.uPrice")} (USD)</TableCell>
+            <TableCell>{t("common.code")}</TableCell>
+            <TableCell>{t("common.name")}</TableCell>
+            <TableCell align="right">{t("pages.product.quantity")}</TableCell>
+            <TableCell align="right">{t("pages.product.unitPrice")} (USD)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -71,7 +70,7 @@ const ProductsTable = ({
                 setRowsPerPage(parseInt(evt.target.value, 10));
                 setPage(0);
               }}
-              labelRowsPerPage={t("productsTable.rowsPerPage")}
+              labelRowsPerPage={t("common.rowsPerPage")}
               // ActionsComponent={TablePaginationActions}
             />
           </TableRow>

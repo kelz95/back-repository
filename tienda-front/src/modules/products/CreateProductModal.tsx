@@ -1,9 +1,8 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import CreateProductForm, { CreateProductFormPayload } from "./CreateProductForm";
 import ProductController from "./ProductController";
@@ -15,7 +14,7 @@ type CreateProductModalProps = {
 };
 
 const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductModalProps) => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,11 +39,11 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
     console.log({ res, err });
     if (err || !res) {
       setIsLoading(false);
-      enqueueSnackbar(`${t("createProductModal.error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
     setIsLoading(false);
-    enqueueSnackbar(`${t("createProductModal.success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.createdSuccess")}`, { variant: "success" });
     onCreateProduct?.();
     onClose();
   };
@@ -53,7 +52,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreateProduct }: CreateProductM
     <MyModal
       isOpen={isOpen}
       onClose={onClose}
-      title={t("createProductModal.title")}
+      title={t("pages.product.createProduct")}
       willCloseOnEsc={false}
     >
       <CreateProductForm onSubmit={handleSubmit} isLoading={isLoading} />

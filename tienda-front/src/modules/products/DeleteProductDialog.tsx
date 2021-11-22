@@ -7,9 +7,8 @@ import {
   DialogActions,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { useTranslation } from "react-i18next";
 
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import ProductController from "./ProductController";
 import { Product } from "./types";
@@ -28,7 +27,7 @@ const DeleteProductDialog = ({
   data,
 }: DeleteProductDialogProps) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const handleSubmit = async (id: number) => {
     if (!data) return;
@@ -37,7 +36,7 @@ const DeleteProductDialog = ({
       enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
-    enqueueSnackbar(`${t("common.succesDelete")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.deletedSuccess")}`, { variant: "success" });
     onDeleteProduct?.();
     onClose();
   };
@@ -46,16 +45,16 @@ const DeleteProductDialog = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle id="alert-dialog-title">{`${t("deleteProductDialog.tDeleteProduct")} "${
-        data.code
-      }" ${t("deleteProductDialog.tProduct")}`}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{`${t("common.initMessageDelete")} "${data.code}" ${t(
+        "common.finishMessageDelete"
+      )}`}</DialogTitle>
       <DialogContent>
         <DialogContentText>{t("common.messageDelete")}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>{t("common.bCancel")}</Button>
+        <Button onClick={onClose}>{t("common.cancel")}</Button>
         <Button color="error" onClick={() => handleSubmit(data.idProduct)} autoFocus>
-          {t("common.bDelete")}
+          {t("common.delete")}
         </Button>
       </DialogActions>
     </Dialog>

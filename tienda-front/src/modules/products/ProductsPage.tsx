@@ -2,8 +2,7 @@
 import { Container, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import Copyright from "#root/components/Copyright";
 import Loading from "#root/components/Loading";
@@ -23,7 +22,7 @@ import { Product } from "./types";
 import UpdateProductModal from "./UpdateProductModal";
 
 const ProductsPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +41,7 @@ const ProductsPage = () => {
     setIsLoading(true);
     const [res, err] = await CategoryController.getAll();
     if (err) {
-      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -62,7 +61,7 @@ const ProductsPage = () => {
       name: encodeURI(debouncedSearchString),
     });
     if (err) {
-      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -82,7 +81,7 @@ const ProductsPage = () => {
     const [res, err] = await ProductController.export();
     console.log({ res, err });
     if (err) {
-      enqueueSnackbar(`${t("products.error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       setIsLoading(false);
       return;
     }
@@ -114,15 +113,15 @@ const ProductsPage = () => {
       <NavBar />
       <Container component="main" maxWidth="lg">
         <Typography component="h1" variant="h4" marginBottom="2rem" marginTop="1rem">
-          {t("products.products")}
+          {t("pages.product.products")}
         </Typography>
 
         <Toolbar
-          createButtonText={t("products.cProduct")}
-          exportButtonText={t("products.exportProduct")}
+          createButtonText={t("pages.product.createProduct")}
+          exportButtonText={t("pages.product.exportProduct")}
           onCreate={handleCreate}
           onExport={handleExportProduct}
-          searchLabel={t("products.searchName")}
+          searchLabel={t("common.searchName")}
           searchValue={dataTableOptions.searchString}
           setSearchValue={dataTableOptions.setSearchString}
           withCreate

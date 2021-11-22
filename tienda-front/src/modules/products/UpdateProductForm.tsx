@@ -2,13 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoadingButton } from "@mui/lab";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import SelectInput from "#root/components/SelectInput";
 import TextInput from "#root/components/TextInput";
 import { useCategoryStore } from "#root/modules/categories/useCategoryStore";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import { Product } from "./types";
 
@@ -39,7 +38,7 @@ type UpdateProductFormProps = {
 
 const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps) => {
   const { categories } = useCategoryStore();
-  const { t } = useTranslation(namespaces.pages.cProductForm);
+  const { t } = useTypeSafeTranslation();
   const {
     control,
     formState: { errors },
@@ -62,7 +61,7 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isDisabled={isLoading}
         isRequired
         name="code"
-        label={t("createProductForm.code")}
+        label={t("common.code")}
       />
 
       <TextInput
@@ -72,7 +71,7 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isDisabled={isLoading}
         isRequired
         name="name"
-        label={t("createProductForm.name")}
+        label={t("common.name")}
       />
 
       <TextInput
@@ -82,7 +81,7 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isDisabled={isLoading}
         isRequired
         name="description"
-        label={t("createProductForm.description")}
+        label={t("common.description")}
       />
 
       <TextInput
@@ -92,7 +91,7 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isDisabled={isLoading}
         isRequired
         name="quantity"
-        label={t("createProductForm.quantity")}
+        label={t("pages.product.quantity")}
         type="number"
       />
 
@@ -103,7 +102,7 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isDisabled={isLoading}
         isRequired
         name="unitPrice"
-        label={t("createProductForm.unitPrice")}
+        label={t("pages.product.unitPrice")}
         type="number"
       />
 
@@ -116,12 +115,12 @@ const UpdateProductForm = ({ data, onSubmit, isLoading }: UpdateProductFormProps
         isRequired
         id="productcategory-label"
         name="productCategory"
-        label={t("createProductForm.category")}
-        placeholder={t("createProductForm.selectCategory")}
+        label={t("pages.product.category")}
+        placeholder={t("pages.product.selectCategory")}
       />
 
       <LoadingButton fullWidth loading={isLoading} type="submit" variant="contained" sx={{ mt: 3 }}>
-        {t("update")}
+        {t("common.update")}
       </LoadingButton>
     </Box>
   );

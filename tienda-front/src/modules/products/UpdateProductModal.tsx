@@ -1,9 +1,8 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { MyModal } from "#root/components/MyModal";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import ProductController from "./ProductController";
 import { Product } from "./types";
@@ -22,7 +21,7 @@ const UpdateProductModal = ({
   onUpdateProduct,
   data,
 }: UpdateProductModalProps) => {
-  const { t } = useTranslation(namespaces.pages.cProductModal);
+  const { t } = useTypeSafeTranslation();
   const { enqueueSnackbar } = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,11 +40,11 @@ const UpdateProductModal = ({
 
     if (err || !res) {
       setIsLoading(false);
-      enqueueSnackbar(`${t("error")}`, { variant: "error" });
+      enqueueSnackbar(`${t("common.error")}`, { variant: "error" });
       return;
     }
     setIsLoading(false);
-    enqueueSnackbar(`${t("success")}`, { variant: "success" });
+    enqueueSnackbar(`${t("common.updatedSuccess")}`, { variant: "success" });
     onUpdateProduct?.();
     onClose();
   };
@@ -53,7 +52,12 @@ const UpdateProductModal = ({
   if (!data) return <div />;
 
   return (
-    <MyModal isOpen={isOpen} onClose={onClose} title={t("title")} willCloseOnEsc={false}>
+    <MyModal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={t("pages.product.updateProduct")}
+      willCloseOnEsc={false}
+    >
       <UpdateProductForm data={data} onSubmit={handleSubmit} isLoading={isLoading} />
     </MyModal>
   );

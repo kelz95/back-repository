@@ -1,11 +1,10 @@
 import { Delete, Edit, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { Box, Collapse, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { Fragment, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import IconButton from "#root/components/IconButton";
 import { IMAGE_FALLBACK_URL } from "#root/lib/constants";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import { Product } from "../types";
 
@@ -19,7 +18,7 @@ type ProductRowProps = {
 const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   return (
     <Fragment>
@@ -27,7 +26,7 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
         <TableCell width="4rem">
           <IconButton
             aria-label="expand row"
-            tip={t("productRow.details")}
+            tip={t("common.details")}
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
@@ -48,12 +47,12 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
             <Box sx={{ marginY: 2, marginX: 1 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography component="h5" variant="h6" gutterBottom>
-                  {`${t("productRow.product")}: ${row.code}-${row.name}`}
+                  {`${t("pages.product.product")}: ${row.code}-${row.name}`}
                 </Typography>
                 <Stack direction="row" spacing={2} alignItems="center">
                   <IconButton
                     aria-label="update"
-                    tip={t("productRow.bUpdate")}
+                    tip={t("common.update")}
                     iconButtonProps={{ color: "info" }}
                     onClick={() => onEdit?.(row)}
                   >
@@ -61,7 +60,7 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
                   </IconButton>
                   <IconButton
                     aria-label="delete"
-                    tip={t("productRow.bDelete")}
+                    tip={t("common.delete")}
                     iconButtonProps={{ color: "error" }}
                     onClick={() => onDelete?.(row)}
                   >
@@ -73,26 +72,26 @@ const ProductRow = ({ onDelete, onEdit, onEditImage, row }: ProductRowProps) => 
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Box sx={{ borderRadius: 2, padding: 2, width: "45%" }}>
                   <Typography component="p" marginY="1rem">
-                    {t("productRow.description")}: {row.description}
+                    {t("common.description")}: {row.description}
                   </Typography>
 
                   <Typography component="p">
-                    {t("productRow.quantity")}: {row.quantity}
+                    {t("pages.product.quantity")}: {row.quantity}
                   </Typography>
                   <Typography component="p">
-                    {t("productRow.uPrice")}: {row.unitPrice}
+                    {t("pages.product.unitPrice")}: {row.unitPrice}
                   </Typography>
                 </Box>
                 <Box sx={{ borderRadius: 2, padding: 2 }}>
                   <Typography component="h6" marginBottom="1rem" variant="h6">
-                    {t("productRow.category")}
+                    {t("pages.product.category")}
                   </Typography>
 
                   <Typography component="p">
-                    {t("productRow.code")}: {row.productCategory.code}
+                    {t("common.code")}: {row.productCategory.code}
                   </Typography>
                   <Typography component="p">
-                    {t("productRow.description")}: {row.productCategory.description}
+                    {t("common.description")}: {row.productCategory.description}
                   </Typography>
                 </Box>
                 <Box
