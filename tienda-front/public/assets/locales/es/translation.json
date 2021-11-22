@@ -27,12 +27,24 @@
         "finishMessageDelete":"?",
         "searchName": "Buscar por nombre"
     },
+
     "header":{
 
     },
+
     "footer":{
 
     },
+
+    "navbar":{
+        "welcome": "¡Bienvenido",
+        "menu": "Menú",
+        "viewProducts": "Ver productos",
+        "viewCategories": "Ver categorias",
+        "manageUsers": "Administrar usuarios",
+        "logout": "Cerrar sesión"
+    },
+
     "pages":{  
         "home":{
             "title": "Sistema De Gestión De Inventario",
@@ -74,50 +86,6 @@
             "updateProduct": "Actualizar producto",
             "exportProduct": "Exportar productos",
             "list": "Lista De Productos"
-        },
-
-        "products":{
-            "inventory": "Inventario",
-            "categories": "Categorias",
-            "cProduct": "Crear producto",
-            "cCategory": "Crear categoría",
-            "error": "Algo salió mal",
-            "searchName": "Buscar por nombre"
-        },
-        "productRow":{
-            "details": "Más detalles",
-            "product": "Producto",
-            "quantity": "Cantidad",
-            "uPrice": "Precio Unitario",
-            "bUpdate": "Actualizar",
-            "bDelete": "Eliminar",
-            "code": "Código",
-            "description": "Descripción"
-        },
-        "productsTable":{
-            "code": "Código",
-            "name": "Nombre",
-            "quantity": "Cantidad",
-            "uPrice": "Precio Unitario",
-            "rowsPerPage": "Filas por página"
-        },
-        "createProductForm":{
-            "code": "Código",
-            "name": "Nombre",
-            "description": "Descripción",
-            "quantity": "Cantidad",
-            "uPrice": "Precio Unitario (USD)",
-            "category": "Categoría",
-            "create": "Crear"
-        },
-        "createProductModal":{
-            "title": "Crear nuevo producto",
-            "error": "Algo salió mal",
-            "success": "Producto creado exitosamente"
-        },
-        "deleteProduct":{
-            "tDeleteProduct":"Delete",
-            "tProduct":"product?"
         }
     }
 }

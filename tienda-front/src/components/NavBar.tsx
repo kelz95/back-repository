@@ -26,11 +26,10 @@ import IconButton from "#root/components/IconButton";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import { useAuthStore } from "#root/modules/auth/useAuthStore";
 
-import { useTranslation } from "react-i18next";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 const NavBar = () => {
-  const { t } = useTranslation(namespaces.pages.navbar);
+  const { t } = useTypeSafeTranslation();
 
   const { user } = useAuthStore();
   const navigate = useNavigate();
@@ -84,12 +83,11 @@ const NavBar = () => {
             color="white"
             fontSize="1.125rem"
             sx={{ display: { xs: "none", sm: "block" } }}
-          >{`${t("welcome")}, ${user?.username}!`}</Typography>
-          <IconButton onClick={handleProfileMenu} tip={t("menu")}>
+          >{`${t("navbar.welcome")}, ${user?.username}!`}</Typography>
+          <IconButton onClick={handleProfileMenu} tip={t("navbar.menu")}>
             <AccountCircle htmlColor="white" fontSize="large" />
           </IconButton>
           <LanguageSwitcher />
-
           <Menu
             anchorEl={profileAnchorEl}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -102,21 +100,21 @@ const NavBar = () => {
               <ListItemIcon>
                 <LocalGroceryStore />
               </ListItemIcon>
-              <ListItemText>{t("viewProducts")}</ListItemText>
+              <ListItemText>{t("navbar.viewProducts")}</ListItemText>
             </MenuItem>
 
             <MenuItem onClick={handleViewCategories}>
               <ListItemIcon>
                 <Dashboard />
               </ListItemIcon>
-              <ListItemText>{t("viewCategories")}</ListItemText>
+              <ListItemText>{t("navbar.viewCategories")}</ListItemText>
             </MenuItem>
 
             <MenuItem onClick={handleUsers}>
               <ListItemIcon>
                 <PersonAdd />
               </ListItemIcon>
-              <ListItemText>{t("manageUsers")}</ListItemText>
+              <ListItemText>{t("navbar.manageUsers")}</ListItemText>
             </MenuItem>
 
             <Divider />
@@ -125,7 +123,7 @@ const NavBar = () => {
               <ListItemIcon>
                 <Logout fontSize="small" />
               </ListItemIcon>
-              <ListItemText>{t("logout")}</ListItemText>
+              <ListItemText>{t("navbar.logout")}</ListItemText>
             </MenuItem>
           </Menu>
         </Stack>

@@ -27,12 +27,24 @@
         "finishMessageDelete":"?",
         "searchName": "Search by name"
     },
+
     "header":{
 
     },
+
     "footer":{
 
     },
+    
+    "navbar":{
+        "welcome": "Welcome",
+        "menu": "Menu",
+        "viewProducts": "View products",
+        "viewCategories": "View categories",
+        "manageUsers": "Manage users",
+        "logout": "Logout"
+    },
+
     "pages":{
         "home":{
             "title": "Inventory Management System",
@@ -74,54 +86,6 @@
             "updateProduct": "Update product",
             "exportProduct": "Export products",
             "list": "Product List"
-        },
-        
-        "products":{
-            "inventory": "Inventory",
-            "categories": "Categories",
-            "cProduct": "Create product",
-            "cCategory": "Create category",
-            "error": "Something went wrong",
-            "searchName": "Search by name"
-        },
-        "productRow":{
-            "details": "More details",
-            "product": "Product",
-            "quantity": "Quantity",
-            "uPrice": "Unit Price",
-            "bUpdate": "Update",
-            "bDelete": "Delete",
-            "code": "Code",
-            "description": "Description"
-        },
-        "productsTable":{
-            "code": "Code",
-            "name": "Name",
-            "quantity": "Quantity",
-            "uPrice": "Unit price",
-            "rowsPerPage": "Rows per page"
-        },
-        "createProductForm":{
-            "code": "Code",
-            "name": "Name",
-            "description": "Description",
-            "quantity": "Quantity",
-            "uPrice": "Unit Price (USD)",
-            "category": "Category",
-            "create": "Create"
-        },
-        "createProductModal":{
-            "title": "Create new product",
-            "error": "Something went wrong",
-            "success": "Product created successfully"
-        },
-        "deleteProductDialog":{
-            "tDeleteProduct":"¿Eliminar el producto",
-            "tProduct":"?"
-        },
-        
-        "updateUserForm":{
-            
         }
     }
 }
