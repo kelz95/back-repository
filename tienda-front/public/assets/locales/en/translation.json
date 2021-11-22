@@ -61,6 +61,12 @@
             "helperText":"Write your username or email to reset your password",
             "success":"An email has been sent to your user provided"
         },
+        "recover":{
+            "title": "Reset your password",
+            "usernameHelperText": "Enter your username",
+            "passwordHelperText": "Enter yor new password",
+            "successMessage": "The password has been changed successfully"
+        },
         "notFound":{
             "notFound": "Oops! Page not found",
             "message": "we are sorry, but the page you requested was not found"

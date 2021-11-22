@@ -5,7 +5,6 @@ import { Avatar, Box, Container, Paper, Typography, Stack } from "@mui/material"
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import * as yup from "yup";
@@ -16,7 +15,7 @@ import Copyright from "#root/components/Copyright";
 import LanguageSwitcher from "#root/components/LanguageSwitcher";
 import PasswordInput from "#root/components/PasswordInput";
 import TextInput from "#root/components/TextInput";
-import { namespaces } from "#root/translations/i18n.constants";
+import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
 
 import AuthController from "./AuthController";
 
@@ -44,7 +43,7 @@ const schema = yup.object().shape({
 });
 
 const RecoverPasswordPage = () => {
-  const { t } = useTranslation(namespaces.translation);
+  const { t } = useTypeSafeTranslation();
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -64,7 +63,7 @@ const RecoverPasswordPage = () => {
 
   const onSubmit = async (data: RecoverPasswordPayload) => {
     if (!code) {
-      enqueueSnackbar(t("auth.missingCode"), { variant: "error" });
+      enqueueSnackbar(t("common.error"), { variant: "error" });
     }
     setIsLoading(true);
     const apiResult = await AuthController.restorePassword(code, {
@@ -146,7 +145,7 @@ const RecoverPasswordPage = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              {t("pages.recover.button")}
+              {t("common.send")}
             </LoadingButton>
           </Box>
         </Paper>

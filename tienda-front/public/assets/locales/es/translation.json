@@ -61,6 +61,12 @@
             "helperText":"Escribe tu usuario o correo para restablecer tu contraseña",
             "success":"Se ha enviado un correo a tu usuario provisto"
         },
+        "recover":{
+            "title": "Restablecer contraseña",
+            "usernameHelperText": "Ingrese su usuario",
+            "passwordHelperText": "Ingrese su nueva contraseña",
+            "successMessage": "La contraseña ha sido cambiada exitosamente"
+        },
         "notFound":{
             "notFound": "¡UPS! Página no encontrada",
             "message": "lo sentimos, pero la página solicitada no fue encontrada"
