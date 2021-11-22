@@ -9,6 +9,7 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import { Product } from "#root/modules/products/types";
 import { useTypeSafeTranslation } from "#root/lib/hooks/useTypeSafeTranslation";
@@ -37,7 +38,7 @@ const ProductsTable = ({
   setPage,
   setRowsPerPage,
 }: ProductsTableProps) => {
-  const { t } = useTypeSafeTranslation();
+  const { t } = useTranslation();
 
   return (
     <TableContainer component={Paper}>
