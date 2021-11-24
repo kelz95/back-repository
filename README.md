@@ -4,6 +4,8 @@
 
 Código fuente para el proyecto: Pineapple Supermarket.
 
+En la carpeta target se encuentran los archivos .jar del proyecto empaquetado.
+
 Las instrucciones para cada segmento del proyecto están en su respectiva carpeta.
 
 ## Acceso
